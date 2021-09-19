@@ -1,0 +1,164 @@
+0
+Dilapidated Study
+#
+This is a Dilapidated Study. Obviously it has not been used in a while.
+#
+NE,E,SE
+1,16,3
+
+1
+Ransacked Library
+#
+This is a Ransacked Library. There are no books here. Is this still
+considered a library?
+#
+NE,SE,SW
+19,2,0
+
+2
+Foul Smelling Common Room
+#
+This is a Foul Smelling Common Room. I swear it wasn't me.
+#
+N,S,NW
+19,17,1
+
+3
+Ominous Prayer Room
+#
+This is an Ominous Prayer Room. Pray for survival?
+#
+E,SE,NW
+17,4,0
+
+4
+Haunted Hallway
+#
+This is a Haunted Hallway. I think I saw Hanako around here.
+#
+NE,SE,NW
+17,5,3
+
+5
+Airy Study
+#
+This is an Airy Study. Is that a giant hole in the ground?
+#
+NE,E,NW
+7,6,4
+
+6
+Intimidating Entrance
+#
+This is an Intimidating Entrance. Yes, be scared.
+#
+N,SE,W
+7,9,5
+
+7
+Open Courtyard
+#
+This is an Open Courtyard. The only somewhat open area. Enjoy the fresh
+air.
+#
+NE,S,SW
+12,6,5
+
+8
+Corrupted Lab
+#
+This is a Corrupted Lab. Looks like it is still in use...
+#
+NE,S,NW
+11,9,12
+
+9
+Empty Equipment Room
+#
+This is an Empty Equipment Room. There is nothing here. That's why it is 
+empty.
+#
+N,NE,NW
+8,10,6
+
+10
+Damp Guard's Quarters
+#
+This is the Damp Guard's Quarters. Smells like a change room.
+#
+NW,NE,SW
+11,14,9
+
+11
+Half-Collapsed Room
+#
+This is a Half-Collapsed Room. Watch your step.
+#
+N,SE,SW
+13,10,8
+
+12
+Run-down Training Room
+#
+This is a Run-down Training Room. You can still feel the presence of the great
+warriors who were here before.
+#
+N,SE,SW
+15,8,7
+
+13
+Repurposed Interrogation Chamber
+#
+This is a Repurposed Interrogation Chamber. Yeah, I don't want to stay here either.
+#
+NE,S,W
+14,11,16
+
+14
+Cold Creepy Cells
+#
+This is the Cold Creepy Cells. Creepy.
+#
+SE,SW,W
+10,13,15
+
+15
+Mysterious Garden
+#
+This is a Mysterious Garden. Clearly only legal plants are grown here.
+#
+E,S,NW
+14,12,18
+
+16
+Corpse-filled Assembly Hall
+#
+This is a Corpse-filled Assembly Hall. Looks like someone forgot to clean
+up after themselves after their meal.
+#
+N,E,W
+18,13,0
+
+17
+Blood-stained Classroom
+#
+This is a Blood-stained Classroom. I wonder why...
+#
+N,SW,W
+2,4,3
+
+18
+Dusty Hallway
+#
+This is a Dusty Hallway. Someone really need to clean in here...
+#
+SE,S,NW
+15,16,19
+
+19
+Rotten Kitchen
+#
+This is a Rotten Kitchen. Smells like death.
+#
+SE,S,SW
+18,2,1

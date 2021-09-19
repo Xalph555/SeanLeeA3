@@ -1,0 +1,41 @@
+ You enter the Abandoned Ruins with; an Enchanted Crossbow, a few crossbow Bolts,
+ a Protective Censer to ward off corruption, a limited amount of Incense Sticks,
+ a Map, and a Telecard.
+
+ To achieve your goal, you must kill the Arigamo and retrieve the Fuhai gem from it.
+ Be alert, the gem can be taken from a dead Arigamo by anyone roaming the ruins. While
+ the Arigamo does spend most of its time asleep, it can be woken up by a stray crossbow
+ Bolt or others entering its room. It can move around too.
+
+ You can only remain in the Ruins so long as you have Incense Sticks for your censer - otherwise
+ the corruption will start to eat away at you. Running out of Bolts will also force you to
+ leave - you would not be able to defend yourself without a functioning crossbow.
+
+ Be careful as you explore the 20 rooms of the Ruins as other various hazards are
+ present. Bottomless pits and Colonies of corrupted rats are natural and are bound to
+ their room, however other people wonder around; Oracles, Thieves, Raiders, Traders,
+ and Knights. Some of these people may be hostile, but they are people who you must
+ prevent, as much as possible, from meeting a gruesome end. You don't want more blood
+ on your hands.
+
+ Move around using the [MOVE <direction>] command with one of eight standard
+ compass directions; [N, S, E, W, NE, SE, SW, NW].
+
+ Shoot your crossbow Bolts into adjacent rooms using the [SHOOT <directions>]
+ command, also using compass directions (e.g. Shoot N E S SE NW). Your enchanted
+ crossbow allows you so specify 5 directions to form a path for the Bolt to travel,
+ and it will provide some hints about each room it passes through. A random direction
+ would be selected if it cannot move in a direction you specify. Be careful not to
+ shoot yourself!
+
+ Use the Telecard by using the [TELECARD <room number>] command, which will let you
+ return to a room you have previously visited. You may only use the Telecard once.
+
+ You can try to interact with your current room using the [INTERACT] command. Maybe
+ something will happen.
+
+ Bring up the Map using the [MAP] command.
+
+ Bring up this Help menu using the [HELP] command.
+
+ You can exit the game at any time using the [QUIT] command.

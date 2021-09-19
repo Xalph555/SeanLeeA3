@@ -1,0 +1,9 @@
+﻿  Application.cpp
+  CommonFuncs.cpp
+  Item.cpp
+  Player.cpp
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Player.cpp(124,13): warning C4018: '<': signed/unsigned mismatch
+  Room.cpp
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Room.cpp(130,21): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  SeanLeeA3.vcxproj -> C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Debug\SeanLeeA3.exe

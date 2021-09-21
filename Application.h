@@ -24,6 +24,7 @@ controls the flow and logic of the game.
 #include "Room.h"
 #include "Item.h"
 #include "Player.h"
+#include "Hazard.h"
 
 using namespace std;
 

@@ -212,7 +212,7 @@ string Player::getDetails() {
 	stringstream playerDetails;
 
 	playerDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-	playerDetails << " Player Number: " << getName() << "\n";
+	playerDetails << " Player Name: " << getName() << "\n";
 	playerDetails << " Player Max Health: " << getHealthMax() << "\n";
 	playerDetails << " Player Current Health: " << getHealthCurrent() << "\n";
 	playerDetails << " Current Room: " << getCurrentRoom() << "\n";
@@ -262,6 +262,11 @@ void Player::setHealthCurrent(int health) {
 	else {
 		cout << " You have not entered a valid current health to set.\n";
 	}
+}
+
+
+void Player::setIsDead(bool dead) {
+	isDead = dead;
 }
 
 

@@ -144,13 +144,36 @@ bool Room::isPlayerInRoom() {
 }
 
 
-//vector<unique_ptr<Hazard>> Room::getHazards(){}
+vector<int> Room::getHazards(){
+	return hazards;
+}
 
 
-//string Room::getHazardsAsString(){}
+string Room::getHazardsAsString(){
+	// returns contents of hazards as a string
+	// adapted from Week 7 Lab notes
+
+	string hazardsInRoom = "";
+
+	if (!hazards.empty()) {
+		vector<int>::const_iterator iter;
+
+		for (iter = hazards.begin(); iter != hazards.end(); iter++) {
+			int hazard = *iter;
+			hazardsInRoom += to_string(hazard) + ", ";
+		}
+	}
+	else {
+		hazardsInRoom = "There are no hazards.";
+	}
+
+	return hazardsInRoom;
+}
 
 
-//bool Room::hasHazard(){}
+bool Room::hasHazard(){
+	return !hazards.empty();
+}
 
 
 string Room::getRoomInfo() {
@@ -201,7 +224,7 @@ string Room::getDetails() {
 	roomDetails << " Exit Directions: " << getExitDirectionsAsString() << "\n";
 	roomDetails << " Exit Connections: " << getExitConnectionsAsString() << "\n";
 	roomDetails << " Player in Room: " << isPlayerInRoom() << "\n";
-	//roomDetails << " Hazards: " << getHazardsAsString() << "\n";
+	roomDetails << " Hazards: " << getHazardsAsString() << "\n";
 	roomDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
 	return roomDetails.str();
@@ -271,13 +294,41 @@ void Room::setPlayerInRoom(bool isInRoom) {
 }
 
 
-//void Room::setHazards(vector<unique_ptr<Hazard>>& hazards){}
+void Room::setHazards(vector<int> hazards){
+	if (!hazards.empty()) {
+		hazards = hazards;
+	}
+	else {
+		cout << " You have not entered a valid hazard vector to set.\n";
+	}
+}
 
 
-//void Room::addHazard(unique_ptr<Hazard>& hazard){}
+void Room::addHazard(int hazard){
+	if (hazard >= 0) {
+		hazards.push_back(hazard);
+
+	}
+	else {
+		cout << " You have not entered a valid hazard ID to add to the room.\n";
+	}
+}
  
 
-//void Room::removeHazard(int hazardIndex){}
+void Room::removeHazard(int hazard){
+	if (hazard >= 0) {
+		vector<int>::const_iterator iter;
+
+		for (iter = hazards.begin(); iter != hazards.end(); iter++) {
+			if (*iter == hazard) {
+				hazards.erase(iter);
+			}
+		}
+	}
+	else {
+		cout << " You have not entered a valid hazard ID to remove from the room.\n";
+	}
+}
 
 
 
@@ -285,4 +336,6 @@ void Room::setPlayerInRoom(bool isInRoom) {
 // other methods                       //
 //-------------------------------------//
 
-//void Room::interactWithRoom(){}
+void Room::interactWithRoom(){
+	
+}

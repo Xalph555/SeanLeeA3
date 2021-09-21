@@ -34,7 +34,7 @@ private:
 	vector<int> roomExitConnections;
 
 	bool hasPlayer;
-	//vector<unique_ptr<Hazard>> hazards;
+	vector<int> hazards;
 
 
 public:
@@ -53,9 +53,9 @@ public:
 	string getExitConnectionsAsString();
 	int getRoomConnection(string direction);
 	bool isPlayerInRoom();
-	//vector<unique_ptr<Hazard>> getHazards();
-	//string getHazardsAsString();
-	//bool hasHazard();
+	vector<int> getHazards();
+	string getHazardsAsString();
+	bool hasHazard();
 
 	string getRoomInfo();
 	string getRoomExits();
@@ -68,12 +68,12 @@ public:
 	void setExitDirections(vector<string> directions);
 	void setExitConnections(vector<int> connections);
 	void setPlayerInRoom(bool isInRoom);
-	//void setHazards(vector<unique_ptr<Hazard>>& hazards);
-	//void addHazard(unique_ptr<Hazard>& hazard);
-	//void removeHazard(int hazardIndex);
+	void setHazards(vector<int> hazards);
+	void addHazard(int hazard);
+	void removeHazard(int hazard);
 
 	// other methods
-	//void interactWithRoom();
+	void interactWithRoom();
 };
 
 

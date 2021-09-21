@@ -47,7 +47,7 @@ enum ItemType{
 
 
 // the types of hazards in the game
-const int TOTAL_HAZARD_TYPES = 8;
+const int TOTAL_HAZARD_TYPES = 9;
 enum HazardType {
 	ARIGAMO,
 	PIT,
@@ -56,7 +56,8 @@ enum HazardType {
 	THIEF,
 	RAIDERS,
 	TRADER,
-	KNIGHT
+	KNIGHT,
+	NOHAZARD
 };
 
 

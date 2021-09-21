@@ -69,6 +69,7 @@ public:
 	void setHealthMax(int health);
 	void setHealthCurrent(int health);
 	void setDisplace(bool displaced);
+	void setIsDead(bool dead);
 	void kill();
 	void setStartingRoom(vector<Room*>& world, int room);
 	void setCurrentRoom(int room);

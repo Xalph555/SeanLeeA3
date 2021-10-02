@@ -139,6 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="HazardData\ArigamoData.txt" />
+    <Text Include="HazardData\CCRatData.txt" />
+    <Text Include="HazardData\KnightData.txt" />
+    <Text Include="HazardData\OracleData.txt" />
+    <Text Include="HazardData\PitsData.txt" />
+    <Text Include="HazardData\RaidersData.txt" />
+    <Text Include="HazardData\ThiefData.txt" />
+    <Text Include="HazardData\TraderData.txt" />
     <Text Include="RoomData.txt" />
     <Text Include="ScreenData\HowToScreen.txt" />
     <Text Include="ScreenData\InfoScreen.txt" />
@@ -147,17 +155,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Arigamo.cpp" />
     <ClCompile Include="CommonFuncs.cpp" />
     <ClCompile Include="Hazard.cpp" />
+    <ClCompile Include="HazardContainer.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Arigamo.h" />
     <ClInclude Include="CommonFuncs.h" />
     <ClInclude Include="GameEnums.h" />
     <ClInclude Include="Hazard.h" />
+    <ClInclude Include="HazardContainer.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />

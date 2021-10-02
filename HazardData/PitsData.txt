@@ -1,0 +1,12 @@
+Bottomless Pits
+You feel a storng draft.
+#
+You walk into the room and then feel like you are entering it vertically.
+Oh wait, you are falling.
+#
+You have fallen down a bottomless pit. Looks like you will be stuck here for a while.
+See you next fall.
+#
+$
+0
+0

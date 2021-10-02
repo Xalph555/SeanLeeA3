@@ -36,6 +36,30 @@
     <Text Include="ScreenData\TitleScreen.txt">
       <Filter>Resource Files\ScreenData</Filter>
     </Text>
+    <Text Include="HazardData\ArigamoData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
+    <Text Include="HazardData\CCRatData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
+    <Text Include="HazardData\KnightData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
+    <Text Include="HazardData\OracleData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
+    <Text Include="HazardData\PitsData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
+    <Text Include="HazardData\RaidersData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
+    <Text Include="HazardData\ThiefData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
+    <Text Include="HazardData\TraderData.txt">
+      <Filter>Resource Files\HazardData</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -54,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hazard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Arigamo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HazardContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,6 +107,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hazard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arigamo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HazardContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

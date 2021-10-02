@@ -1,0 +1,15 @@
+Dark Knight
+You hear the sound of heavy armour moving.
+#
+A towering black armoured warrior stands before you. It seems to be 
+looking for a fight.
+#
+Although you took significant damage, you were able to defeat the knight.
+#
+You hear a loud gasp and grunt followed by the sound of metal being shred.
+#
+Scaps of black armour can be found on the ground in a pool of blood.
+#
+$
+1
+1

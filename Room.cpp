@@ -26,7 +26,7 @@ Room::Room() {
 	roomExitConnections = {};
 
 	hasPlayer = false;
-	//hazards = {};
+	hazards = {};
 }
 
 
@@ -38,7 +38,7 @@ Room::Room(int num, string name, string description, vector<string> exitDir, vec
 	roomExitConnections = exitConnections;
 
 	hasPlayer = false;
-	//hazards = {};
+	hazards = {};
 }
 
 
@@ -322,20 +322,11 @@ void Room::removeHazard(int hazard){
 		for (iter = hazards.begin(); iter != hazards.end(); iter++) {
 			if (*iter == hazard) {
 				hazards.erase(iter);
+				break;
 			}
 		}
 	}
 	else {
 		cout << " You have not entered a valid hazard ID to remove from the room.\n";
 	}
-}
-
-
-
-//-------------------------------------//
-// other methods                       //
-//-------------------------------------//
-
-void Room::interactWithRoom(){
-	
 }

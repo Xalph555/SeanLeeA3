@@ -1,0 +1,14 @@
+Suspicious Trader
+One of the rooms feels negotiable.
+#
+You see a trader with a variety of items..
+#
+Somehow you were convinced to enter a random trade.
+#
+You hear a scream and the sounds of many items falling on the ground.
+#
+A large bag sits on the ground filled with a managled corpse.
+#
+$
+1
+1

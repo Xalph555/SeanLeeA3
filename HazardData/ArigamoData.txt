@@ -1,0 +1,19 @@
+Arigamo
+Smells like death and corruption.
+#
+Hi, you are looking right into the blood red eyes of the Arigamo.
+Can you run? Not a chance.
+#
+Yes, you were brutally eaten.
+#
+You hear a deathly scream followed by a sudden drop in corruptive energy.
+#
+A dense blood-red corpse lies on the ground.
+#
+The ruin walls shake.
+#
+You feel your life force being drained.
+#
+$
+1
+1

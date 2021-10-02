@@ -22,11 +22,16 @@ opponents.
 
 #include "GameEnums.h"
 #include "Room.h"
+#include "Item.h"
 
 using namespace std;
 
 
 class Hazard {
+private:
+	static int numHazards;
+
+
 protected:
 	int hazardID;
 	string hazardName;
@@ -36,16 +41,21 @@ protected:
 
 	vector<string> eventDescriptions;
 
+	Item fuhaiGem;
+
 	bool isRoamingType;
 	bool isLivingType;
 	bool isDead;
 
 
 public:
+	// static accessors
+	static int getNumHazards();
+
 	// constructors and destructors
 	Hazard();
-	Hazard(int ID, string name, HazardType type, int room, string hint, vector<string> descriptions, bool roaming, bool living);
-	~Hazard();
+	Hazard(string name, HazardType type, string hint, vector<string> descriptions, bool roaming, bool living);
+	virtual ~Hazard();
 
 	// accessor methods
 	int getID();
@@ -56,7 +66,7 @@ public:
 	string getHint();
 	vector<string> getEventDescriptions();
 	string getDescriptionsAsString();
-
+	bool hasGem();
 	bool isRoaming();
 	bool IsLiving();
 	bool hasDied();
@@ -71,7 +81,7 @@ public:
 	void setCurrentRoom(int room);
 	void setHint(string hint);
 	void setEventDescriptions(vector<string> events);
-
+	void setGem(Item gem);
 	void setRoamingType(bool isRoaming);
 	void setLivingType(bool living);
 	void setIsDead(bool dead);

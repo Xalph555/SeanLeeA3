@@ -13,12 +13,25 @@ opponents.
 
 #include "Hazard.h"
 
+int Hazard::numHazards = 0;
+
+//-------------------------------------//
+// static accessors                    //
+//-------------------------------------//
+
+int Hazard::getNumHazards() {
+	return numHazards;
+}
+
+
 
 //-------------------------------------//
 // constructors and destructors        //
 //-------------------------------------//
 
 Hazard::Hazard() {
+	numHazards++;
+
 	hazardID = -1;
 	hazardName = "";
 	hazardType = NOHAZARD;
@@ -33,11 +46,13 @@ Hazard::Hazard() {
 }
 
 
-Hazard::Hazard(int ID, string name, HazardType type, int room, string hint, vector<string> descriptions, bool roaming, bool living) {
-	hazardID = ID;
+Hazard::Hazard(string name, HazardType type, string hint, vector<string> descriptions, bool roaming, bool living) {
+	numHazards++;
+
+	hazardID = numHazards;
 	hazardName = name;
 	hazardType = type;
-	currentRoom = room;
+	currentRoom = 0;
 	hazardHint = hint;
 
 	eventDescriptions = descriptions;
@@ -49,7 +64,7 @@ Hazard::Hazard(int ID, string name, HazardType type, int room, string hint, vect
 
 
 Hazard::~Hazard() {
-
+	--numHazards;
 }
 
 
@@ -140,6 +155,14 @@ string Hazard::getDescriptionsAsString() {
 	return descriptions;
 }
 
+bool Hazard::hasGem() {
+	if (fuhaiGem.getType() != NOITEM) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 
 bool Hazard::isRoaming() {
 	return isRoamingType;
@@ -256,7 +279,7 @@ void Hazard::setRoamingType(bool isRoaming) {
 
 
 void Hazard::setLivingType(bool living) {
-	isLivingType = IsLiving;
+	isLivingType = living;
 }
 
 
@@ -274,6 +297,16 @@ void Hazard::setEventDescriptions(vector<string> events) {
 	}
 }
 
+
+void Hazard::setGem(Item gem) {
+	if (gem.getType() != MAGIC) {
+		fuhaiGem = gem;
+
+	}
+	else {
+		cout << " You have not given a valid gem.\n";
+	}
+}
 
 void Hazard::kill() {
 	// kills the hazard
@@ -296,17 +329,17 @@ void Hazard::moveTo(vector<Room*>& world, int room) {
 }
 
 
-
-//-------------------------------------//
-// interaction methods                 //
-//-------------------------------------//
-
 vector<string> Hazard::updateInteraction() {
-	vector<string> interactions;
-	interactions.push_back("There is no interaction from updating the game.");
-
-	return interactions;
+	vector<string> updateDescriptions = {"There are no interactions."};
+	return updateDescriptions;
 }
 
 
-void Hazard::roomInteraction() {}
+void Hazard::roomInteraction() {
+	if (isDead) {
+		cout << "\n " << eventDescriptions[3] << "\n";
+	}
+	else {
+		cout << " \nThere is nothing in the Room to interact with.";
+	}
+}

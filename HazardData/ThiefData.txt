@@ -1,0 +1,14 @@
+Opportunistic Thief
+You feel as if someone is waiting by the enterance of one of the rooms.
+#
+You see a shadow move towards you and reach for you items.
+#
+Before you could react, the figure flees. Did they take anything from you?
+#
+A scream can be heard in the distance. A cowards scream.
+#
+A shadowy cloak lies on the ground in a pool of red.
+#
+$
+1
+1

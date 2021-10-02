@@ -14,6 +14,21 @@ controls the flow and logic of the game.
 
 
 int main() {
+	srand(unsigned(time(NULL)));
+
+	/*
+	initialiseRooms();
+
+	player = Player("Apples", 30);
+	player.setStartingRoom(ruinRooms, 12);
+
+	vector<string> test = {"test", "test2", "test3"};
+	Arigamo ari = Arigamo(999, "Arigamo", ARIGAMO, "Death", test, true, true, 20, 0.5);
+	ari.setStartingRoom(ruinRooms, ARIGAMO_START_ROOM);
+
+	vector<string> testass = ari.drainPlayerHP((int*) roomConnections, TOTAL_ROOMS, player);
+	
+	*/
 
 	playGame();
 
@@ -65,7 +80,17 @@ void displayPlayerStats() {
 }
 
 
-//void displayEventDescriptions(){}
+void displayEventDescriptions(){
+	// displays the strings contained within eventQueue.
+
+	vector<string>::const_iterator iter;
+
+	for (iter = eventQueue.begin(); iter != eventQueue.end(); iter++) {
+		string eventDetails = *iter;
+
+		cout << eventDetails << "\n";
+	}
+}
 
 
 void displayRoomInfo(int room) {
@@ -78,10 +103,19 @@ void displayRoomInfo(int room) {
 void displayRoomExits(int room) {
 	// displays the selected room's exits and hints
 
-	// display hints of nearby rooms - *placeholder
-	cout << " This is a hazard hint from an adjacent room\n\n";
-	cout << " This is a hazard hint from an adjacent room\n\n";
-	
+	// display hints of nearby rooms
+	vector<int> connectedRooms = ruinRooms[room]->getExitConnections();
+
+	for (int i = 0; i < connectedRooms.size(); i++) {
+		if (ruinRooms[connectedRooms[i]]->hasHazard()) {
+			vector<int> roomHazards = ruinRooms[connectedRooms[i]]->getHazards();
+
+			for (int j = 0; j < roomHazards.size(); j++) {
+				cout << hazards.getHazard(roomHazards[j])->getHint() << "\n\n";
+			}
+		}
+	}
+
 	// display room exits
 	cout << ruinRooms[room]->getRoomExits();
 	cout << "_______________________________________________________________________________\n";
@@ -106,7 +140,7 @@ void displayUI() {
 	displayPlayerStats();
 	displayRoomInfo(player.getCurrentRoom());
 
-	//displayEventDescriptions();
+	displayEventDescriptions();
 
 	if (!player.isDisplaced()) {
 		displayRoomExits(player.getCurrentRoom());
@@ -135,7 +169,6 @@ void playGame() {
 	//displayEndScreen();
 
 	// clean up heap
-	//clearHazardsVec();
 	removeRoomsVec();
 
 	cout << "\n Thank you for playing!\n";
@@ -158,6 +191,8 @@ void gameSetUp() {
 
 	// setting up game objects
 	displayTitle();
+
+	hazards = HazardContainer();
 	string playerName = getStringInput(" What is your name player?: ");
 
 	initialiseRooms();
@@ -168,7 +203,7 @@ void gameSetUp() {
 	// set game difficulty
 	setGameDifficulty();
 
-	//initialiseHazards();
+	initialiseHazards();
 
 	pause();
 }
@@ -181,20 +216,23 @@ void gameLoop() {
 
 	while (!hasPlayerWon() && !hasPlayerLost() && !hasQuit) {
 		
-		//updateHazards();
+		updateHazards();
 
 		displayUI();
 
-		if (!player.isDisplaced()) {
-			// get player action
-			hasQuit = playerInputLoop();
+		if (!hasPlayerWon() && !hasPlayerLost() && !hasQuit) {
+			if (!player.isDisplaced()) {
+				// get player action
+				hasQuit = playerInputLoop();
+			}
 
+			player.setDisplace(false);
 		}
 
-		player.setDisplace(false);
-
-		//clearEventQueue();
+		clearEventQueue();
 	}
+
+	//pause();
 }
 
 
@@ -235,13 +273,21 @@ bool playerInputLoop() {
 				break;
 
 			case SHOOT:
-				isPlayerTurn = shootAction(inputArguments);
+				if (player.getItem("Crossbow Bolts")->getAmount() > 0) {
+					isPlayerTurn = shootAction(inputArguments);
 
-				if (isPlayerTurn) {
-					cout << " Those are not valid arguments for the SHOOT action.\n";
+					if (isPlayerTurn) {
+						cout << " Those are not valid arguments for the SHOOT action.\n";
+						pause();
+						displayUI();
+					}
+				}
+				else {
+					cout << " You do not have any 'Crossbow Bolts' left.\n";
 					pause();
 					displayUI();
 				}
+				
 				break;
 
 			case TELECARD:
@@ -278,6 +324,78 @@ bool playerInputLoop() {
 	} while (isPlayerTurn);
 
 	return false;
+}
+
+
+void setGameDifficulty() {
+	// asks the user for the game's difficulty and applies the appropriate settings
+
+	// present difficulty options to player
+	displayTitle();
+	cout << "\n Game Difficulty: [0] Amendment (EASY)\n";
+	cout << " \t\t  [1] Atonement (NORMAL)\n";
+	cout << " \t\t  [2] Redemption (HARD)\n\n";
+
+	int userInput = getIntIntput(" Please select a difficulty according to their number: ", EASY, HARD);
+
+	// generate player items
+	vector<Item> items;
+	items.push_back(Item("Enchanted Crossbow", WEAPON, 1));
+	items.push_back(Item("Crossbow Bolts", CONSUMABLE, 0));
+	items.push_back(Item("Protective Censer", MAGIC, 1));
+	items.push_back(Item("Incense Sticks", CONSUMABLE, 0));
+	items.push_back(Item("Telecard", CONSUMABLE, 1));
+	items.push_back(Item("Map", NAVIGATION, 1));
+
+	// load the game's map
+	items[5].setOtherData(loadFileAsString(MAP_DATA_PATH));
+
+	// hazards which must always be present
+	hazardsToInitialise[ARIGAMO] = 1;
+	hazardsToInitialise[PIT] = 3;
+	hazardsToInitialise[CCRAT] = 2;
+
+	// apply appropriate settings
+	switch (userInput) {
+		case 0:
+			difficulty = EASY;
+
+			items[1].setAmount(8);
+			items[3].setAmount(20);
+
+			cout << "\n Difficulty set to Amendment (EASY)\n";
+			break;
+
+		case 1:
+			difficulty = NORMAL;
+
+			items[1].setAmount(5);
+			items[3].setAmount(15);
+
+			cout << "\n Difficulty set to Atonement (NORMAL)\n";
+			break;
+
+		case 2:
+			difficulty = HARD;
+
+			items[1].setAmount(3);
+			items[3].setAmount(12);
+
+
+			cout << "\n Difficulty set to Redemption (HARD)\n";
+			break;
+
+		default:
+			cout << "\n There was an error applying the right difficulty settings.\n";
+	}
+
+	for (int i = 0; i < difficulty + 1; i++) {
+		int choice = rand() % 5 + 3;
+		hazardsToInitialise[choice] += 1;
+
+	}
+
+	player.setInventory(items);
 }
 
 
@@ -339,12 +457,26 @@ bool moveAction(const vector<string>& arguments) {
 bool shootAction(const vector<string>& arguments) {
 	// handles validation and operation of player's SHOOT action
 
-	cout << " This is the SHOOT action. \n";
-	pause();
+	bool isPlayerTurn = true;
 
-	// validate input arguments first
+	vector<string> boltHints;
 
-	return false;
+	boltHints = player.shootBolt(ruinRooms, hazards, arguments);
+
+	// display hints bolt has found
+	if (!boltHints.empty()) {
+		vector<string>::const_iterator hint;
+
+		for (hint = boltHints.begin(); hint != boltHints.end(); hint++) {
+			string hintTemp = *hint;
+			cout << hintTemp << "\n";
+		}
+
+		pause();
+		isPlayerTurn = false;
+	}
+
+	return isPlayerTurn;
 }
 
 
@@ -374,7 +506,30 @@ bool mapAction() {
 bool interactAction() {
 	// handles validation and operation of player's INTERACT action
 
-	cout << " This is the INTERACT action. \n";
+	vector<int> hazardsInRoom = ruinRooms[player.getCurrentRoom()]->getHazards();
+
+	if (!hazardsInRoom.empty()){
+		vector<int>::const_iterator iter;
+
+		for (iter = hazardsInRoom.begin(); iter != hazardsInRoom.end(); iter++) {
+			int hazID = *iter;
+			Hazard* hazTemp = hazards.getHazard(hazID);
+
+			switch (hazTemp->getType()) {
+				case ORACLE:
+					//eventTemp = dynamic_cast<Oracle*>(hazTemp)->roomInteraction(player);
+					break;
+
+				default:
+					hazTemp->roomInteraction();
+			}
+		}
+	}
+	else {
+		cout << " \nThere is nothing in the Room to interact with.";
+	}
+	
+
 	pause();
 	displayUI();
 
@@ -391,6 +546,7 @@ bool helpAction() {
 
 	return false;
 }
+
 
 
 void initialiseRooms() {
@@ -452,11 +608,29 @@ void initialiseRooms() {
 		ruinRooms.push_back(new Room(roomNum, roomName, roomDescription.str(), roomExits, roomConnections));
 	}
 
-	//createRoomMatrix()
+	createRoomMatrix();
 }
 
 
-//void createRoomMatrix(){}
+void createRoomMatrix(){
+	vector<Room*>::const_iterator iter;
+
+	for (iter = ruinRooms.begin(); iter != ruinRooms.end(); iter++) {
+		Room* room = *iter;
+
+		int currentRoom = room->getNumber();
+		vector<int> connections = room->getExitConnections();
+
+		vector<int>::const_iterator cons;
+
+		for (cons = connections.begin(); cons != connections.end(); cons++) {
+			int con = *cons;
+
+			roomConnections[currentRoom][con] = 1;
+			roomConnections[con][currentRoom] = 1;
+		}
+	}
+}
 
 
 void removeRoomsVec(){
@@ -469,76 +643,292 @@ void removeRoomsVec(){
 }
 
 
-//int getNumRoamingHazards(){int hazardsToInitialise[TOTAL_HAZARD_TYPES];}
+void initialiseHazards() {
+	// Initialises the game's hazards
 
+	for (int i = 0; i < TOTAL_HAZARD_TYPES - 1; i++) {
+		if (hazardsToInitialise[i] > 0) {
+			loadHazard((HazardType) i, hazardsToInitialise[i]);
 
-//void initialiseHazards(){}
-
-
-//void removeHazardsVec(){}
-
-
-void setGameDifficulty() {
-	// asks the user for the game's difficulty and applies the appropriate settings
-
-	// present difficulty options to player
-	displayTitle();
-	cout << "\n Game Difficulty: [0] Amendment (EASY)\n";
-	cout << " \t\t  [1] Atonement (NORMAL)\n";
-	cout << " \t\t  [2] Redemption (HARD)\n\n";
-
-	int userInput = getIntIntput(" Please select a difficulty according to their number: ", EASY, HARD);
-
-	// generate player items
-	vector<Item> items;
-	items.push_back(Item("Enchanted Crossbow", WEAPON, 1));
-	items.push_back(Item("Crossbow Bolts", CONSUMABLE, 0));
-	items.push_back(Item("Protective Censer", MAGIC, 1));
-	items.push_back(Item("Incense Sticks", CONSUMABLE, 0));
-	items.push_back(Item("Telecard", CONSUMABLE, 1));
-	items.push_back(Item("Map", NAVIGATION, 1));
-
-	// load the game's map
-	items[5].setOtherData(loadFileAsString(MAP_DATA_PATH));
-
-	// apply appropriate settings
-	switch (userInput) {
-		case 0:
-			difficulty = EASY;
-
-			// *placeholder - apply easy difficulty settings
-
-			cout << "\n Difficulty set to Amendment (EASY)\n";
-			break;
-
-		case 1:
-			difficulty = NORMAL;
-
-			// *placeholder - apply normal difficulty settings
-
-			cout << "\n Difficulty set to Atonement (NORMAL)\n";
-			break;
-
-		case 2:
-			difficulty = HARD;
-
-			// *placeholder - apply hard difficulty settings
-
-			cout << "\n Difficulty set to Redemption (HARD)\n";
-			break;
-
-		default:
-			cout << "\n There was an error applying the right difficulty settings.\n";
+		}
 	}
-
-	player.setInventory(items);
 }
 
 
-//void updateHazards(){}
+void loadHazard(HazardType type, int amount) {
+	// loads and initialises a specific hazard into the game
+
+	if (amount != 0) {
+		// load raw data into vector
+		vector<string> hazardData = loadFileAsVector(HAZARD_DATA_PATHS[type]);
+
+		string hazardName = "";
+		string hazardHint = "";
+		vector<string> eventDescriptions = {};
+		bool isRoaming = false;
+		bool isLiving = false;
+
+		int index = 0;
+
+		// load hazard name
+		hazardName = hazardData[index];
+		index++;
+
+		// load hazard hint
+		hazardHint = " " + hazardData[index];
+		index++;
+
+		// load hazard event description
+		index++;
+		while (hazardData[index] != "$") {
+			stringstream hazardEvent("");
+
+			while (hazardData[index] != "#") {
+				hazardEvent << " " << hazardData[index] + "\n";
+				index++;
+			}
+
+			eventDescriptions.push_back(hazardEvent.str());
+			index++;
+		}
+		index++;
+
+		// load isRoaming
+		isRoaming = stoi(hazardData[index]);
+		index++;
+
+		// load isLiving
+		isRoaming = stoi(hazardData[index]);
+		index++;
+
+
+		// initiaise correct amount of hazard
+		switch (type) {
+			case ARIGAMO: {
+				// create required extra variables
+				int hpDrain = 2 * (difficulty + 1);
+				float baseRoam = abs(((difficulty + 1) * 0.25) - 0.4);
+
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new Arigamo(hazardName, ARIGAMO, hazardHint, eventDescriptions, isRoaming, isLiving, hpDrain, baseRoam);
+
+					hazards.addHazard(newHazard);
+					
+					//hazards.emplace_back(new Arigamo(hazardName, ARIGAMO, hazardHint, eventDescriptions, isRoaming, isLiving, hpDrain, baseRoam));
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, ARIGAMO_START_ROOM);
+				}
+
+				break;
+			}
+
+			case PIT: {
+				hazardData = loadFileAsVector(PITS_DATA_PATH);
+				break; 
+				//findRandomEmptyRoom() - for placement of hazard
+			}
+
+			case CCRAT: {
+				hazardData = loadFileAsVector(CCRAT_DATA_PATH);
+				break;
+			}
+			
+			case ORACLE: {
+				hazardData = loadFileAsVector(ORACLE_DATA_PATH);
+				break; 
+			}
+				
+			case THIEF: {
+				hazardData = loadFileAsVector(THIEF_DATA_PATH);
+				break; 
+			}
+				
+			case RAIDERS: {
+				hazardData = loadFileAsVector(RAIDERS_DATA_PATH);
+				break; 
+			}
+				
+			case TRADER: {
+				hazardData = loadFileAsVector(TRADER_DATA_PATH);
+				break; 
+			}
+				
+			case KNIGHT: {
+				hazardData = loadFileAsVector(KNIGHT_DATA_PATH);
+				break; 
+			}
+
+			default:
+				cout << " The hazard could not be initialised \n";
+		}
+	}
+}
+
+
+int findRandomEmptyRoom() {
+	// finds and returns a random room that does not have 
+	// a hazard in it
+
+	int room = rand() % TOTAL_ROOMS;
+
+	while (ruinRooms[room]->hasHazard()) {
+		room = rand() % TOTAL_ROOMS;
+	}
+
+	return room;
+}
+
+
+void updateHazards(){
+	// updates the game's hazards before the player's turn
+
+	moveHazards();
+
+	// updating interactions
+	vector<string> eventTemp;
+
+	Arigamo* arigamo = dynamic_cast<Arigamo*>(hazards.getHazard("Arigamo"));
+
+	eventTemp = arigamo->drainPlayerHP((int*)roomConnections, TOTAL_ROOMS, player);
+	eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+	
+;
+	// check arigamo interactions with player
+	if (arigamo->getCurrentRoom() == player.getCurrentRoom()) {
+		eventTemp = arigamo->updateInteraction(player);
+		eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+	}
+
+	// check arigamo interactions with other hazards in the same room
+	if (ruinRooms[arigamo->getCurrentRoom()]->hasHazard()) {
+		vector<int> hazardsInRoom = ruinRooms[arigamo->getCurrentRoom()]->getHazards();
+		vector<int>::const_iterator iter;
+
+		for (iter = hazardsInRoom.begin(); iter != hazardsInRoom.end(); iter++) {
+			int hazID = *iter;
+
+			if (hazID != arigamo->getID()) {
+				eventTemp = arigamo->updateInteraction(hazards.getHazard(hazID));
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+			}
+		}
+	}
+
+	// check other hazards interaction with the player
+	vector<int> hazardsInRoom = ruinRooms[player.getCurrentRoom()]->getHazards();
+	vector<int>::const_iterator iter;
+
+	for (iter = hazardsInRoom.begin(); iter != hazardsInRoom.end(); iter++) {
+		int hazID = *iter;
+		Hazard* hazTemp = hazards.getHazard(hazID);
+
+		switch (hazTemp->getType()) {
+			case PIT: 
+				//eventTemp = dynamic_cast<Pit*>(hazTemp)->updateInteraction(player);
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				break;
+			
+			case CCRAT: 
+				//eventTemp = dynamic_cast<CCRat*>(hazTemp)->updateInteraction(player);
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				break;
+			
+			case ORACLE: 
+				//eventTemp = dynamic_cast<Oracle*>(hazTemp)->updateInteraction(player);
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				break;
+			
+			case THIEF: 
+				//eventTemp = dynamic_cast<Thief*>(hazTemp)->updateInteraction(player);
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				break;
+			
+			case RAIDERS: 
+				//eventTemp = dynamic_cast<Raiders*>(hazTemp)->updateInteraction(player);
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				break;
+			
+			case TRADER: 
+				//eventTemp = dynamic_cast<Trader*>(hazTemp)->updateInteraction(player);
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				break;
+			
+			case KNIGHT: 
+				//eventTemp = dynamic_cast<Knight*>(hazTemp)->updateInteraction(player);
+				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				break;
+			
+			default:
+				cout << " There is no Hazard interaction with the player. \n";
+		}
+	}
+}
  
 
-//void moveHazard(){}
+int findEmptyAdjRoom(int currentRoom) {
+	// returns the next available room a hazard can enter
+
+	int room = -1;
+	vector<int> availbleRooms;
+
+	vector<int> connectedRooms = ruinRooms[currentRoom]->getExitConnections();
+	vector<int>::const_iterator iter;
+
+	for (iter = connectedRooms.begin(); iter != connectedRooms.end(); iter++) {
+		int roomTemp = *iter;
+
+		if (!ruinRooms[roomTemp]->hasHazard() || roomTemp == hazards.getHazard("Arigamo")->getCurrentRoom()) {
+			availbleRooms.push_back(roomTemp);
+		}
+	}
+
+	if (!availbleRooms.empty()) {
+		room = availbleRooms[rand() % availbleRooms.size()];
+	}
+
+	return room;
+}
+
+
+void moveHazards(){
+	// moves the hazards in the game if they are able to
+
+	if (!player.isDisplaced()) {
+		// move Arigamo
+		Arigamo* arigamo = dynamic_cast<Arigamo*>(hazards.getHazard("Arigamo"));
+
+		if (!arigamo->hasDied()) {
+			arigamo->updateTurnsToWake(-1);
+			arigamo->wakeArigamo(hazards.getNumRoamingHazards());
+
+			if (!arigamo->isSleeping()) {
+				vector<int> connectedRooms = ruinRooms[arigamo->getCurrentRoom()]->getExitConnections();
+				int nextRoom = connectedRooms[rand() % connectedRooms.size()];
+
+				arigamo->moveTo(ruinRooms, nextRoom);
+				arigamo->resetTurnsToWake();
+				arigamo->setIsAsleep(true);
+				eventQueue.push_back(arigamo->getEventDescriptions()[4]);
+
+			}
+		}
+		
+		
+		// move other hazards
+		vector<Hazard*>::const_iterator iter;
+		vector<Hazard*> hazardsTemp = *hazards.getHazardsVector();
+
+		for (iter = hazardsTemp.begin() + 1; iter != hazardsTemp.end(); iter++) {
+			if ((*iter)->isRoaming() && !(*iter)->hasDied()) {
+				int nextRoom = findEmptyAdjRoom((*iter)->getCurrentRoom());
+
+				if (nextRoom != -1) {
+					(*iter)->moveTo(ruinRooms, nextRoom);
+				}
+			}
+		}
+	}
+}
 
 
 
@@ -549,7 +939,10 @@ void setGameDifficulty() {
 //void updateEventQueue(vector<string> events){}
 
 
-//void clearEventQueue(){}
+void clearEventQueue(){
+	// clears the event queue
+	eventQueue.clear();
+}
 
 
 
@@ -569,6 +962,11 @@ bool hasPlayerLost(){
 	// checks whether the player has lost
 
 	//  *placeholder
+
+
+	// need to check if arigamo is dead and player is in same room and player does not have gem
+
+
 	return false;
 
 }

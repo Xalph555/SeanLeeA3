@@ -25,6 +25,8 @@ controls the flow and logic of the game.
 #include "Item.h"
 #include "Player.h"
 #include "Hazard.h"
+#include "HazardContainer.h"
+#include "Arigamo.h"
 
 using namespace std;
 
@@ -36,14 +38,16 @@ const string HOW_TO_SCREEN_PATH = "ScreenData/HowToScreen.txt";
 const string MAP_DATA_PATH = "ScreenData/MapScreen.txt";
 
 const string ROOM_DATA_PATH = "RoomData.txt";
-const string ARIGAMO_DATA_PATH = "";
-const string PITS_DATA_PATH = "";
-const string CCRAT_DATA_PATH = "";
-const string ORACLE_DATA_PATH = "";
-const string THIEF_DATA_PATH = "";
-const string RAIDERS_DATA_PATH = "";
-const string TRADER_DATA_PATH = "";
-const string KNIGHT_DATA_PATH = "";
+const string ARIGAMO_DATA_PATH = "HazardData/ArigamoData.txt";
+const string PITS_DATA_PATH = "HazardData/PitsData.txt";
+const string CCRAT_DATA_PATH = "HazardData/CCRatData.txt";
+const string ORACLE_DATA_PATH = "HazardData/OracleData.txt";
+const string THIEF_DATA_PATH = "HazardData/ThiefData.txt";
+const string RAIDERS_DATA_PATH = "HazardData/RaidersData.txt";
+const string TRADER_DATA_PATH = "HazardData/TraderData.txt";
+const string KNIGHT_DATA_PATH = "HazardData/KnightData.txt";
+
+const string HAZARD_DATA_PATHS[] = { ARIGAMO_DATA_PATH, PITS_DATA_PATH, CCRAT_DATA_PATH, ORACLE_DATA_PATH, THIEF_DATA_PATH, RAIDERS_DATA_PATH, TRADER_DATA_PATH, KNIGHT_DATA_PATH };
 
 // game constants
 const int TOTAL_ROOMS = 20;
@@ -58,14 +62,14 @@ string howToScreen;
 
 // game variables
 Difficulty difficulty = NORMAL;
-//int totalStartingHazards;
+int hazardsToInitialise[TOTAL_HAZARD_TYPES];
 
 Player player;
-//vector<unique_ptr<Hazard>> hazards;
+HazardContainer hazards;
 vector<Room*> ruinRooms;
-//int roomConnections[TOTAL_ROOMS][TOTAL_ROOMS];
+int roomConnections[TOTAL_ROOMS][TOTAL_ROOMS];
 
-//vector<string> eventQueue;
+vector<string> eventQueue;
 
 
 // display functions
@@ -73,7 +77,7 @@ void displayTitle();
 void displayInfo();
 void displayHowTo();
 void displayPlayerStats();
-//void displayEventDescriptions();
+void displayEventDescriptions();
 void displayRoomInfo(int room);
 void displayRoomExits(int room);
 void displayMap();
@@ -86,6 +90,8 @@ void gameSetUp();
 void gameLoop();
 bool playerInputLoop();
 
+void setGameDifficulty(); // need to add spawning of other hazards
+
 PlayerAction getActionID(string action);
 bool moveAction(const vector<string>& arguments);
 bool shootAction(const vector<string>& arguments);
@@ -95,21 +101,20 @@ bool interactAction();
 bool helpAction();
 
 void initialiseRooms();
-//void createRoomMatrix();
+void createRoomMatrix();
 void removeRoomsVec(); 
 
-//void initialiseHazards();
-//void removeHazardsVec();
+void initialiseHazards();
+void loadHazard(HazardType type, int amount);
+int findRandomEmptyRoom();
 
-void setGameDifficulty();
-
-//int getNumRoamingHazards();
-//void updateHazards();
-//void moveHazard();
+void updateHazards();
+int findEmptyAdjRoom(int currentRoom);
+void moveHazards();
 
 // event management functions
 //void updateEventQueue(vector<string> events);
-//void clearEventQueue();
+void clearEventQueue();
 
 // player check functions
 bool hasPlayerWon();

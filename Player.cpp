@@ -422,10 +422,65 @@ void Player::moveTo(vector<Room*>& world, int room){
 	world[currentRoom]->setPlayerInRoom(false);
 	updateCurrentRoom(room);
 	world[room]->setPlayerInRoom(true);
+
+	getItem("Incense Sticks")->updateAmount(-1);
 }
 
 
-//vector<string> Player::shootBolt(vector<Room*>& world, string direction){}
+vector<string> Player::shootBolt(vector<Room*>& world, HazardContainer& hazards, vector<string> path){
+	// fires crossbow bolt along the specified path
+
+	vector<string> boltHints;
+
+	if (path.size() > 0 && path.size() < 6) {
+		int currentBoltRoom = getCurrentRoom();
+
+		getItem("Crossbow Bolts")->updateAmount(-1);
+
+		for (int i = 0; i < path.size(); i++) {
+			string dir = path[i];
+
+			boltHints.push_back(" Room " + to_string(i) + ":");
+
+			int targetRoom = world[currentBoltRoom]->getRoomConnection(dir);
+
+			// random room due to invalid input
+			if (targetRoom == -1) {
+				vector<int> availableExits = world[currentBoltRoom]->getExitConnections();
+
+				targetRoom = availableExits[rand() % availableExits.size()];
+				boltHints.push_back(" The bolt had to take a detour.\n");
+			}
+
+			// get room hint
+			if (world[targetRoom]->hasHazard()) {
+				boltHints.push_back(" The bolt senses something in this room.\n");
+
+			}
+			else {
+				boltHints.push_back(" The bolt could not sense anything in this room.\n");
+			}
+
+			currentBoltRoom = targetRoom;
+
+			// check if player has hit themselves
+			if (currentBoltRoom == getCurrentRoom()) {
+				boltHints.push_back(" You feel a sharp pain as a bolt pierces your back.\n");
+				kill();
+				break;
+			}
+
+			// check if the player has hit the arigamo
+			if (currentBoltRoom == hazards.getHazard("Arigamo")->getCurrentRoom()) {
+				hazards.getHazard("Arigamo")->kill();
+				boltHints.push_back(hazards.getHazard("Arigamo")->getEventDescriptions()[2]); 
+				break;
+			}
+		}
+	}
+
+	return boltHints;
+}
 
 
 //void Player::teleportTo(vector<Room*>& world, int room){}

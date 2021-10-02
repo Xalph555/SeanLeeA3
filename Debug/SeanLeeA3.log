@@ -1,2 +1,9 @@
-﻿  Hazard.cpp
+﻿  Application.cpp
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Application.cpp(109,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Application.cpp(113,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Application.cpp(710,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Player.cpp
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Player.cpp(124,13): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Player.cpp(440,21): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   SeanLeeA3.vcxproj -> C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Debug\SeanLeeA3.exe

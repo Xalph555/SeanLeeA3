@@ -1,0 +1,11 @@
+Colony of Corrupted Rats
+You saw a large rodent scurry past.
+#
+You feel the floor litterally move. You lose balance.
+You get carried by the group of rats
+#
+You have been carried to a random room as the rats return to theirs.
+#
+$
+0
+1

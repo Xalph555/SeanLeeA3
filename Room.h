@@ -72,8 +72,6 @@ public:
 	void addHazard(int hazard);
 	void removeHazard(int hazard);
 
-	// other methods
-	void interactWithRoom();
 };
 
 

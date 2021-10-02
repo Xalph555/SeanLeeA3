@@ -21,6 +21,7 @@ the attributes and behaviours of the Player.
 #include "GameEnums.h"
 #include "Room.h"
 #include "Item.h"
+#include "HazardContainer.h"
 
 using namespace std;
 
@@ -86,7 +87,7 @@ public:
 
 	// player action methods
 	void moveTo(vector<Room*>& world, int room);
-	//vector<string> shootBolt(vector<Room*>& world, string direction);
+	vector<string> shootBolt(vector<Room*>& world, HazardContainer& hazards, vector<string> path);
 	//void teleportTo(vector<Room*>& world, int room);
 };
 

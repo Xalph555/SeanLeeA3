@@ -1,0 +1,16 @@
+Outcasted Raiders
+It sounds like there is a group of people in the next room.
+#
+You walk into a boardroom meeting. Everyone turns their heads to you, 
+obviously annoyed.
+#
+Seems like you couldn't explain the situation well so you were picked
+up and thrown to a random adjacent room. 
+#
+A choir of screams can be head in the distance.
+#
+A small pile of discarded limbs can be seen on the ground.
+#
+$
+1
+1

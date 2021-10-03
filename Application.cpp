@@ -90,6 +90,8 @@ void displayEventDescriptions(){
 
 		cout << eventDetails << "\n";
 	}
+
+	cout << "\n";
 }
 
 
@@ -205,6 +207,7 @@ void gameSetUp() {
 
 	initialiseHazards();
 
+
 	pause();
 }
 
@@ -224,9 +227,13 @@ void gameLoop() {
 			if (!player.isDisplaced()) {
 				// get player action
 				hasQuit = playerInputLoop();
-			}
 
-			player.setDisplace(false);
+			}
+			else {
+				player.updateDisplacement();
+				pause();
+			}
+			
 		}
 
 		clearEventQueue();
@@ -445,7 +452,7 @@ bool moveAction(const vector<string>& arguments) {
 		int targetRoom = ruinRooms[player.getCurrentRoom()]->getRoomConnection(arguments[0]);
 
 		if (targetRoom != -1) {
-			player.moveTo(ruinRooms, targetRoom);
+			player.moveTo(ruinRooms, targetRoom, false);
 			isPlayerTurn = false;
 		}
 	}
@@ -466,6 +473,8 @@ bool shootAction(const vector<string>& arguments) {
 	// display hints bolt has found
 	if (!boltHints.empty()) {
 		vector<string>::const_iterator hint;
+
+		cout << "\n";
 
 		for (hint = boltHints.begin(); hint != boltHints.end(); hint++) {
 			string hintTemp = *hint;
@@ -698,7 +707,7 @@ void loadHazard(HazardType type, int amount) {
 		index++;
 
 		// load isLiving
-		isRoaming = stoi(hazardData[index]);
+		isLiving = stoi(hazardData[index]);
 		index++;
 
 
@@ -714,8 +723,6 @@ void loadHazard(HazardType type, int amount) {
 					Hazard* newHazard = new Arigamo(hazardName, ARIGAMO, hazardHint, eventDescriptions, isRoaming, isLiving, hpDrain, baseRoam);
 
 					hazards.addHazard(newHazard);
-					
-					//hazards.emplace_back(new Arigamo(hazardName, ARIGAMO, hazardHint, eventDescriptions, isRoaming, isLiving, hpDrain, baseRoam));
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, ARIGAMO_START_ROOM);
 				}
 
@@ -723,13 +730,33 @@ void loadHazard(HazardType type, int amount) {
 			}
 
 			case PIT: {
-				hazardData = loadFileAsVector(PITS_DATA_PATH);
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new Pit(hazardName, PIT, hazardHint, eventDescriptions, isRoaming, isLiving);
+
+					hazards.addHazard(newHazard);
+
+					int startRoom = findRandomEmptyRoom();
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
+				}
+
 				break; 
-				//findRandomEmptyRoom() - for placement of hazard
 			}
 
 			case CCRAT: {
-				hazardData = loadFileAsVector(CCRAT_DATA_PATH);
+				// create required extra variables
+				int damage = (difficulty + 1) * 2;
+
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new CCRats(hazardName, CCRAT, hazardHint, eventDescriptions, isRoaming, isLiving, damage);
+
+					hazards.addHazard(newHazard);
+
+					int startRoom = findRandomEmptyRoom();
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
+				}
+
 				break;
 			}
 			
@@ -767,17 +794,16 @@ void loadHazard(HazardType type, int amount) {
 
 int findRandomEmptyRoom() {
 	// finds and returns a random room that does not have 
-	// a hazard in it
+	// a hazard or player in it
 
 	int room = rand() % TOTAL_ROOMS;
 
-	while (ruinRooms[room]->hasHazard()) {
+	while (ruinRooms[room]->hasHazard() || ruinRooms[room]->isPlayerInRoom()) {
 		room = rand() % TOTAL_ROOMS;
 	}
 
 	return room;
 }
-
 
 void updateHazards(){
 	// updates the game's hazards before the player's turn
@@ -792,7 +818,6 @@ void updateHazards(){
 	eventTemp = arigamo->drainPlayerHP((int*)roomConnections, TOTAL_ROOMS, player);
 	eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 	
-;
 	// check arigamo interactions with player
 	if (arigamo->getCurrentRoom() == player.getCurrentRoom()) {
 		eventTemp = arigamo->updateInteraction(player);
@@ -824,12 +849,12 @@ void updateHazards(){
 
 		switch (hazTemp->getType()) {
 			case PIT: 
-				//eventTemp = dynamic_cast<Pit*>(hazTemp)->updateInteraction(player);
+				eventTemp = dynamic_cast<Pit*>(hazTemp)->updateInteraction(player);
 				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 				break;
 			
 			case CCRAT: 
-				//eventTemp = dynamic_cast<CCRat*>(hazTemp)->updateInteraction(player);
+				eventTemp = dynamic_cast<CCRats*>(hazTemp)->updateInteraction(player, ruinRooms);
 				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 				break;
 			
@@ -912,7 +937,6 @@ void moveHazards(){
 
 			}
 		}
-		
 		
 		// move other hazards
 		vector<Hazard*>::const_iterator iter;

@@ -23,6 +23,7 @@ Player::Player() {
 	playerHealthCurrent = 10;
 
 	currentRoom = 0;
+	displacedRoom = -1;
 	visitedRooms = {};
 
 	playerInventory = {};
@@ -38,6 +39,7 @@ Player::Player(string name, int healthMax) {
 	playerHealthCurrent = healthMax;
 
 	currentRoom = 0;
+	displacedRoom = -1;
 	visitedRooms = {};
 
 	playerInventory = {};
@@ -79,6 +81,11 @@ bool Player::isDisplaced() {
 
 int Player::getCurrentRoom() {
 	return currentRoom;
+}
+
+
+int Player::getDisplacedRoom() {
+	return displacedRoom;
 }
 
 
@@ -203,9 +210,6 @@ bool Player::hasDied() {
 }
 
 
-//bool Player::hasGem() {}
-
-
 string Player::getDetails() {
 	// returns details of the player as formatted string
 
@@ -303,7 +307,18 @@ void Player::setCurrentRoom(int room) {
 
 	}
 	else {
-		cout << " You have not entered a valid current room number to set.\n";
+		cout << " You have not entered a valid current room number to set as the current room.\n";
+	}
+}
+
+
+void Player::setDisplacedRoom(int room) {
+	if (room >= 0) {
+		displacedRoom = room;
+
+	}
+	else {
+		cout << " You have not entered a valid current room number to set as the displaced room.\n";
 	}
 }
 
@@ -380,6 +395,25 @@ void Player::updateCurrentRoom(int room) {
 }
 
 
+void Player::updateDisplacement() {
+	// updates the player's displacement status to reflect any displacement 
+	// caused by being forcefully moved to another room
+
+	if (displacedRoom != -1) {
+		updateVisitedRooms(currentRoom);
+		currentRoom = displacedRoom;
+		displacedRoom = -1;
+		updateVisitedRooms(displacedRoom);
+		wasDisplaced = false;
+
+	}
+	else {
+		cout << " There was no valid displacement room set despite the player being displaced.\n";
+	}
+}
+
+
+
 void Player::updateVisitedRooms(int room) {
 	if (!hasVisitedRoom(room)) {
 		visitedRooms.push_back(room);
@@ -416,14 +450,24 @@ void Player::updateItem(string name, int amount){
 // player action methods               //
 //-------------------------------------//
 
-void Player::moveTo(vector<Room*>& world, int room){
+void Player::moveTo(vector<Room*>& world, int room, bool displaced){
 	// moves the player to the desired room and updates the appropriate rooms
 
-	world[currentRoom]->setPlayerInRoom(false);
-	updateCurrentRoom(room);
-	world[room]->setPlayerInRoom(true);
+	if (displaced) {
+		wasDisplaced = true;
 
-	getItem("Incense Sticks")->updateAmount(-1);
+		world[currentRoom]->setPlayerInRoom(false);
+		setDisplacedRoom(room);
+		world[room]->setPlayerInRoom(true);
+
+	}
+	else {
+		world[currentRoom]->setPlayerInRoom(false);
+		updateCurrentRoom(room);
+		world[room]->setPlayerInRoom(true);
+
+		getItem("Incense Sticks")->updateAmount(-1);
+	}
 }
 
 

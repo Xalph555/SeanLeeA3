@@ -15,7 +15,6 @@ opponents.
 #define HAZARD_H
 
 #include <iostream>
-#include <limits>
 #include <string>
 #include <sstream>
 #include <vector>

@@ -33,6 +33,7 @@ private:
 	int playerHealthCurrent;
 
 	int currentRoom;
+	int displacedRoom;
 	vector<int> visitedRooms;
 
 	vector<Item> playerInventory;
@@ -53,6 +54,7 @@ public:
 	int getHealthCurrent();
 	bool isDisplaced();
 	int getCurrentRoom();
+	int getDisplacedRoom();
 	vector<int> getVisitedRooms();
 	string getVisitedRoomsAsString();
 	vector<Item> getInventory();
@@ -62,7 +64,6 @@ public:
 	bool hasVisitedRoom(int room);
 	bool hasItem(string name);
 	bool hasDied();
-	//bool hasGem();
 	string getDetails();
 
 	// mutator set methods
@@ -74,6 +75,7 @@ public:
 	void kill();
 	void setStartingRoom(vector<Room*>& world, int room);
 	void setCurrentRoom(int room);
+	void setDisplacedRoom(int room);
 	void setVisitedRooms(vector<int> rooms);
 	void setInventory(vector<Item> inventory);
 
@@ -81,12 +83,13 @@ public:
 	void updateHealthMax(int health);
 	void updateHealth(int health);
 	void updateCurrentRoom(int room);
+	void updateDisplacement();
 	void updateVisitedRooms(int room);
 	void updateInventory(Item item);
 	void updateItem(string name, int amount);
 
 	// player action methods
-	void moveTo(vector<Room*>& world, int room);
+	void moveTo(vector<Room*>& world, int room, bool displaced);
 	vector<string> shootBolt(vector<Room*>& world, HazardContainer& hazards, vector<string> path);
 	//void teleportTo(vector<Room*>& world, int room);
 };

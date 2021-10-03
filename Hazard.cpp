@@ -337,9 +337,9 @@ vector<string> Hazard::updateInteraction() {
 
 void Hazard::roomInteraction() {
 	if (isDead) {
-		cout << "\n " << eventDescriptions[3] << "\n";
+		cout << "\n" << eventDescriptions[3] << "\n";
 	}
 	else {
-		cout << " \nThere is nothing in the Room to interact with.";
+		cout << "\n There is nothing in the Room to interact with.";
 	}
 }

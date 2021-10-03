@@ -27,6 +27,9 @@ controls the flow and logic of the game.
 #include "Hazard.h"
 #include "HazardContainer.h"
 #include "Arigamo.h"
+#include "Pit.h"
+#include "CCRats.h"
+
 
 using namespace std;
 
@@ -90,7 +93,7 @@ void gameSetUp();
 void gameLoop();
 bool playerInputLoop();
 
-void setGameDifficulty(); // need to add spawning of other hazards
+void setGameDifficulty();
 
 PlayerAction getActionID(string action);
 bool moveAction(const vector<string>& arguments);

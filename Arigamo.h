@@ -14,7 +14,6 @@ objective of the game.
 #define ARIGAMO_H
 
 #include <iostream>
-#include <limits>
 #include <string>
 #include <sstream>
 #include <vector>

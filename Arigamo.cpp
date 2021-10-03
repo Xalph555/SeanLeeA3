@@ -43,7 +43,6 @@ Arigamo::Arigamo(string name, HazardType type, string hint, vector<string> descr
 
 Arigamo::~Arigamo() {
 
-
 }
 
 

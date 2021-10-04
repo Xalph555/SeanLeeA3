@@ -161,6 +161,7 @@
     <ClCompile Include="Hazard.cpp" />
     <ClCompile Include="HazardContainer.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Oracle.cpp" />
     <ClCompile Include="Pit.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Hazard.h" />
     <ClInclude Include="HazardContainer.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Oracle.h" />
     <ClInclude Include="Pit.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />

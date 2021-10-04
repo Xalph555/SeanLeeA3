@@ -29,6 +29,7 @@ controls the flow and logic of the game.
 #include "Arigamo.h"
 #include "Pit.h"
 #include "CCRats.h"
+#include "Oracle.h"
 
 
 using namespace std;

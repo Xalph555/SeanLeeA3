@@ -18,7 +18,6 @@ The Header file for the Bottomless Pit class Hazard.
 #include <vector>
 
 #include "GameEnums.h"
-#include "Room.h"
 #include "Hazard.h"
 #include "Player.h"
 

@@ -91,7 +91,7 @@ void displayEventDescriptions(){
 		cout << eventDetails << "\n";
 	}
 
-	cout << "\n";
+	//cout << "\n";
 }
 
 
@@ -398,7 +398,9 @@ void setGameDifficulty() {
 
 	for (int i = 0; i < difficulty + 1; i++) {
 		int choice = rand() % 5 + 3;
-		hazardsToInitialise[choice] += 1;
+		//hazardsToInitialise[choice] += 1;
+
+		hazardsToInitialise[ORACLE] += 1;
 
 	}
 
@@ -526,7 +528,7 @@ bool interactAction() {
 
 			switch (hazTemp->getType()) {
 				case ORACLE:
-					//eventTemp = dynamic_cast<Oracle*>(hazTemp)->roomInteraction(player);
+					dynamic_cast<Oracle*>(hazTemp)->roomInteraction(player, hazards.getHazard("Arigamo")->getCurrentRoom());
 					break;
 
 				default:
@@ -535,14 +537,13 @@ bool interactAction() {
 		}
 	}
 	else {
-		cout << " \nThere is nothing in the Room to interact with.";
+		cout << "\n There is nothing in the Room to interact with.";
 	}
 	
-
 	pause();
 	displayUI();
 
-	return false;
+	return true;
 }
 
 
@@ -761,7 +762,16 @@ void loadHazard(HazardType type, int amount) {
 			}
 			
 			case ORACLE: {
-				hazardData = loadFileAsVector(ORACLE_DATA_PATH);
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new Oracle(hazardName, ORACLE, hazardHint, eventDescriptions, isRoaming, isLiving);
+
+					hazards.addHazard(newHazard);
+
+					int startRoom = findRandomEmptyRoom();
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
+				}
+
 				break; 
 			}
 				
@@ -859,7 +869,7 @@ void updateHazards(){
 				break;
 			
 			case ORACLE: 
-				//eventTemp = dynamic_cast<Oracle*>(hazTemp)->updateInteraction(player);
+				eventTemp = dynamic_cast<Oracle*>(hazTemp)->updateInteraction(player);
 				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 				break;
 			
@@ -884,7 +894,7 @@ void updateHazards(){
 				break;
 			
 			default:
-				cout << " There is no Hazard interaction with the player. \n";
+				cout << " There is no Hazard interaction with the player.\n";
 		}
 	}
 }
@@ -944,10 +954,14 @@ void moveHazards(){
 
 		for (iter = hazardsTemp.begin() + 1; iter != hazardsTemp.end(); iter++) {
 			if ((*iter)->isRoaming() && !(*iter)->hasDied()) {
-				int nextRoom = findEmptyAdjRoom((*iter)->getCurrentRoom());
+				bool willMove = rand() % 2;
 
-				if (nextRoom != -1) {
-					(*iter)->moveTo(ruinRooms, nextRoom);
+				if (willMove) {
+					int nextRoom = findEmptyAdjRoom((*iter)->getCurrentRoom());
+
+					if (nextRoom != -1) {
+						(*iter)->moveTo(ruinRooms, nextRoom);
+					}
 				}
 			}
 		}

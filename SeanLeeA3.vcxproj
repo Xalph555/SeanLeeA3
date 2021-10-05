@@ -164,7 +164,10 @@
     <ClCompile Include="Oracle.cpp" />
     <ClCompile Include="Pit.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Raiders.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="Thief.cpp" />
+    <ClCompile Include="Trader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -178,7 +181,10 @@
     <ClInclude Include="Oracle.h" />
     <ClInclude Include="Pit.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Raiders.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="Thief.h" />
+    <ClInclude Include="Trader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

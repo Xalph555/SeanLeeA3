@@ -207,7 +207,6 @@ void gameSetUp() {
 
 	initialiseHazards();
 
-
 	pause();
 }
 
@@ -215,10 +214,12 @@ void gameSetUp() {
 void gameLoop() {
 	// handles the flow and progression of the main game
 
+	totalTurns = 0;
 	bool hasQuit = false;
 
 	while (!hasPlayerWon() && !hasPlayerLost() && !hasQuit) {
-		
+		totalTurns++;
+
 		updateHazards();
 
 		displayUI();
@@ -400,7 +401,7 @@ void setGameDifficulty() {
 		int choice = rand() % 5 + 3;
 		//hazardsToInitialise[choice] += 1;
 
-		hazardsToInitialise[ORACLE] += 1;
+		hazardsToInitialise[TRADER] += 1;
 
 	}
 
@@ -776,17 +777,45 @@ void loadHazard(HazardType type, int amount) {
 			}
 				
 			case THIEF: {
-				hazardData = loadFileAsVector(THIEF_DATA_PATH);
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new Thief(hazardName, THIEF, hazardHint, eventDescriptions, isRoaming, isLiving);
+
+					hazards.addHazard(newHazard);
+
+					int startRoom = findRandomEmptyRoom();
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
+				}
+
 				break; 
 			}
 				
 			case RAIDERS: {
-				hazardData = loadFileAsVector(RAIDERS_DATA_PATH);
+				// create required extra variables
+				int damage = (difficulty + 1) * 3;
+
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new Raiders(hazardName, RAIDERS, hazardHint, eventDescriptions, isRoaming, isLiving, damage);
+
+					hazards.addHazard(newHazard);
+
+					int startRoom = findRandomEmptyRoom();
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
+				}
 				break; 
 			}
 				
 			case TRADER: {
-				hazardData = loadFileAsVector(TRADER_DATA_PATH);
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new Trader(hazardName, TRADER, hazardHint, eventDescriptions, isRoaming, isLiving);
+
+					hazards.addHazard(newHazard);
+
+					int startRoom = findRandomEmptyRoom();
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
+				}
 				break; 
 			}
 				
@@ -815,10 +844,38 @@ int findRandomEmptyRoom() {
 	return room;
 }
 
+
+int findEmptyAdjRoom(int currentRoom) {
+	// returns the next available room a hazard can enter
+
+	int room = -1;
+	vector<int> availbleRooms;
+
+	vector<int> connectedRooms = ruinRooms[currentRoom]->getExitConnections();
+	vector<int>::const_iterator iter;
+
+	for (iter = connectedRooms.begin(); iter != connectedRooms.end(); iter++) {
+		int roomTemp = *iter;
+
+		if (!ruinRooms[roomTemp]->hasHazard() || roomTemp == hazards.getHazard("Arigamo")->getCurrentRoom()) {
+			availbleRooms.push_back(roomTemp);
+		}
+	}
+
+	if (!availbleRooms.empty()) {
+		room = availbleRooms[rand() % availbleRooms.size()];
+	}
+
+	return room;
+}
+
+
 void updateHazards(){
 	// updates the game's hazards before the player's turn
 
-	moveHazards();
+	if (!player.isDisplaced() && totalTurns > 1) {
+		moveHazards();
+	}
 
 	// updating interactions
 	vector<string> eventTemp;
@@ -874,17 +931,17 @@ void updateHazards(){
 				break;
 			
 			case THIEF: 
-				//eventTemp = dynamic_cast<Thief*>(hazTemp)->updateInteraction(player);
+				eventTemp = dynamic_cast<Thief*>(hazTemp)->updateInteraction(player, ruinRooms);
 				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 				break;
 			
 			case RAIDERS: 
-				//eventTemp = dynamic_cast<Raiders*>(hazTemp)->updateInteraction(player);
+				eventTemp = dynamic_cast<Raiders*>(hazTemp)->updateInteraction(player, ruinRooms);
 				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 				break;
 			
 			case TRADER: 
-				//eventTemp = dynamic_cast<Trader*>(hazTemp)->updateInteraction(player);
+				eventTemp = dynamic_cast<Trader*>(hazTemp)->updateInteraction(player, ruinRooms);
 				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 				break;
 			
@@ -900,73 +957,48 @@ void updateHazards(){
 }
  
 
-int findEmptyAdjRoom(int currentRoom) {
-	// returns the next available room a hazard can enter
-
-	int room = -1;
-	vector<int> availbleRooms;
-
-	vector<int> connectedRooms = ruinRooms[currentRoom]->getExitConnections();
-	vector<int>::const_iterator iter;
-
-	for (iter = connectedRooms.begin(); iter != connectedRooms.end(); iter++) {
-		int roomTemp = *iter;
-
-		if (!ruinRooms[roomTemp]->hasHazard() || roomTemp == hazards.getHazard("Arigamo")->getCurrentRoom()) {
-			availbleRooms.push_back(roomTemp);
-		}
-	}
-
-	if (!availbleRooms.empty()) {
-		room = availbleRooms[rand() % availbleRooms.size()];
-	}
-
-	return room;
-}
-
-
 void moveHazards(){
 	// moves the hazards in the game if they are able to
 
-	if (!player.isDisplaced()) {
-		// move Arigamo
-		Arigamo* arigamo = dynamic_cast<Arigamo*>(hazards.getHazard("Arigamo"));
+	// move Arigamo
+	Arigamo* arigamo = dynamic_cast<Arigamo*>(hazards.getHazard("Arigamo"));
 
-		if (!arigamo->hasDied()) {
-			arigamo->updateTurnsToWake(-1);
-			arigamo->wakeArigamo(hazards.getNumRoamingHazards());
+	if (!arigamo->hasDied()) {
+		arigamo->updateTurnsToWake(-1);
+		arigamo->wakeArigamo(hazards.getNumRoamingHazards());
 
-			if (!arigamo->isSleeping()) {
-				vector<int> connectedRooms = ruinRooms[arigamo->getCurrentRoom()]->getExitConnections();
-				int nextRoom = connectedRooms[rand() % connectedRooms.size()];
+		if (!arigamo->isSleeping()) {
+			vector<int> connectedRooms = ruinRooms[arigamo->getCurrentRoom()]->getExitConnections();
+			int nextRoom = connectedRooms[rand() % connectedRooms.size()];
 
-				arigamo->moveTo(ruinRooms, nextRoom);
-				arigamo->resetTurnsToWake();
-				arigamo->setIsAsleep(true);
-				eventQueue.push_back(arigamo->getEventDescriptions()[4]);
+			arigamo->moveTo(ruinRooms, nextRoom);
 
-			}
+			arigamo->resetTurnsToWake();
+			arigamo->setIsAsleep(true);
+			eventQueue.push_back(arigamo->getEventDescriptions()[4]);
+
 		}
+	}
 		
-		// move other hazards
-		vector<Hazard*>::const_iterator iter;
-		vector<Hazard*> hazardsTemp = *hazards.getHazardsVector();
+	// move other hazards
+	vector<Hazard*>::const_iterator iter;
+	vector<Hazard*> hazardsTemp = *hazards.getHazardsVector();
 
-		for (iter = hazardsTemp.begin() + 1; iter != hazardsTemp.end(); iter++) {
-			if ((*iter)->isRoaming() && !(*iter)->hasDied()) {
-				bool willMove = rand() % 2;
+	for (iter = hazardsTemp.begin() + 1; iter != hazardsTemp.end(); iter++) {
+		if ((*iter)->isRoaming() && !(*iter)->hasDied()) {
+			bool willMove = rand() % 2;
 
-				if (willMove) {
-					int nextRoom = findEmptyAdjRoom((*iter)->getCurrentRoom());
+			if (willMove) {
+				int nextRoom = findEmptyAdjRoom((*iter)->getCurrentRoom());
 
-					if (nextRoom != -1) {
-						(*iter)->moveTo(ruinRooms, nextRoom);
-					}
+				if (nextRoom != -1) {
+					(*iter)->moveTo(ruinRooms, nextRoom);
 				}
 			}
 		}
 	}
 }
+
 
 
 

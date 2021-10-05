@@ -70,7 +70,6 @@ public:
 	void setHazards(vector<int> hazards);
 	void addHazard(int hazard);
 	void removeHazard(int hazard);
-
 };
 
 

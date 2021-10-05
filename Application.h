@@ -30,7 +30,9 @@ controls the flow and logic of the game.
 #include "Pit.h"
 #include "CCRats.h"
 #include "Oracle.h"
-
+#include "Thief.h"
+#include "Raiders.h"
+#include "Trader.h"
 
 using namespace std;
 
@@ -73,6 +75,7 @@ HazardContainer hazards;
 vector<Room*> ruinRooms;
 int roomConnections[TOTAL_ROOMS][TOTAL_ROOMS];
 
+int totalTurns;
 vector<string> eventQueue;
 
 
@@ -111,9 +114,9 @@ void removeRoomsVec();
 void initialiseHazards();
 void loadHazard(HazardType type, int amount);
 int findRandomEmptyRoom();
+int findEmptyAdjRoom(int currentRoom);
 
 void updateHazards();
-int findEmptyAdjRoom(int currentRoom);
 void moveHazards();
 
 // event management functions

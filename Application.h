@@ -33,6 +33,7 @@ controls the flow and logic of the game.
 #include "Thief.h"
 #include "Raiders.h"
 #include "Trader.h"
+#include "Knight.h"
 
 using namespace std;
 

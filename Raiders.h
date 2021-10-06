@@ -32,7 +32,7 @@ private:
 public:
 	// constructors and destructors 
 	Raiders();
-	Raiders(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living, int damage);
+	Raiders(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious, int damage);
 	~Raiders();
 
 	// acccessor methods

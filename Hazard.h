@@ -43,7 +43,7 @@ protected:
 	Item fuhaiGem;
 
 	bool isRoamingType;
-	bool isLivingType;
+	bool isConscious;
 	bool isDead;
 
 
@@ -53,7 +53,7 @@ public:
 
 	// constructors and destructors
 	Hazard();
-	Hazard(string name, HazardType type, string hint, vector<string> descriptions, bool roaming, bool living);
+	Hazard(string name, HazardType type, string hint, vector<string> descriptions, bool roaming, bool conscious);
 	virtual ~Hazard();
 
 	// accessor methods
@@ -67,7 +67,7 @@ public:
 	string getDescriptionsAsString();
 	bool hasGem();
 	bool isRoaming();
-	bool IsLiving();
+	bool conscious();
 	bool hasDied();
 
 	virtual string getDetails();
@@ -82,7 +82,7 @@ public:
 	void setEventDescriptions(vector<string> events);
 	void setGem(Item gem);
 	void setRoamingType(bool isRoaming);
-	void setLivingType(bool living);
+	void setIsConscious(bool conscious);
 	void setIsDead(bool dead);
 	void kill();
 

@@ -91,7 +91,6 @@ public:
 	// player action methods
 	void moveTo(vector<Room*>& world, int room, bool displaced);
 	vector<string> shootBolt(vector<Room*>& world, HazardContainer& hazards, vector<string> path);
-	//void teleportTo(vector<Room*>& world, int room);
 };
 
 

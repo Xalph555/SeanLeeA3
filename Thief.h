@@ -32,7 +32,7 @@ private:
 public:
 	// constructors and destructors 
 	Thief();
-	Thief(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living);
+	Thief(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious);
 	~Thief();
 
 	// hazard turn update methods

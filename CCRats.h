@@ -32,7 +32,7 @@ private:
 public:
 	// constructors and destructors 
 	CCRats();
-	CCRats(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living, int damage);
+	CCRats(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious, int damage);
 	~CCRats();
 
 	// acccessor methods

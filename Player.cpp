@@ -525,6 +525,3 @@ vector<string> Player::shootBolt(vector<Room*>& world, HazardContainer& hazards,
 
 	return boltHints;
 }
-
-
-//void Player::teleportTo(vector<Room*>& world, int room){}

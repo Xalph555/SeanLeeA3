@@ -20,7 +20,7 @@ Trader::Trader() {
 }
 
 
-Trader::Trader(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living) : Hazard(name, type, hint, description, roaming, living) {
+Trader::Trader(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious) : Hazard(name, type, hint, description, roaming, conscious) {
 }
 
 
@@ -38,20 +38,21 @@ vector<string> Trader::updateInteraction(Player& player, vector<Room*>& world) {
 
 	vector<string> results;
 
-	// "Trade" with player
-	vector<int> choices;
+	if (!hasDied()) {
+		// "Trade" with player
+		vector<int> choices;
 
-	if (player.getItem("Crossbow Bolts")->getAmount() > 1) {
-		choices.push_back(1);
-	}
+		if (player.getItem("Crossbow Bolts")->getAmount() > 1) {
+			choices.push_back(1);
+		}
 
-	if (player.getItem("Incense Sticks")->getAmount() > 2) {
-		choices.push_back(2);
-	}
+		if (player.getItem("Incense Sticks")->getAmount() > 2) {
+			choices.push_back(2);
+		}
 
-	if (!choices.empty()) {
-		int choice = choices[rand() % choices.size()];
-		switch (choice) {
+		if (!choices.empty()) {
+			int choice = choices[rand() % choices.size()];
+			switch (choice) {
 			case 1:
 				player.getItem("Crossbow Bolts")->updateAmount(-1);
 				player.getItem("Incense Sticks")->updateAmount(2);
@@ -61,12 +62,16 @@ vector<string> Trader::updateInteraction(Player& player, vector<Room*>& world) {
 				player.getItem("Incense Sticks")->updateAmount(-3);
 				player.getItem("Crossbow Bolts")->updateAmount(1);
 				break;
+			}
 		}
-	}
 
-	// return event results
-	results.push_back(eventDescriptions[0]);
-	results.push_back(eventDescriptions[1]);
+		results.push_back(eventDescriptions[0]);
+		results.push_back(eventDescriptions[1]);
+
+	}
+	else {
+		results.push_back(eventDescriptions[3]);
+	}
 
 	return results;
 }

@@ -23,7 +23,7 @@ CCRats::CCRats() {
 }
 
 
-CCRats::CCRats(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living, int damage) : Hazard(name, type, hint, description, roaming, living) {
+CCRats::CCRats(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious, int damage) : Hazard(name, type, hint, description, roaming, conscious) {
 	damageAmount = damage;
 
 }
@@ -47,22 +47,22 @@ int CCRats::getDamageAmount() {
 string CCRats::getDetails() {
 	// returns details of the CCRats as formatted string
 
-	stringstream ccRatsDetails;
+	stringstream hazardDetails;
 
-	ccRatsDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-	ccRatsDetails << " Hazard ID: " << getID() << "\n";
-	ccRatsDetails << " Hazard Name: " << getName() << "\n";
-	ccRatsDetails << " Hazard Type: " << getTypeAsString() << "\n";
-	ccRatsDetails << " Current Room: " << getCurrentRoom() << "\n";
-	ccRatsDetails << " Hint: " << getHint() << "\n";
-	ccRatsDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
-	ccRatsDetails << " Is Roaming Type: " << isRoaming() << "\n";
-	ccRatsDetails << " Is Living Type: " << IsLiving() << "\n";
-	ccRatsDetails << " Is Dead: " << hasDied() << "\n";
-	ccRatsDetails << " Damage: " << getDamageAmount() << "\n";
-	ccRatsDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	hazardDetails << " Hazard ID: " << getID() << "\n";
+	hazardDetails << " Hazard Name: " << getName() << "\n";
+	hazardDetails << " Hazard Type: " << getTypeAsString() << "\n";
+	hazardDetails << " Current Room: " << getCurrentRoom() << "\n";
+	hazardDetails << " Hint: " << getHint() << "\n";
+	hazardDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
+	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
+	hazardDetails << " Is Conscious: " << conscious() << "\n";
+	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Damage: " << getDamageAmount() << "\n";
+	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
-	return ccRatsDetails.str();
+	return hazardDetails.str();
 }
 
 
@@ -102,4 +102,3 @@ vector<string> CCRats::updateInteraction(Player& player, vector<Room*>& world) {
 
 	return results;
 }
-

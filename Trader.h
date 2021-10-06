@@ -32,7 +32,7 @@ private:
 public:
 	// constructors and destructors 
 	Trader();
-	Trader(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living);
+	Trader(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious);
 	~Trader();
 
 	// hazard turn update methods

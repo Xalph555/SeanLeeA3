@@ -21,7 +21,7 @@ Oracle::Oracle() {
 }
 
 
-Oracle::Oracle(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living) : Hazard(name, type, hint, description, roaming, living) {
+Oracle::Oracle(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious) : Hazard(name, type, hint, description, roaming, conscious) {
 	hasInteracted = false;
 }
 
@@ -40,22 +40,22 @@ bool Oracle::getHasInteracted() {
 string Oracle::getDetails() {
 	// returns details of the Oracle as formatted string
 
-	stringstream oracleDetails;
+	stringstream hazardDetails;
 
-	oracleDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-	oracleDetails << " Hazard ID: " << getID() << "\n";
-	oracleDetails << " Hazard Name: " << getName() << "\n";
-	oracleDetails << " Hazard Type: " << getTypeAsString() << "\n";
-	oracleDetails << " Current Room: " << getCurrentRoom() << "\n";
-	oracleDetails << " Hint: " << getHint() << "\n";
-	oracleDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
-	oracleDetails << " Is Roaming Type: " << isRoaming() << "\n";
-	oracleDetails << " Is Living Type: " << IsLiving() << "\n";
-	oracleDetails << " Is Dead: " << hasDied() << "\n";
-	oracleDetails << " Damage: " << getHasInteracted() << "\n";
-	oracleDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	hazardDetails << " Hazard ID: " << getID() << "\n";
+	hazardDetails << " Hazard Name: " << getName() << "\n";
+	hazardDetails << " Hazard Type: " << getTypeAsString() << "\n";
+	hazardDetails << " Current Room: " << getCurrentRoom() << "\n";
+	hazardDetails << " Hint: " << getHint() << "\n";
+	hazardDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
+	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
+	hazardDetails << " Is Conscious: " << conscious() << "\n";
+	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Damage: " << getHasInteracted() << "\n";
+	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
-	return oracleDetails.str();
+	return hazardDetails.str();
 }
 
 
@@ -78,8 +78,14 @@ vector<string> Oracle::updateInteraction(Player& player) {
 
 	vector<string> results;
 
-	results.push_back(eventDescriptions[0]);
-	results.push_back(eventDescriptions[1]);
+	if (!hasDied()) {
+		results.push_back(eventDescriptions[0]);
+		results.push_back(eventDescriptions[1]);
+
+	}
+	else {
+		results.push_back(eventDescriptions[3]);
+	}
 
 	return results;
 }

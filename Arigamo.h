@@ -46,7 +46,7 @@ private:
 public:
 	// constructors and destructors 
 	Arigamo();
-	Arigamo(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living, int hpDrain, float baseRoam);
+	Arigamo(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious, int hpDrain, float baseRoam);
 	~Arigamo();
 
 	// accessor methods

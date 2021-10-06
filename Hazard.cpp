@@ -41,12 +41,12 @@ Hazard::Hazard() {
 	eventDescriptions = {};
 
 	isRoamingType = false;
-	isLivingType = false;
+	isConscious = false;
 	isDead = false;
 }
 
 
-Hazard::Hazard(string name, HazardType type, string hint, vector<string> descriptions, bool roaming, bool living) {
+Hazard::Hazard(string name, HazardType type, string hint, vector<string> descriptions, bool roaming, bool conscious) {
 	numHazards++;
 
 	hazardID = numHazards;
@@ -58,7 +58,7 @@ Hazard::Hazard(string name, HazardType type, string hint, vector<string> descrip
 	eventDescriptions = descriptions;
 
 	isRoamingType = roaming;
-	isLivingType = living;
+	isConscious = conscious;
 	isDead = false;
 }
 
@@ -169,8 +169,8 @@ bool Hazard::isRoaming() {
 }
 
 
-bool Hazard::IsLiving() {
-	return isLivingType;
+bool Hazard::conscious() {
+	return isConscious;
 }
 
 
@@ -192,7 +192,7 @@ string Hazard::getDetails() {
 	hazardDetails << " Hint: " << getHint() << "\n";
 	hazardDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
-	hazardDetails << " Is Living Type: " << IsLiving() << "\n";
+	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
 	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
@@ -278,8 +278,8 @@ void Hazard::setRoamingType(bool isRoaming) {
 }
 
 
-void Hazard::setLivingType(bool living) {
-	isLivingType = living;
+void Hazard::setIsConscious(bool conscious) {
+	isConscious = conscious;
 }
 
 
@@ -312,6 +312,7 @@ void Hazard::kill() {
 	// kills the hazard
 
 	isDead = true;
+	isConscious = false;
 }
 
 

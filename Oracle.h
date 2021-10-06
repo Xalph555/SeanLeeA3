@@ -33,7 +33,7 @@ private:
 public:
 	// constructors and destructors 
 	Oracle();
-	Oracle(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living);
+	Oracle(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious);
 	~Oracle();
 
 	// accessor methods   

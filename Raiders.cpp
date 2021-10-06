@@ -21,7 +21,7 @@ Raiders::Raiders() {
 }
 
 
-Raiders::Raiders(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living, int damage) : Hazard(name, type, hint, description, roaming, living) {
+Raiders::Raiders(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious, int damage) : Hazard(name, type, hint, description, roaming, conscious) {
 	damageAmount = damage;
 }
 
@@ -44,22 +44,22 @@ int Raiders::getDamageAmount() {
 string Raiders::getDetails() {
 	// returns details of the raiders as formatted string
 
-	stringstream raidersDetails;
+	stringstream hazardDetails;
 
-	raidersDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-	raidersDetails << " Hazard ID: " << getID() << "\n";
-	raidersDetails << " Hazard Name: " << getName() << "\n";
-	raidersDetails << " Hazard Type: " << getTypeAsString() << "\n";
-	raidersDetails << " Current Room: " << getCurrentRoom() << "\n";
-	raidersDetails << " Hint: " << getHint() << "\n";
-	raidersDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
-	raidersDetails << " Is Roaming Type: " << isRoaming() << "\n";
-	raidersDetails << " Is Living Type: " << IsLiving() << "\n";
-	raidersDetails << " Is Dead: " << hasDied() << "\n";
-	raidersDetails << " Damage: " << getDamageAmount() << "\n";
-	raidersDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	hazardDetails << " Hazard ID: " << getID() << "\n";
+	hazardDetails << " Hazard Name: " << getName() << "\n";
+	hazardDetails << " Hazard Type: " << getTypeAsString() << "\n";
+	hazardDetails << " Current Room: " << getCurrentRoom() << "\n";
+	hazardDetails << " Hint: " << getHint() << "\n";
+	hazardDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
+	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
+	hazardDetails << " Is Conscious: " << conscious() << "\n";
+	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Damage: " << getDamageAmount() << "\n";
+	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
-	return raidersDetails.str();
+	return hazardDetails.str();
 }
 
 
@@ -89,15 +89,21 @@ vector<string> Raiders::updateInteraction(Player& player, vector<Room*>& world) 
 
 	vector<string> results;
 
-	vector<int> availableExits = world[getCurrentRoom()]->getExitConnections();
+	if (!hasDied()) {
+		vector<int> availableExits = world[getCurrentRoom()]->getExitConnections();
 
-	int randomRoom = availableExits[rand() % availableExits.size()];
-	player.moveTo(world, randomRoom, true);
+		int randomRoom = availableExits[rand() % availableExits.size()];
+		player.moveTo(world, randomRoom, true);
 
-	player.updateHealth(-damageAmount);
+		player.updateHealth(-damageAmount);
 
-	results.push_back(eventDescriptions[0]);
-	results.push_back(eventDescriptions[1]);
+		results.push_back(eventDescriptions[0]);
+		results.push_back(eventDescriptions[1]);
+
+	}
+	else {
+		results.push_back(eventDescriptions[3]);
+	}
 
 	return results;
 }

@@ -20,7 +20,7 @@ Pit::Pit() {
 }
 
 
-Pit::Pit(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living) : Hazard(name, type, hint, description, roaming, living) {
+Pit::Pit(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious) : Hazard(name, type, hint, description, roaming, conscious) {
 }
 
 

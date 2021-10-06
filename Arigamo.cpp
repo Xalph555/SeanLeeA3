@@ -29,7 +29,7 @@ Arigamo::Arigamo() {
 }
 
 
-Arigamo::Arigamo(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living, int hpDrain, float baseRoam) : Hazard(name, type, hint, description, roaming, living) {
+Arigamo::Arigamo(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious, int hpDrain, float baseRoam) : Hazard(name, type, hint, description, roaming, conscious) {
 	healthDrainRate = hpDrain;
 
 	fuhaiGem = Item("Fuhai Gem", MAGIC, 1);
@@ -89,7 +89,7 @@ string Arigamo::getDetails() {
 	hazardDetails << " Hint: " << getHint() << "\n";
 	hazardDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
-	hazardDetails << " Is Living Type: " << IsLiving() << "\n";
+	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
 	hazardDetails << " Health Drain Rate: " << getHealthDrainRate() << "\n";
 	hazardDetails << " Has Gem: " << hasGem() << "\n";

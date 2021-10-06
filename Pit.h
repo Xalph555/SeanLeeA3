@@ -30,7 +30,7 @@ private:
 public:
 	// constructors and destructors 
 	Pit();
-	Pit(string name, HazardType type, string hint, vector<string> description, bool roaming, bool living);
+	Pit(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious);
 	~Pit();
 
 	// hazard turn update methods

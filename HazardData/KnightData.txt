@@ -10,6 +10,8 @@ You hear a loud gasp and grunt followed by the sound of metal being shred.
 #
 Scaps of black armour can be found on the ground in a pool of blood.
 #
+An unconscious knight lies against a wall.
+#
 $
 1
 1

@@ -113,7 +113,16 @@ void displayRoomExits(int room) {
 			vector<int> roomHazards = ruinRooms[connectedRooms[i]]->getHazards();
 
 			for (int j = 0; j < roomHazards.size(); j++) {
-				cout << hazards.getHazard(roomHazards[j])->getHint() << "\n\n";
+				Hazard* hazTemp = hazards.getHazard(roomHazards[j]);
+
+				if (hazTemp->isRoaming()) {
+					if (!hazTemp->hasDied() && hazTemp->conscious()) {
+						cout << hazTemp->getHint() << "\n\n";
+					}
+				}
+				else {
+					cout << hazTemp->getHint() << "\n\n";
+				}
 			}
 		}
 	}
@@ -299,13 +308,21 @@ bool playerInputLoop() {
 				break;
 
 			case TELECARD:
-				isPlayerTurn = telecardAction(inputArguments);
+				if (player.getItem("Telecard")->getAmount() > 0) {
+					isPlayerTurn = telecardAction(inputArguments);
 
-				if (isPlayerTurn) {
-					cout << " Those are not valid arguments for the TELECARD action.\n";
+					if (isPlayerTurn) {
+						cout << " Those are not valid arguments for the TELECARD action or you have not visited that Room yet.\n";
+						pause();
+						displayUI();
+					}
+				}
+				else {
+					cout << " You do not have any 'Telecards' left.\n";
 					pause();
 					displayUI();
 				}
+
 				break;
 
 			case MAP:
@@ -401,7 +418,7 @@ void setGameDifficulty() {
 		int choice = rand() % 5 + 3;
 		//hazardsToInitialise[choice] += 1;
 
-		hazardsToInitialise[TRADER] += 1;
+		hazardsToInitialise[KNIGHT] += 1;
 
 	}
 
@@ -495,12 +512,21 @@ bool shootAction(const vector<string>& arguments) {
 bool telecardAction(const vector<string>& arguments) {
 	// handles validation and operation of player's TELECARD action
 
-	cout << " This is the TELECARD action. \n";
-	pause();
+	bool isPlayerTurn = true;
 
-	// validate input arguments first
+	if (arguments.size() == 1) {
+		if (player.hasVisitedRoom(stoi(arguments[0]))) {
+			player.moveTo(ruinRooms, stoi(arguments[0]), false);
+			player.getItem("Telecard")->updateAmount(-1);
 
-	return false;
+			cout << "\n You Teleported!\n";
+			pause();
+
+			isPlayerTurn = false;
+		}
+	}
+
+	return isPlayerTurn;
 }
 
 
@@ -511,7 +537,7 @@ bool mapAction() {
 	pause();
 	displayUI();
 
-	return false;
+	return true;
 }
 
 
@@ -555,7 +581,7 @@ bool helpAction() {
 	pause();
 	displayUI();
 
-	return false;
+	return true;
 }
 
 
@@ -677,7 +703,7 @@ void loadHazard(HazardType type, int amount) {
 		string hazardHint = "";
 		vector<string> eventDescriptions = {};
 		bool isRoaming = false;
-		bool isLiving = false;
+		bool isConscious = false;
 
 		int index = 0;
 
@@ -709,7 +735,7 @@ void loadHazard(HazardType type, int amount) {
 		index++;
 
 		// load isLiving
-		isLiving = stoi(hazardData[index]);
+		isConscious = stoi(hazardData[index]);
 		index++;
 
 
@@ -722,26 +748,24 @@ void loadHazard(HazardType type, int amount) {
 
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
-					Hazard* newHazard = new Arigamo(hazardName, ARIGAMO, hazardHint, eventDescriptions, isRoaming, isLiving, hpDrain, baseRoam);
+					Hazard* newHazard = new Arigamo(hazardName, ARIGAMO, hazardHint, eventDescriptions, isRoaming, isConscious, hpDrain, baseRoam);
 
 					hazards.addHazard(newHazard);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, ARIGAMO_START_ROOM);
 				}
-
 				break;
 			}
 
 			case PIT: {
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
-					Hazard* newHazard = new Pit(hazardName, PIT, hazardHint, eventDescriptions, isRoaming, isLiving);
+					Hazard* newHazard = new Pit(hazardName, PIT, hazardHint, eventDescriptions, isRoaming, isConscious);
 
 					hazards.addHazard(newHazard);
 
 					int startRoom = findRandomEmptyRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
-
 				break; 
 			}
 
@@ -751,42 +775,39 @@ void loadHazard(HazardType type, int amount) {
 
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
-					Hazard* newHazard = new CCRats(hazardName, CCRAT, hazardHint, eventDescriptions, isRoaming, isLiving, damage);
+					Hazard* newHazard = new CCRats(hazardName, CCRAT, hazardHint, eventDescriptions, isRoaming, isConscious, damage);
 
 					hazards.addHazard(newHazard);
 
 					int startRoom = findRandomEmptyRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
-
 				break;
 			}
 			
 			case ORACLE: {
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
-					Hazard* newHazard = new Oracle(hazardName, ORACLE, hazardHint, eventDescriptions, isRoaming, isLiving);
+					Hazard* newHazard = new Oracle(hazardName, ORACLE, hazardHint, eventDescriptions, isRoaming, isConscious);
 
 					hazards.addHazard(newHazard);
 
 					int startRoom = findRandomEmptyRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
-
 				break; 
 			}
 				
 			case THIEF: {
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
-					Hazard* newHazard = new Thief(hazardName, THIEF, hazardHint, eventDescriptions, isRoaming, isLiving);
+					Hazard* newHazard = new Thief(hazardName, THIEF, hazardHint, eventDescriptions, isRoaming, isConscious);
 
 					hazards.addHazard(newHazard);
 
 					int startRoom = findRandomEmptyRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
-
 				break; 
 			}
 				
@@ -796,7 +817,7 @@ void loadHazard(HazardType type, int amount) {
 
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
-					Hazard* newHazard = new Raiders(hazardName, RAIDERS, hazardHint, eventDescriptions, isRoaming, isLiving, damage);
+					Hazard* newHazard = new Raiders(hazardName, RAIDERS, hazardHint, eventDescriptions, isRoaming, isConscious, damage);
 
 					hazards.addHazard(newHazard);
 
@@ -809,7 +830,7 @@ void loadHazard(HazardType type, int amount) {
 			case TRADER: {
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
-					Hazard* newHazard = new Trader(hazardName, TRADER, hazardHint, eventDescriptions, isRoaming, isLiving);
+					Hazard* newHazard = new Trader(hazardName, TRADER, hazardHint, eventDescriptions, isRoaming, isConscious);
 
 					hazards.addHazard(newHazard);
 
@@ -820,8 +841,19 @@ void loadHazard(HazardType type, int amount) {
 			}
 				
 			case KNIGHT: {
-				hazardData = loadFileAsVector(KNIGHT_DATA_PATH);
-				break; 
+				// create required extra variables
+				int damage = (difficulty + 1) * 4;
+
+				// create and place as many as necessary
+				for (int i = 0; i < amount; i++) {
+					Hazard* newHazard = new Knight(hazardName, KNIGHT, hazardHint, eventDescriptions, isRoaming, isConscious, damage);
+
+					hazards.addHazard(newHazard);
+
+					int startRoom = findRandomEmptyRoom();
+					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
+				}
+				break;
 			}
 
 			default:
@@ -946,7 +978,7 @@ void updateHazards(){
 				break;
 			
 			case KNIGHT: 
-				//eventTemp = dynamic_cast<Knight*>(hazTemp)->updateInteraction(player);
+				eventTemp = dynamic_cast<Knight*>(hazTemp)->updateInteraction(player);
 				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
 				break;
 			
@@ -985,7 +1017,7 @@ void moveHazards(){
 	vector<Hazard*> hazardsTemp = *hazards.getHazardsVector();
 
 	for (iter = hazardsTemp.begin() + 1; iter != hazardsTemp.end(); iter++) {
-		if ((*iter)->isRoaming() && !(*iter)->hasDied()) {
+		if ((*iter)->isRoaming() && !(*iter)->hasDied() && (*iter)->conscious()) {
 			bool willMove = rand() % 2;
 
 			if (willMove) {

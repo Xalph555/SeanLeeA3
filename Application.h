@@ -89,7 +89,7 @@ void displayEventDescriptions();
 void displayRoomInfo(int room);
 void displayRoomExits(int room);
 void displayMap();
-//void displayEndScreen();
+void displayEndScreen();
 void displayUI();
 
 // core game functons
@@ -114,21 +114,22 @@ void removeRoomsVec();
 
 void initialiseHazards();
 void loadHazard(HazardType type, int amount);
-int findRandomEmptyRoom();
+int findRandomEmptyStartRoom();
 int findEmptyAdjRoom(int currentRoom);
+bool isPlayerInAdjRoom(int room);
 
 void updateHazards();
 void moveHazards();
 
 // event management functions
-//void updateEventQueue(vector<string> events);
+void updateEventQueue(vector<string> events);
 void clearEventQueue();
 
 // player check functions
 bool hasPlayerWon();
 bool hasPlayerLost();
 
-//int calculatePlayerScore();
+int calculatePlayerScore();
 
 
 

@@ -43,6 +43,7 @@ vector<string> Pit::updateInteraction(Player& player) {
 
 	results.push_back(eventDescriptions[0]);
 	results.push_back(eventDescriptions[1]);
+	results.push_back("$");
 
 	return results;
 }

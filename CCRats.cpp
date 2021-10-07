@@ -93,12 +93,17 @@ vector<string> CCRats::updateInteraction(Player& player, vector<Room*>& world) {
 	vector<string> results;
 
 	int randomRoom = rand() % world.size();
-	player.moveTo(world, randomRoom, true);
+	//player.moveTo(world, randomRoom, true);
+	player.moveTo(world, 19, true);
 
 	player.updateHealth(-damageAmount);
 
 	results.push_back(eventDescriptions[0]);
 	results.push_back(eventDescriptions[1]);
+
+	if (player.getHealthCurrent() == 0) {
+		results.push_back("$");
+	}
 
 	return results;
 }

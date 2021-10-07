@@ -97,6 +97,10 @@ vector<string> Knight::updateInteraction(Player& player) {
 			results.push_back(eventDescriptions[0]);
 			results.push_back(eventDescriptions[1]);
 
+			if (player.getHealthCurrent() == 0) {
+				results.push_back("$");
+			}
+
 		}
 		else {
 			results.push_back(eventDescriptions[4]);

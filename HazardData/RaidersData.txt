@@ -1,7 +1,7 @@
 Outcasted Raiders
 It sounds like there is a group of people in the next room.
 #
-You walk into a boardroom meeting. Everyone turns their heads to you, 
+You encounter a boardroom meeting. Everyone turns their heads to you, 
 obviously annoyed.
 #
 Seems like you couldn't explain the situation well so you were picked

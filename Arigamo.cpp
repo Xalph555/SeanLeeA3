@@ -314,6 +314,7 @@ vector<string> Arigamo::updateInteraction(Player& player) {
 
 		results.push_back(eventDescriptions[0]);
 		results.push_back(eventDescriptions[1]);
+		results.push_back("$");
 	}
 	else {
 		results.push_back(eventDescriptions[3]);
@@ -321,10 +322,13 @@ vector<string> Arigamo::updateInteraction(Player& player) {
 		if (hasGem()) {
 			player.updateInventory(giveGem());
 
-			results.push_back(" You have retreived the Fuhai Gem!");
+			results.push_back(" You have retreived the Fuhai Gem!\n");
+			results.push_back("$");
+
 		}
 		else {
-			results.push_back(" The Fuhai Gem was nowhere to be found...");
+			results.push_back(" The Fuhai Gem was nowhere to be found...\n");
+			results.push_back("$");
 		}
 	}
 

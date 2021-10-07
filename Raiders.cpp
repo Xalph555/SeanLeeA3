@@ -100,6 +100,10 @@ vector<string> Raiders::updateInteraction(Player& player, vector<Room*>& world) 
 		results.push_back(eventDescriptions[0]);
 		results.push_back(eventDescriptions[1]);
 
+		if (player.getHealthCurrent() == 0) {
+			results.push_back("$");
+		}
+
 	}
 	else {
 		results.push_back(eventDescriptions[3]);

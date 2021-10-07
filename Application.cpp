@@ -88,7 +88,13 @@ void displayEventDescriptions(){
 	for (iter = eventQueue.begin(); iter != eventQueue.end(); iter++) {
 		string eventDetails = *iter;
 
-		cout << eventDetails << "\n";
+		if (eventDetails != "$") {
+			cout << eventDetails << "\n";
+
+		}
+		else {
+			break;
+		}
 	}
 
 	//cout << "\n";
@@ -129,7 +135,6 @@ void displayRoomExits(int room) {
 
 	// display room exits
 	cout << ruinRooms[room]->getRoomExits();
-	cout << "_______________________________________________________________________________\n";
 }
 
 
@@ -141,7 +146,7 @@ void displayMap() {
 }
 
 
-//void displayEndScreen(){}
+void displayEndScreen(){}
 
 
 void displayUI() {
@@ -153,9 +158,11 @@ void displayUI() {
 
 	displayEventDescriptions();
 
-	if (!player.isDisplaced()) {
+	if (!player.isDisplaced() && !player.hasDied()) {
 		displayRoomExits(player.getCurrentRoom());
 	}
+
+	cout << "_______________________________________________________________________________\n";
 }
 
 
@@ -177,7 +184,7 @@ void playGame() {
 
 	} while (isPlaying);
 
-	//displayEndScreen();
+	displayEndScreen();
 
 	// clean up heap
 	removeRoomsVec();
@@ -249,7 +256,9 @@ void gameLoop() {
 		clearEventQueue();
 	}
 
-	//pause();
+	if (!hasQuit) {
+		pause();
+	}
 }
 
 
@@ -280,17 +289,25 @@ bool playerInputLoop() {
 		// run action
 		switch (getActionID(inputCommand)) {
 			case MOVE:
-				isPlayerTurn = moveAction(inputArguments);
+				if (player.getItemAmount("Incense Sticks") > 0) {
+					isPlayerTurn = moveAction(inputArguments);
 
-				if (isPlayerTurn) {
-					cout << " Those are not valid arguments for the MOVE action.\n";
+					if (isPlayerTurn) {
+						cout << " Those are not valid arguments for the MOVE action.\n";
+						pause();
+						displayUI();
+					}
+				}
+				else {
+					cout << " You do not have any 'Incense Sticks' left.\n";
 					pause();
 					displayUI();
 				}
+
 				break;
 
 			case SHOOT:
-				if (player.getItem("Crossbow Bolts")->getAmount() > 0) {
+				if (player.getItemAmount("Crossbow Bolts") > 0) {
 					isPlayerTurn = shootAction(inputArguments);
 
 					if (isPlayerTurn) {
@@ -308,7 +325,7 @@ bool playerInputLoop() {
 				break;
 
 			case TELECARD:
-				if (player.getItem("Telecard")->getAmount() > 0) {
+				if (player.getItemAmount("Telecard") > 0) {
 					isPlayerTurn = telecardAction(inputArguments);
 
 					if (isPlayerTurn) {
@@ -326,7 +343,16 @@ bool playerInputLoop() {
 				break;
 
 			case MAP:
-				isPlayerTurn = mapAction();
+				if (player.hasItem("Map")) {
+					isPlayerTurn = isPlayerTurn = mapAction();
+
+				}
+				else {
+					cout << " You do not have a Map.\n";
+					pause();
+					displayUI();
+				}
+
 				break;
 
 			case INTERACT:
@@ -415,10 +441,8 @@ void setGameDifficulty() {
 	}
 
 	for (int i = 0; i < difficulty + 1; i++) {
-		int choice = rand() % 5 + 3;
-		//hazardsToInitialise[choice] += 1;
-
-		hazardsToInitialise[KNIGHT] += 1;
+		int choice = rand() % 6 + 3;
+		hazardsToInitialise[choice] += 1;
 
 	}
 
@@ -763,7 +787,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyRoom();
+					int startRoom = findRandomEmptyStartRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -779,7 +803,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyRoom();
+					int startRoom = findRandomEmptyStartRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break;
@@ -792,7 +816,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyRoom();
+					int startRoom = findRandomEmptyStartRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -805,7 +829,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyRoom();
+					int startRoom = findRandomEmptyStartRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -821,7 +845,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyRoom();
+					int startRoom = findRandomEmptyStartRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -834,7 +858,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyRoom();
+					int startRoom = findRandomEmptyStartRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -850,7 +874,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyRoom();
+					int startRoom = findRandomEmptyStartRoom();
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break;
@@ -863,13 +887,13 @@ void loadHazard(HazardType type, int amount) {
 }
 
 
-int findRandomEmptyRoom() {
+int findRandomEmptyStartRoom() {
 	// finds and returns a random room that does not have 
 	// a hazard or player in it
 
 	int room = rand() % TOTAL_ROOMS;
 
-	while (ruinRooms[room]->hasHazard() || ruinRooms[room]->isPlayerInRoom()) {
+	while (ruinRooms[room]->hasHazard() || ruinRooms[room]->isPlayerInRoom() || isPlayerInAdjRoom(room)) {
 		room = rand() % TOTAL_ROOMS;
 	}
 
@@ -902,6 +926,24 @@ int findEmptyAdjRoom(int currentRoom) {
 }
 
 
+bool isPlayerInAdjRoom(int room) {
+	// checks whether player is in an adjacent room
+
+	vector<int> connectedRooms = ruinRooms[room]->getExitConnections();
+	vector<int>::const_iterator iter;
+
+	for (iter = connectedRooms.begin(); iter != connectedRooms.end(); iter++) {
+		int roomTemp = *iter;
+
+		if (ruinRooms[roomTemp]->isPlayerInRoom()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 void updateHazards(){
 	// updates the game's hazards before the player's turn
 
@@ -915,12 +957,12 @@ void updateHazards(){
 	Arigamo* arigamo = dynamic_cast<Arigamo*>(hazards.getHazard("Arigamo"));
 
 	eventTemp = arigamo->drainPlayerHP((int*)roomConnections, TOTAL_ROOMS, player);
-	eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+	updateEventQueue(eventTemp);
 	
 	// check arigamo interactions with player
 	if (arigamo->getCurrentRoom() == player.getCurrentRoom()) {
 		eventTemp = arigamo->updateInteraction(player);
-		eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+		updateEventQueue(eventTemp);
 	}
 
 	// check arigamo interactions with other hazards in the same room
@@ -933,7 +975,7 @@ void updateHazards(){
 
 			if (hazID != arigamo->getID()) {
 				eventTemp = arigamo->updateInteraction(hazards.getHazard(hazID));
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 			}
 		}
 	}
@@ -949,37 +991,37 @@ void updateHazards(){
 		switch (hazTemp->getType()) {
 			case PIT: 
 				eventTemp = dynamic_cast<Pit*>(hazTemp)->updateInteraction(player);
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 				break;
 			
 			case CCRAT: 
 				eventTemp = dynamic_cast<CCRats*>(hazTemp)->updateInteraction(player, ruinRooms);
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 				break;
 			
 			case ORACLE: 
 				eventTemp = dynamic_cast<Oracle*>(hazTemp)->updateInteraction(player);
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 				break;
 			
 			case THIEF: 
 				eventTemp = dynamic_cast<Thief*>(hazTemp)->updateInteraction(player, ruinRooms);
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 				break;
 			
 			case RAIDERS: 
 				eventTemp = dynamic_cast<Raiders*>(hazTemp)->updateInteraction(player, ruinRooms);
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 				break;
 			
 			case TRADER: 
 				eventTemp = dynamic_cast<Trader*>(hazTemp)->updateInteraction(player, ruinRooms);
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 				break;
 			
 			case KNIGHT: 
 				eventTemp = dynamic_cast<Knight*>(hazTemp)->updateInteraction(player);
-				eventQueue.insert(eventQueue.end(), eventTemp.begin(), eventTemp.end());
+				updateEventQueue(eventTemp);
 				break;
 			
 			default:
@@ -1038,7 +1080,11 @@ void moveHazards(){
 // event management functions          //
 //-------------------------------------//
 
-//void updateEventQueue(vector<string> events){}
+void updateEventQueue(vector<string> events){
+	// as the input events vector to the eventQueue
+
+	eventQueue.insert(eventQueue.end(), events.begin(), events.end());
+}
 
 
 void clearEventQueue(){
@@ -1055,23 +1101,51 @@ void clearEventQueue(){
 bool hasPlayerWon(){
 	// checks whether the player has won
 
-	// *placeholder
-	return false;
+	// arigamo has been slained and player has retrieved gem
+	if (hazards.getHazard("Arigamo")->hasDied() && player.hasItem("Fuhai Gem")) {
+		//cout << "\n You have Redeemed yourself!\n";
+		return true;
+
+	}
+	else {
+		return false;
+	}
 }
 
 
 bool hasPlayerLost(){
 	// checks whether the player has lost
 
-	//  *placeholder
+	// player has run out of HP
+	if (player.getHealthCurrent() == 0) {
+		//cout << "\n You have been Defeated!\n";
+		return true;
+	}
 
+	// player has run out of bolts
+	else if (player.getItemAmount("Crossbow Bolts") == 0) {
+		//cout << "\n You have been Defeated!\n";
+		return true;
+	}
 
-	// need to check if arigamo is dead and player is in same room and player does not have gem
+	// player has run out of sticks
+	else if (player.getItemAmount("Incense Sticks") == 0) {
+		//cout << "\n You have been Defeated!\n";
+		return true;
+	}
 
+	// player is in arigamo room and has not retrieved gem
+	else if (hazards.getHazard("Arigamo")->hasDied() && ruinRooms[hazards.getHazard("Arigamo")->getCurrentRoom()]->isPlayerInRoom() && !player.hasItem("Fuhai Gem")) {
+		//cout << "\n You have been Defeated!\n";
+		return true;
+	}
 
-	return false;
-
+	// player has not lost
+	else {
+		//cout << "\n You have been Defeated!\n";
+		return false;
+	}
 }
 
 
-//int calculatePlayerScore(){}
+int calculatePlayerScore(){}

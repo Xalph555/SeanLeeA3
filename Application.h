@@ -22,6 +22,7 @@ controls the flow and logic of the game.
 #include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "Room.h"
+#include "RoomContainer.h"
 #include "Item.h"
 #include "Player.h"
 #include "Hazard.h"
@@ -73,7 +74,7 @@ int hazardsToInitialise[TOTAL_HAZARD_TYPES];
 
 Player player;
 HazardContainer hazards;
-vector<Room*> ruinRooms;
+RoomContainer ruinRooms;
 int roomConnections[TOTAL_ROOMS][TOTAL_ROOMS];
 
 int totalTurns;
@@ -110,13 +111,9 @@ bool helpAction();
 
 void initialiseRooms();
 void createRoomMatrix();
-void removeRoomsVec(); 
 
 void initialiseHazards();
 void loadHazard(HazardType type, int amount);
-int findRandomEmptyStartRoom();
-int findEmptyAdjRoom(int currentRoom);
-bool isPlayerInAdjRoom(int room);
 
 void updateHazards();
 void moveHazards();

@@ -33,11 +33,13 @@ Thief::~Thief() {
 // hazard turn update methods          //
 //-------------------------------------//
 
-vector<string> Thief::updateInteraction(Player& player, vector<Room*>& world) {
+vector<string> Thief::updateInteraction(Player& player) {
 	// the thief's interaction with the player
 
 	vector<string> results;
 	
+	setHasInteracted(true);
+
 	if (!hasDied()) {
 		// steal item from player
 		vector<int> choices;

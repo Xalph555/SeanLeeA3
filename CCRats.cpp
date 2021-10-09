@@ -59,6 +59,7 @@ string CCRats::getDetails() {
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
 	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Has Interacted: " << interacted() << "\n";
 	hazardDetails << " Damage: " << getDamageAmount() << "\n";
 	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
@@ -87,16 +88,19 @@ void CCRats::setDamageAmount(int damage) {
 // hazard turn update methods          //
 //-------------------------------------//
 
-vector<string> CCRats::updateInteraction(Player& player, vector<Room*>& world) {
+vector<string> CCRats::updateInteraction(Player& player, RoomContainer& world) {
 	// the ccRats interaction with the player
 
 	vector<string> results;
 
-	int randomRoom = rand() % world.size();
-	//player.moveTo(world, randomRoom, true);
-	player.moveTo(world, 19, true);
+	int randomRoom = rand() % world.getNumRooms();
+	player.moveTo(world, randomRoom, true);
+
+
+	//player.moveTo(world, 19, true);
 
 	player.updateHealth(-damageAmount);
+	setHasInteracted(true);
 
 	results.push_back(eventDescriptions[0]);
 	results.push_back(eventDescriptions[1]);

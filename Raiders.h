@@ -18,7 +18,7 @@ The Header file for the Outcasted Raiders class Hazard.
 #include <vector>
 
 #include "GameEnums.h"
-#include "Room.h"
+#include "RoomContainer.h"
 #include "Hazard.h"
 #include "Player.h"
 
@@ -43,7 +43,7 @@ public:
 	void setDamageAmount(int damage);
 
 	// hazard turn update methods
-	vector<string> updateInteraction(Player& player, vector<Room*>& world);
+	vector<string> updateInteraction(Player& player, RoomContainer& world);
 };
 
 

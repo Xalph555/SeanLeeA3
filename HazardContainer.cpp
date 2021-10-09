@@ -86,7 +86,7 @@ int HazardContainer::getNumRoamingHazards() {
 	vector<Hazard*>::const_iterator iter;
 
 	for (iter = hazards.begin(); iter != hazards.end(); iter++) {
-		if ((*iter)->isRoaming() && !(*iter)->hasDied()) {
+		if ((*iter)->isRoaming() && !(*iter)->hasDied() && (*iter)->getType() != ARIGAMO) {
 			alive++;
 		}
 	}
@@ -104,10 +104,10 @@ vector<Hazard*>* HazardContainer::getHazardsVector() {
 // mutator methods                     //
 //-------------------------------------//
 
-
 void HazardContainer::addHazard(Hazard* hazard) {
 	if (hazard != nullptr) {
 		hazards.push_back(hazard);
+
 	}
 	else {
 		cout << " You have not entered a valid hazard to add to the container.\n";	

@@ -43,6 +43,7 @@ public:
 	// mutator methods
 	void addHazard(Hazard* hazard);
 	void removeHazard(int ID);
+
 };
 
 

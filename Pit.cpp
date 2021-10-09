@@ -39,6 +39,7 @@ vector<string> Pit::updateInteraction(Player& player) {
 
 	vector<string> results;
 
+	setHasInteracted(true);
 	player.kill();
 
 	results.push_back(eventDescriptions[0]);

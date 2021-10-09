@@ -28,7 +28,6 @@ using namespace std;
 
 class Oracle : public Hazard {
 private:
-	bool hasInteracted;
 
 public:
 	// constructors and destructors 
@@ -37,15 +36,11 @@ public:
 	~Oracle();
 
 	// accessor methods   
-	bool getHasInteracted();
 	string getDetails();
-
-	// mutator methods     
-	void setHasInteracted(bool interacted);
 
 	// hazard turn update methods
 	vector<string> updateInteraction(Player & player);
-	void roomInteraction(Player & player, int arigamoRoom);
+	void roomInteraction(Player& player, int arigamoRoom);
 };
 
 

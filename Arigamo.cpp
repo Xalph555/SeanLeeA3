@@ -91,6 +91,7 @@ string Arigamo::getDetails() {
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
 	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Has Interacted: " << interacted() << "\n";
 	hazardDetails << " Health Drain Rate: " << getHealthDrainRate() << "\n";
 	hazardDetails << " Has Gem: " << hasGem() << "\n";
 	hazardDetails << " Is Asleep: " << isSleeping() << "\n";
@@ -295,7 +296,7 @@ vector<string> Arigamo::updateInteraction(Hazard* hazard) {
 		}
 	}
 	else {
-		if (hasGem()) {
+		if (hasGem() && !hazard->hasDied() && hazard->isRoaming()) {
 			hazard->setGem(giveGem());
 		}
 	}
@@ -308,6 +309,8 @@ vector<string> Arigamo::updateInteraction(Player& player) {
 	// the arigamo's interaction with the player
 
 	vector<string> results;
+
+	setHasInteracted(true);
 
 	if (!hasDied()) {
 		player.kill();

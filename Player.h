@@ -19,7 +19,7 @@ the attributes and behaviours of the Player.
 #include <vector>
 
 #include "GameEnums.h"
-#include "Room.h"
+#include "RoomContainer.h"
 #include "Item.h"
 #include "HazardContainer.h"
 
@@ -73,7 +73,7 @@ public:
 	void setDisplace(bool displaced);
 	void setIsDead(bool dead);
 	void kill();
-	void setStartingRoom(vector<Room*>& world, int room);
+	void setStartingRoom(RoomContainer& world, int room);
 	void setCurrentRoom(int room);
 	void setDisplacedRoom(int room);
 	void setVisitedRooms(vector<int> rooms);
@@ -89,8 +89,8 @@ public:
 	void updateItem(string name, int amount);
 
 	// player action methods
-	void moveTo(vector<Room*>& world, int room, bool displaced);
-	vector<string> shootBolt(vector<Room*>& world, HazardContainer& hazards, vector<string> path);
+	void moveTo(RoomContainer& world, int room, bool displaced);
+	vector<string> shootBolt(RoomContainer& world, HazardContainer& hazards, vector<string> path);
 };
 
 

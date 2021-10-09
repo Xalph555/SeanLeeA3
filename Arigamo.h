@@ -21,7 +21,6 @@ objective of the game.
 #include <algorithm>
 
 #include "GameEnums.h"
-#include "Room.h"
 #include "Hazard.h"
 #include "Item.h"
 #include "Player.h"

@@ -20,7 +20,7 @@ opponents.
 #include <vector>
 
 #include "GameEnums.h"
-#include "Room.h"
+#include "RoomContainer.h"
 #include "Item.h"
 
 using namespace std;
@@ -45,6 +45,7 @@ protected:
 	bool isRoamingType;
 	bool isConscious;
 	bool isDead;
+	bool hasInteracted;
 
 
 public:
@@ -69,6 +70,7 @@ public:
 	bool isRoaming();
 	bool conscious();
 	bool hasDied();
+	bool interacted();
 
 	virtual string getDetails();
 
@@ -76,7 +78,7 @@ public:
 	void setID(int ID);
 	void setName(string name);
 	void setType(HazardType type);
-	void setStartingRoom(vector<Room*>&world, int room);
+	void setStartingRoom(RoomContainer& world, int room);
 	void setCurrentRoom(int room);
 	void setHint(string hint);
 	void setEventDescriptions(vector<string> events);
@@ -84,10 +86,12 @@ public:
 	void setRoamingType(bool isRoaming);
 	void setIsConscious(bool conscious);
 	void setIsDead(bool dead);
+	void setHasInteracted(bool interacted);
+
 	void kill();
 
 	// movement methods
-	void moveTo(vector<Room*>&world, int room);
+	void moveTo(RoomContainer& world, int room);
 
 	// interaction methods
 	virtual vector<string> updateInteraction();

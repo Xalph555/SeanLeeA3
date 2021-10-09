@@ -127,7 +127,7 @@ string Player::getInventoryAsString() {
 	string items = "[";
 
 	if (!playerInventory.empty()) {
-		int i = 0;
+		unsigned int i = 0;
 		for (i; i < playerInventory.size() - 1; i++) {
 			items += playerInventory[i].getName() + ", ";
 		}
@@ -155,7 +155,7 @@ Item* Player::getItem(string name) {
 			}
 		}
 
-		cout << " The item being retrieved was not found.\n";
+		//cout << " The item being retrieved was not found: " << name << "\n";
 		return nullptr;
 	}
 	else {
@@ -287,12 +287,12 @@ void Player::setDisplace(bool displaced) {
 }
 
 
-void Player::setStartingRoom(vector<Room*>& world, int room){
+void Player::setStartingRoom(RoomContainer& world, int room){
 	// sets the player's starting room
 
 	if (room >= 0) {
 		currentRoom = room;
-		world[room]->setPlayerInRoom(true);
+		world.getRoom(room)->setPlayerInRoom(true);
 
 	}
 	else {
@@ -450,28 +450,28 @@ void Player::updateItem(string name, int amount){
 // player action methods               //
 //-------------------------------------//
 
-void Player::moveTo(vector<Room*>& world, int room, bool displaced){
+void Player::moveTo(RoomContainer& world, int room, bool displaced){
 	// moves the player to the desired room and updates the appropriate rooms
 
 	if (displaced) {
 		wasDisplaced = true;
 
-		world[currentRoom]->setPlayerInRoom(false);
+		world.getRoom(currentRoom)->setPlayerInRoom(false);
 		setDisplacedRoom(room);
-		world[room]->setPlayerInRoom(true);
+		world.getRoom(room)->setPlayerInRoom(true);
 
 	}
 	else {
-		world[currentRoom]->setPlayerInRoom(false);
+		world.getRoom(currentRoom)->setPlayerInRoom(false);
 		updateCurrentRoom(room);
-		world[room]->setPlayerInRoom(true);
+		world.getRoom(room)->setPlayerInRoom(true);
 
 		getItem("Incense Sticks")->updateAmount(-1);
 	}
 }
 
 
-vector<string> Player::shootBolt(vector<Room*>& world, HazardContainer& hazards, vector<string> path){
+vector<string> Player::shootBolt(RoomContainer& world, HazardContainer& hazards, vector<string> path){
 	// fires crossbow bolt along the specified path
 
 	vector<string> boltHints;
@@ -481,23 +481,23 @@ vector<string> Player::shootBolt(vector<Room*>& world, HazardContainer& hazards,
 
 		getItem("Crossbow Bolts")->updateAmount(-1);
 
-		for (int i = 0; i < path.size(); i++) {
+		for (unsigned int i = 0; i < path.size(); i++) {
 			string dir = path[i];
 
 			boltHints.push_back(" Room " + to_string(i) + ":");
 
-			int targetRoom = world[currentBoltRoom]->getRoomConnection(dir);
+			int targetRoom = world.getRoom(currentBoltRoom)->getRoomConnection(dir);
 
 			// random room due to invalid input
 			if (targetRoom == -1) {
-				vector<int> availableExits = world[currentBoltRoom]->getExitConnections();
+				vector<int> availableExits = world.getRoom(currentBoltRoom)->getExitConnections();
 
 				targetRoom = availableExits[rand() % availableExits.size()];
 				boltHints.push_back(" The bolt had to take a detour.\n");
 			}
 
 			// get room hint
-			if (world[targetRoom]->hasHazard()) {
+			if (world.getRoom(targetRoom)->hasHazard()) {
 				boltHints.push_back(" The bolt senses something in this room.\n");
 
 			}

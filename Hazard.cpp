@@ -43,6 +43,7 @@ Hazard::Hazard() {
 	isRoamingType = false;
 	isConscious = false;
 	isDead = false;
+	hasInteracted = false;
 }
 
 
@@ -60,6 +61,7 @@ Hazard::Hazard(string name, HazardType type, string hint, vector<string> descrip
 	isRoamingType = roaming;
 	isConscious = conscious;
 	isDead = false;
+	hasInteracted = false;
 }
 
 
@@ -179,6 +181,11 @@ bool Hazard::hasDied() {
 }
 
 
+bool Hazard::interacted() {
+	return hasInteracted;
+}
+
+
 string Hazard::getDetails() {
 	// returns details of the hazard as formatted string
 
@@ -194,6 +201,7 @@ string Hazard::getDetails() {
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
 	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Has Interacted: " << interacted() << "\n";
 	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
 	return hazardDetails.str();
@@ -237,12 +245,12 @@ void Hazard::setType(HazardType type) {
 }
 
 
-void Hazard::setStartingRoom(vector<Room*>& world, int room) {
+void Hazard::setStartingRoom(RoomContainer& world, int room) {
 	// sets the hazard's starting room
 
 	if (room >= 0) {
 		currentRoom = room;
-		world[room]->addHazard(hazardID);
+		world.getRoom(room)->addHazard(hazardID);
 
 	}
 	else {
@@ -308,6 +316,12 @@ void Hazard::setGem(Item gem) {
 	}
 }
 
+
+void Hazard::setHasInteracted(bool interacted) {
+	hasInteracted = interacted;
+}
+
+
 void Hazard::kill() {
 	// kills the hazard
 
@@ -321,17 +335,18 @@ void Hazard::kill() {
 // movement methods                    //
 //-------------------------------------//
 
-void Hazard::moveTo(vector<Room*>& world, int room) {
+void Hazard::moveTo(RoomContainer& world, int room) {
 	// moves the hazard into the desired room updates the appropriate rooms
 
-	world[currentRoom]->removeHazard(hazardID);
+	world.getRoom(currentRoom)->removeHazard(hazardID);
 	setCurrentRoom(room);
-	world[room]->addHazard(hazardID);
+	world.getRoom(room)->addHazard(hazardID);
 }
 
 
 vector<string> Hazard::updateInteraction() {
 	vector<string> updateDescriptions = {"There are no interactions."};
+	setHasInteracted(true);
 	return updateDescriptions;
 }
 

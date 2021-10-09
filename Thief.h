@@ -19,7 +19,6 @@ The Header file for the Opportunistic Thief class Hazard.
 
 #include "GameEnums.h"
 #include "Hazard.h"
-#include "Room.h"
 #include "Item.h"
 #include "Player.h"
 
@@ -36,7 +35,7 @@ public:
 	~Thief();
 
 	// hazard turn update methods
-	vector<string> updateInteraction(Player & player, vector<Room*>&world);
+	vector<string> updateInteraction(Player& player);
 };
 
 

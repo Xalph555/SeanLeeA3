@@ -16,20 +16,6 @@ controls the flow and logic of the game.
 int main() {
 	srand(unsigned(time(NULL)));
 
-	/*
-	initialiseRooms();
-
-	player = Player("Apples", 30);
-	player.setStartingRoom(ruinRooms, 12);
-
-	vector<string> test = {"test", "test2", "test3"};
-	Arigamo ari = Arigamo(999, "Arigamo", ARIGAMO, "Death", test, true, true, 20, 0.5);
-	ari.setStartingRoom(ruinRooms, ARIGAMO_START_ROOM);
-
-	vector<string> testass = ari.drainPlayerHP((int*) roomConnections, TOTAL_ROOMS, player);
-	
-	*/
-
 	playGame();
 
 	pause();
@@ -104,7 +90,7 @@ void displayEventDescriptions(){
 void displayRoomInfo(int room) {
 	// displays the selected room's information
 
-	cout << ruinRooms[room]->getRoomInfo() << "\n";
+	cout << ruinRooms.getRoom(room)->getRoomInfo() << "\n";
 }
 
 
@@ -112,13 +98,13 @@ void displayRoomExits(int room) {
 	// displays the selected room's exits and hints
 
 	// display hints of nearby rooms
-	vector<int> connectedRooms = ruinRooms[room]->getExitConnections();
+	vector<int> connectedRooms = ruinRooms.getRoom(room)->getExitConnections();
 
-	for (int i = 0; i < connectedRooms.size(); i++) {
-		if (ruinRooms[connectedRooms[i]]->hasHazard()) {
-			vector<int> roomHazards = ruinRooms[connectedRooms[i]]->getHazards();
+	for (unsigned int i = 0; i < connectedRooms.size(); i++) {
+		if (ruinRooms.getRoom(connectedRooms[i])->hasHazard()) {
+			vector<int> roomHazards = ruinRooms.getRoom(connectedRooms[i])->getHazards();
 
-			for (int j = 0; j < roomHazards.size(); j++) {
+			for (unsigned int j = 0; j < roomHazards.size(); j++) {
 				Hazard* hazTemp = hazards.getHazard(roomHazards[j]);
 
 				if (hazTemp->isRoaming()) {
@@ -134,7 +120,7 @@ void displayRoomExits(int room) {
 	}
 
 	// display room exits
-	cout << ruinRooms[room]->getRoomExits();
+	cout << ruinRooms.getRoom(room)->getRoomExits();
 }
 
 
@@ -146,7 +132,41 @@ void displayMap() {
 }
 
 
-void displayEndScreen(){}
+void displayEndScreen(){
+	// displays the ending screen of the game
+
+	displayTitle();
+
+	if (hasPlayerWon()) {
+		cout << "\t\t\t\tYou WIN!\n\n";
+
+	}
+	else {
+		cout << "\t\t\t\tYou LOSE!\n\n";
+	}
+
+	cout << "\t\tName: " << player.getName() << "\n\n";
+	cout << "\t\tHealth: " << player.getHealthCurrent() << "/" << player.getHealthMax() << "\n";
+	cout << "\t\tRemaining Incense Sticks: " << player.getItemAmount("Incense Sticks") << "\n";
+	cout << "\t\tRemaining Crossbow Bolts: " << player.getItemAmount("Crossbow Bolts") << "\n";
+
+	string hasTelecard = (player.getItemAmount("Telecard") > 0) ? "Yes" : "No";
+	cout << "\t\tHas used Telecard: " << hasTelecard << "\n";
+
+	cout << "\t\tNumber of Roaming Opponents Alive: " << hazards.getNumRoamingHazards() <<"\n";
+
+	string isArigamoDead = (hazards.getHazard("Arigamo")->hasDied()) ? "Yes" : "No";
+	cout << "\t\tHas Arigamo been slain: " << isArigamoDead << "\n";
+
+	string hasGem = (player.hasItem("Fuhai Gem")) ? "Yes" : "No";
+	cout << "\t\tHas Fuhai Gem been retrieved: " << hasGem << "\n";
+
+	cout << "\t\tScore Multiplier: " << difficulty + 1 << "\n";
+
+	cout << "\n\t\tFINAL SCORE: " << calculatePlayerScore() << "\n";
+
+	cout << "_______________________________________________________________________________\n";
+}
 
 
 void displayUI() {
@@ -158,7 +178,7 @@ void displayUI() {
 
 	displayEventDescriptions();
 
-	if (!player.isDisplaced() && !player.hasDied()) {
+	if (!player.isDisplaced() && !hasPlayerLost() && !hasPlayerWon()) {
 		displayRoomExits(player.getCurrentRoom());
 	}
 
@@ -180,14 +200,11 @@ void playGame() {
 		gameSetUp();
 		gameLoop();
 
+		displayEndScreen();
+
 		isPlaying = getBoolInput(" Do you want to play again? (Y/N): ");
 
 	} while (isPlaying);
-
-	displayEndScreen();
-
-	// clean up heap
-	removeRoomsVec();
 
 	cout << "\n Thank you for playing!\n";
 }
@@ -233,16 +250,14 @@ void gameLoop() {
 	totalTurns = 0;
 	bool hasQuit = false;
 
-	while (!hasPlayerWon() && !hasPlayerLost() && !hasQuit) {
+	do {
 		totalTurns++;
 
 		updateHazards();
-
 		displayUI();
 
 		if (!hasPlayerWon() && !hasPlayerLost() && !hasQuit) {
 			if (!player.isDisplaced()) {
-				// get player action
 				hasQuit = playerInputLoop();
 
 			}
@@ -250,15 +265,22 @@ void gameLoop() {
 				player.updateDisplacement();
 				pause();
 			}
-			
 		}
 
 		clearEventQueue();
-	}
+	} while (!hasPlayerWon() && !hasPlayerLost() && !hasQuit);
 
 	if (!hasQuit) {
-		pause();
-	}
+		if (hasPlayerWon()) {
+			cout << "\n You have Redeemed yourself!\n";
+			pause();
+
+		}
+		else if (hasPlayerLost()) {
+			cout << "\n You have been Defeated!\n";
+			pause();
+		}
+	} 
 }
 
 
@@ -403,8 +425,13 @@ void setGameDifficulty() {
 
 	// hazards which must always be present
 	hazardsToInitialise[ARIGAMO] = 1;
-	hazardsToInitialise[PIT] = 3;
+	hazardsToInitialise[PIT] = 2;
 	hazardsToInitialise[CCRAT] = 2;
+	hazardsToInitialise[ORACLE] = 1;
+	hazardsToInitialise[THIEF] = 1;
+	hazardsToInitialise[RAIDERS] = 1;
+	hazardsToInitialise[TRADER] = 1;
+	hazardsToInitialise[KNIGHT] = 1;
 
 	// apply appropriate settings
 	switch (userInput) {
@@ -438,12 +465,6 @@ void setGameDifficulty() {
 
 		default:
 			cout << "\n There was an error applying the right difficulty settings.\n";
-	}
-
-	for (int i = 0; i < difficulty + 1; i++) {
-		int choice = rand() % 6 + 3;
-		hazardsToInitialise[choice] += 1;
-
 	}
 
 	player.setInventory(items);
@@ -493,7 +514,7 @@ bool moveAction(const vector<string>& arguments) {
 	bool isPlayerTurn = true;
 
 	if (arguments.size() == 1) {
-		int targetRoom = ruinRooms[player.getCurrentRoom()]->getRoomConnection(arguments[0]);
+		int targetRoom = ruinRooms.getRoom(player.getCurrentRoom())->getRoomConnection(arguments[0]);
 
 		if (targetRoom != -1) {
 			player.moveTo(ruinRooms, targetRoom, false);
@@ -568,7 +589,7 @@ bool mapAction() {
 bool interactAction() {
 	// handles validation and operation of player's INTERACT action
 
-	vector<int> hazardsInRoom = ruinRooms[player.getCurrentRoom()]->getHazards();
+	vector<int> hazardsInRoom = ruinRooms.getRoom(player.getCurrentRoom())->getHazards();
 
 	if (!hazardsInRoom.empty()){
 		vector<int>::const_iterator iter;
@@ -612,6 +633,8 @@ bool helpAction() {
 
 void initialiseRooms() {
 	// Initialises Abandon Ruin's rooms
+
+	ruinRooms = RoomContainer();
 
 	// load raw data into vector
 	vector<string> roomData = loadFileAsVector(ROOM_DATA_PATH);
@@ -666,7 +689,8 @@ void initialiseRooms() {
 		index++;
 
 		// add new room object to vector on heap
-		ruinRooms.push_back(new Room(roomNum, roomName, roomDescription.str(), roomExits, roomConnections));
+		Room* newRoom = new Room(roomNum, roomName, roomDescription.str(), roomExits, roomConnections);
+		ruinRooms.addRoom(newRoom);
 	}
 
 	createRoomMatrix();
@@ -676,11 +700,9 @@ void initialiseRooms() {
 void createRoomMatrix(){
 	vector<Room*>::const_iterator iter;
 
-	for (iter = ruinRooms.begin(); iter != ruinRooms.end(); iter++) {
-		Room* room = *iter;
-
-		int currentRoom = room->getNumber();
-		vector<int> connections = room->getExitConnections();
+	for (int i = 0; i < TOTAL_ROOMS; i++) {
+		int currentRoom = ruinRooms.getRoom(i)->getNumber();
+		vector<int> connections = ruinRooms.getRoom(i)->getExitConnections();
 
 		vector<int>::const_iterator cons;
 
@@ -689,17 +711,8 @@ void createRoomMatrix(){
 
 			roomConnections[currentRoom][con] = 1;
 			roomConnections[con][currentRoom] = 1;
+
 		}
-	}
-}
-
-
-void removeRoomsVec(){
-	// cleans up rooms from heap
-
-	for (int i = ruinRooms.size()-1; i >= 0; --i) {
-		delete ruinRooms[i];
-		ruinRooms[i] = nullptr;
 	}
 }
 
@@ -764,6 +777,8 @@ void loadHazard(HazardType type, int amount) {
 
 
 		// initiaise correct amount of hazard
+		vector<int> exceptionRooms = {PLAYER_START_ROOM, ARIGAMO_START_ROOM};
+
 		switch (type) {
 			case ARIGAMO: {
 				// create required extra variables
@@ -787,7 +802,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyStartRoom();
+					int startRoom = ruinRooms.findRandomEmptyStartRoom(exceptionRooms);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -803,7 +818,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyStartRoom();
+					int startRoom = ruinRooms.findRandomEmptyStartRoom(exceptionRooms);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break;
@@ -816,7 +831,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyStartRoom();
+					int startRoom = ruinRooms.findRandomEmptyStartRoom(exceptionRooms);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -829,7 +844,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyStartRoom();
+					int startRoom = ruinRooms.findRandomEmptyStartRoom(exceptionRooms);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -845,7 +860,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyStartRoom();
+					int startRoom = ruinRooms.findRandomEmptyStartRoom(exceptionRooms);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -858,7 +873,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyStartRoom();
+					int startRoom = ruinRooms.findRandomEmptyStartRoom(exceptionRooms);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break; 
@@ -874,7 +889,7 @@ void loadHazard(HazardType type, int amount) {
 
 					hazards.addHazard(newHazard);
 
-					int startRoom = findRandomEmptyStartRoom();
+					int startRoom = ruinRooms.findRandomEmptyStartRoom(exceptionRooms);
 					hazards.getLastHazard()->setStartingRoom(ruinRooms, startRoom);
 				}
 				break;
@@ -884,63 +899,6 @@ void loadHazard(HazardType type, int amount) {
 				cout << " The hazard could not be initialised \n";
 		}
 	}
-}
-
-
-int findRandomEmptyStartRoom() {
-	// finds and returns a random room that does not have 
-	// a hazard or player in it
-
-	int room = rand() % TOTAL_ROOMS;
-
-	while (ruinRooms[room]->hasHazard() || ruinRooms[room]->isPlayerInRoom() || isPlayerInAdjRoom(room)) {
-		room = rand() % TOTAL_ROOMS;
-	}
-
-	return room;
-}
-
-
-int findEmptyAdjRoom(int currentRoom) {
-	// returns the next available room a hazard can enter
-
-	int room = -1;
-	vector<int> availbleRooms;
-
-	vector<int> connectedRooms = ruinRooms[currentRoom]->getExitConnections();
-	vector<int>::const_iterator iter;
-
-	for (iter = connectedRooms.begin(); iter != connectedRooms.end(); iter++) {
-		int roomTemp = *iter;
-
-		if (!ruinRooms[roomTemp]->hasHazard() || roomTemp == hazards.getHazard("Arigamo")->getCurrentRoom()) {
-			availbleRooms.push_back(roomTemp);
-		}
-	}
-
-	if (!availbleRooms.empty()) {
-		room = availbleRooms[rand() % availbleRooms.size()];
-	}
-
-	return room;
-}
-
-
-bool isPlayerInAdjRoom(int room) {
-	// checks whether player is in an adjacent room
-
-	vector<int> connectedRooms = ruinRooms[room]->getExitConnections();
-	vector<int>::const_iterator iter;
-
-	for (iter = connectedRooms.begin(); iter != connectedRooms.end(); iter++) {
-		int roomTemp = *iter;
-
-		if (ruinRooms[roomTemp]->isPlayerInRoom()) {
-			return true;
-		}
-	}
-
-	return false;
 }
 
 
@@ -966,8 +924,8 @@ void updateHazards(){
 	}
 
 	// check arigamo interactions with other hazards in the same room
-	if (ruinRooms[arigamo->getCurrentRoom()]->hasHazard()) {
-		vector<int> hazardsInRoom = ruinRooms[arigamo->getCurrentRoom()]->getHazards();
+	if (ruinRooms.getRoom(arigamo->getCurrentRoom())->hasHazard()) {
+		vector<int> hazardsInRoom = ruinRooms.getRoom(arigamo->getCurrentRoom())->getHazards();
 		vector<int>::const_iterator iter;
 
 		for (iter = hazardsInRoom.begin(); iter != hazardsInRoom.end(); iter++) {
@@ -981,7 +939,7 @@ void updateHazards(){
 	}
 
 	// check other hazards interaction with the player
-	vector<int> hazardsInRoom = ruinRooms[player.getCurrentRoom()]->getHazards();
+	vector<int> hazardsInRoom = ruinRooms.getRoom(player.getCurrentRoom())->getHazards();
 	vector<int>::const_iterator iter;
 
 	for (iter = hazardsInRoom.begin(); iter != hazardsInRoom.end(); iter++) {
@@ -1005,7 +963,7 @@ void updateHazards(){
 				break;
 			
 			case THIEF: 
-				eventTemp = dynamic_cast<Thief*>(hazTemp)->updateInteraction(player, ruinRooms);
+				eventTemp = dynamic_cast<Thief*>(hazTemp)->updateInteraction(player);
 				updateEventQueue(eventTemp);
 				break;
 			
@@ -1015,7 +973,7 @@ void updateHazards(){
 				break;
 			
 			case TRADER: 
-				eventTemp = dynamic_cast<Trader*>(hazTemp)->updateInteraction(player, ruinRooms);
+				eventTemp = dynamic_cast<Trader*>(hazTemp)->updateInteraction(player);
 				updateEventQueue(eventTemp);
 				break;
 			
@@ -1042,7 +1000,7 @@ void moveHazards(){
 		arigamo->wakeArigamo(hazards.getNumRoamingHazards());
 
 		if (!arigamo->isSleeping()) {
-			vector<int> connectedRooms = ruinRooms[arigamo->getCurrentRoom()]->getExitConnections();
+			vector<int> connectedRooms = ruinRooms.getRoom(arigamo->getCurrentRoom())->getExitConnections();
 			int nextRoom = connectedRooms[rand() % connectedRooms.size()];
 
 			arigamo->moveTo(ruinRooms, nextRoom);
@@ -1058,12 +1016,14 @@ void moveHazards(){
 	vector<Hazard*>::const_iterator iter;
 	vector<Hazard*> hazardsTemp = *hazards.getHazardsVector();
 
-	for (iter = hazardsTemp.begin() + 1; iter != hazardsTemp.end(); iter++) {
-		if ((*iter)->isRoaming() && !(*iter)->hasDied() && (*iter)->conscious()) {
+	vector<int> exceptionRooms = { arigamo->getCurrentRoom() };
+
+	for (iter = hazardsTemp.begin(); iter != hazardsTemp.end(); iter++) {
+		if ((*iter)->getType() != ARIGAMO && (*iter)->isRoaming() && !(*iter)->hasDied() && (*iter)->conscious()) {
 			bool willMove = rand() % 2;
 
 			if (willMove) {
-				int nextRoom = findEmptyAdjRoom((*iter)->getCurrentRoom());
+				int nextRoom = ruinRooms.findEmptyAdjRoom((*iter)->getCurrentRoom(), exceptionRooms);
 
 				if (nextRoom != -1) {
 					(*iter)->moveTo(ruinRooms, nextRoom);
@@ -1103,7 +1063,6 @@ bool hasPlayerWon(){
 
 	// arigamo has been slained and player has retrieved gem
 	if (hazards.getHazard("Arigamo")->hasDied() && player.hasItem("Fuhai Gem")) {
-		//cout << "\n You have Redeemed yourself!\n";
 		return true;
 
 	}
@@ -1118,34 +1077,43 @@ bool hasPlayerLost(){
 
 	// player has run out of HP
 	if (player.getHealthCurrent() == 0) {
-		//cout << "\n You have been Defeated!\n";
 		return true;
 	}
 
 	// player has run out of bolts
 	else if (player.getItemAmount("Crossbow Bolts") == 0) {
-		//cout << "\n You have been Defeated!\n";
 		return true;
 	}
 
 	// player has run out of sticks
 	else if (player.getItemAmount("Incense Sticks") == 0) {
-		//cout << "\n You have been Defeated!\n";
 		return true;
 	}
 
 	// player is in arigamo room and has not retrieved gem
-	else if (hazards.getHazard("Arigamo")->hasDied() && ruinRooms[hazards.getHazard("Arigamo")->getCurrentRoom()]->isPlayerInRoom() && !player.hasItem("Fuhai Gem")) {
-		//cout << "\n You have been Defeated!\n";
+	else if (hazards.getHazard("Arigamo")->hasDied() && hazards.getHazard("Arigamo")->interacted() && !player.hasItem("Fuhai Gem")) {
 		return true;
 	}
 
 	// player has not lost
 	else {
-		//cout << "\n You have been Defeated!\n";
 		return false;
 	}
 }
 
 
-int calculatePlayerScore(){}
+int calculatePlayerScore(){
+	// calculates the player's final score
+
+	int score = 0;
+
+	score += player.getHealthCurrent() * 20;
+	score += player.getItemAmount("Incense Sticks") * 5;
+	score += player.getItemAmount("Crossbow Bolts") * 10;
+	score += player.getItemAmount("Telecard") * 10;
+	score += hazards.getHazard("Arigamo")->hasDied() * 200;
+	score += player.hasItem("Fuhai Gem") * 200;
+	score *= (difficulty + 1);
+
+	return score;
+}

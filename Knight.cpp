@@ -57,6 +57,7 @@ string Knight::getDetails() {
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
 	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Has Interacted: " << interacted() << "\n";
 	hazardDetails << " Damage: " << getDamageAmount() << "\n";
 	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
@@ -88,6 +89,8 @@ vector<string> Knight::updateInteraction(Player& player) {
 	// the Dark Knight's interaction with the player
 
 	vector<string> results;
+
+	setHasInteracted(true);
 
 	if (!hasDied()) {
 		if (conscious()) {

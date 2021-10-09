@@ -17,12 +17,10 @@ The Definition file for the Corrupted Oracle class Hazard.
 //-------------------------------------//
 
 Oracle::Oracle() {
-	hasInteracted = false;
 }
 
 
 Oracle::Oracle(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious) : Hazard(name, type, hint, description, roaming, conscious) {
-	hasInteracted = false;
 }
 
 
@@ -32,10 +30,6 @@ Oracle::~Oracle() {
 //-------------------------------------//
 // accessor methods                    //
 //-------------------------------------//
-bool Oracle::getHasInteracted() {
-	return hasInteracted;
-}
-
 
 string Oracle::getDetails() {
 	// returns details of the Oracle as formatted string
@@ -52,19 +46,10 @@ string Oracle::getDetails() {
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
 	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
-	hazardDetails << " Damage: " << getHasInteracted() << "\n";
+	hazardDetails << " Has Interacted: " << interacted() << "\n";
 	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
 	return hazardDetails.str();
-}
-
-
-
-//-------------------------------------//
-// mutator methods                     //
-//-------------------------------------//
-void Oracle::setHasInteracted(bool interacted) {
-	hasInteracted = interacted;
 }
 
 
@@ -94,8 +79,8 @@ vector<string> Oracle::updateInteraction(Player& player) {
 void Oracle::roomInteraction(Player& player, int arigamoRoom) {
 	// interaction with the player through player's INTERACT action
 
-	if (!hasInteracted) {
-		hasInteracted = true;
+	if (!interacted()) {
+		setHasInteracted(true);
 
 		bool userInput = false;
 
@@ -115,7 +100,7 @@ void Oracle::roomInteraction(Player& player, int arigamoRoom) {
 
 		}
 		else {
-			cout << " I see. I wish you all the best on your journey... beast tamer.\n";
+			cout << "\n I see. I wish you all the best on your journey... beast tamer.\n";
 		}
 
 	}

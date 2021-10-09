@@ -33,10 +33,12 @@ Trader::~Trader() {
 // hazard turn update methods          //
 //-------------------------------------//
 
-vector<string> Trader::updateInteraction(Player& player, vector<Room*>& world) {
+vector<string> Trader::updateInteraction(Player& player) {
 	// the thief's interaction with the player
 
 	vector<string> results;
+
+	setHasInteracted(true);
 
 	if (!hasDied()) {
 		// "Trade" with player

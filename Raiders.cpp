@@ -56,6 +56,7 @@ string Raiders::getDetails() {
 	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
 	hazardDetails << " Is Conscious: " << conscious() << "\n";
 	hazardDetails << " Is Dead: " << hasDied() << "\n";
+	hazardDetails << " Has Interacted: " << interacted() << "\n";
 	hazardDetails << " Damage: " << getDamageAmount() << "\n";
 	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
@@ -84,13 +85,15 @@ void Raiders::setDamageAmount(int damage) {
 // hazard turn update methods          //
 //-------------------------------------//
 
-vector<string> Raiders::updateInteraction(Player& player, vector<Room*>& world) {
+vector<string> Raiders::updateInteraction(Player& player, RoomContainer& world) {
 	// the raiders interaction with the player
 
 	vector<string> results;
 
+	setHasInteracted(true);
+
 	if (!hasDied()) {
-		vector<int> availableExits = world[getCurrentRoom()]->getExitConnections();
+		vector<int> availableExits = world.getRoom(getCurrentRoom())->getExitConnections();
 
 		int randomRoom = availableExits[rand() % availableExits.size()];
 		player.moveTo(world, randomRoom, true);

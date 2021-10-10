@@ -25,10 +25,13 @@ using namespace std;
 
 
 void pause();
+void displayString();
 string getStringInput(string question);
 int getIntIntput(string question, int min, int max);
 char getCharInput(string question, char options[]);
 bool getBoolInput(string question);
+
+bool isNumber(const string& input);
 
 string loadFileAsString(string fileName);
 vector<string> loadFileAsVector(string fileName);

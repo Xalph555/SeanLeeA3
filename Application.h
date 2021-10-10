@@ -21,6 +21,7 @@ controls the flow and logic of the game.
 
 #include "CommonFuncs.h"
 #include "GameEnums.h"
+#include "EventQueue.h"
 #include "Room.h"
 #include "RoomContainer.h"
 #include "Item.h"
@@ -78,7 +79,7 @@ RoomContainer ruinRooms;
 int roomConnections[TOTAL_ROOMS][TOTAL_ROOMS];
 
 int totalTurns;
-vector<string> eventQueue;
+EventQueue eventQueue;
 
 
 // display functions
@@ -117,10 +118,6 @@ void loadHazard(HazardType type, int amount);
 
 void updateHazards();
 void moveHazards();
-
-// event management functions
-void updateEventQueue(vector<string> events);
-void clearEventQueue();
 
 // player check functions
 bool hasPlayerWon();

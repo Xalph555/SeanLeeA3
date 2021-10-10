@@ -69,9 +69,10 @@ void displayPlayerStats() {
 void displayEventDescriptions(){
 	// displays the strings contained within eventQueue.
 
+	vector<string> eventQueueTemp = eventQueue.getEventQueueContents();
 	vector<string>::const_iterator iter;
 
-	for (iter = eventQueue.begin(); iter != eventQueue.end(); iter++) {
+	for (iter = eventQueueTemp.begin(); iter != eventQueueTemp.end(); iter++) {
 		string eventDetails = *iter;
 
 		if (eventDetails != "$") {
@@ -218,6 +219,8 @@ void gameSetUp() {
 	infoScreen = loadFileAsString(INFO_SCREEN_PATH);
 	howToScreen = loadFileAsString(HOW_TO_SCREEN_PATH);
 
+	eventQueue = EventQueue();
+
 	displayInfo();
 	pause();
 
@@ -267,7 +270,8 @@ void gameLoop() {
 			}
 		}
 
-		clearEventQueue();
+		eventQueue.clearEventQueue();
+
 	} while (!hasPlayerWon() && !hasPlayerLost() && !hasQuit);
 
 	if (!hasQuit) {
@@ -277,7 +281,7 @@ void gameLoop() {
 
 		}
 		else if (hasPlayerLost()) {
-			cout << "\n You have been Defeated!\n";
+			cout << "\n You have Lost!\n";
 			pause();
 		}
 	} 
@@ -464,7 +468,7 @@ void setGameDifficulty() {
 			break;
 
 		default:
-			cout << "\n There was an error applying the right difficulty settings.\n";
+			cout << "\n There was an error applying the correct difficulty settings.\n";
 	}
 
 	player.setInventory(items);
@@ -559,7 +563,7 @@ bool telecardAction(const vector<string>& arguments) {
 
 	bool isPlayerTurn = true;
 
-	if (arguments.size() == 1) {
+	if (arguments.size() == 1 && isNumber(arguments[0])) {
 		if (player.hasVisitedRoom(stoi(arguments[0]))) {
 			player.moveTo(ruinRooms, stoi(arguments[0]), false);
 			player.getItem("Telecard")->updateAmount(-1);
@@ -903,7 +907,7 @@ void loadHazard(HazardType type, int amount) {
 
 
 void updateHazards(){
-	// updates the game's hazards before the player's turn
+	// updates the game's hazards 
 
 	if (!player.isDisplaced() && totalTurns > 1) {
 		moveHazards();
@@ -915,12 +919,12 @@ void updateHazards(){
 	Arigamo* arigamo = dynamic_cast<Arigamo*>(hazards.getHazard("Arigamo"));
 
 	eventTemp = arigamo->drainPlayerHP((int*)roomConnections, TOTAL_ROOMS, player);
-	updateEventQueue(eventTemp);
+	eventQueue.updateEventQueue(eventTemp);
 	
 	// check arigamo interactions with player
 	if (arigamo->getCurrentRoom() == player.getCurrentRoom()) {
 		eventTemp = arigamo->updateInteraction(player);
-		updateEventQueue(eventTemp);
+		eventQueue.updateEventQueue(eventTemp);
 	}
 
 	// check arigamo interactions with other hazards in the same room
@@ -933,12 +937,12 @@ void updateHazards(){
 
 			if (hazID != arigamo->getID()) {
 				eventTemp = arigamo->updateInteraction(hazards.getHazard(hazID));
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 			}
 		}
 	}
 
-	// check other hazards interaction with the player
+	// check other hazard's interaction with the player
 	vector<int> hazardsInRoom = ruinRooms.getRoom(player.getCurrentRoom())->getHazards();
 	vector<int>::const_iterator iter;
 
@@ -949,37 +953,37 @@ void updateHazards(){
 		switch (hazTemp->getType()) {
 			case PIT: 
 				eventTemp = dynamic_cast<Pit*>(hazTemp)->updateInteraction(player);
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 				break;
 			
 			case CCRAT: 
 				eventTemp = dynamic_cast<CCRats*>(hazTemp)->updateInteraction(player, ruinRooms);
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 				break;
 			
 			case ORACLE: 
 				eventTemp = dynamic_cast<Oracle*>(hazTemp)->updateInteraction(player);
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 				break;
 			
 			case THIEF: 
 				eventTemp = dynamic_cast<Thief*>(hazTemp)->updateInteraction(player);
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 				break;
 			
 			case RAIDERS: 
 				eventTemp = dynamic_cast<Raiders*>(hazTemp)->updateInteraction(player, ruinRooms);
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 				break;
 			
 			case TRADER: 
 				eventTemp = dynamic_cast<Trader*>(hazTemp)->updateInteraction(player);
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 				break;
 			
 			case KNIGHT: 
 				eventTemp = dynamic_cast<Knight*>(hazTemp)->updateInteraction(player);
-				updateEventQueue(eventTemp);
+				eventQueue.updateEventQueue(eventTemp);
 				break;
 			
 			default:
@@ -1007,7 +1011,7 @@ void moveHazards(){
 
 			arigamo->resetTurnsToWake();
 			arigamo->setIsAsleep(true);
-			eventQueue.push_back(arigamo->getEventDescriptions()[4]);
+			eventQueue.updateEventQueue(arigamo->getEventDescriptions()[4]);
 
 		}
 	}
@@ -1032,26 +1036,6 @@ void moveHazards(){
 		}
 	}
 }
-
-
-
-
-//-------------------------------------//
-// event management functions          //
-//-------------------------------------//
-
-void updateEventQueue(vector<string> events){
-	// as the input events vector to the eventQueue
-
-	eventQueue.insert(eventQueue.end(), events.begin(), events.end());
-}
-
-
-void clearEventQueue(){
-	// clears the event queue
-	eventQueue.clear();
-}
-
 
 
 //-------------------------------------//

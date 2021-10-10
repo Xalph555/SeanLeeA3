@@ -120,6 +120,20 @@ bool getBoolInput(string question) {
 }
 
 
+bool isNumber(const string& input) {
+	// checks whether the input string contains only digits
+
+	string::const_iterator stringChar;
+	for (stringChar = input.begin(); stringChar != input.end(); stringChar++) {
+		if (!isdigit(*stringChar)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
 string loadFileAsString(string fileName) {
 	// reads data from a text file and returns it as a string
 	// adapted from Week 6 Lecture Slides

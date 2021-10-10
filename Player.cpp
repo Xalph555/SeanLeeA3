@@ -175,15 +175,13 @@ bool Player::hasVisitedRoom(int room) {
 	if (room >= 0) {
 		vector<int>::const_iterator iter;
 
-		for (iter = visitedRooms.begin(); iter != visitedRooms.end(); ++iter) {
-			int roomIter = *iter;
+		if (find(visitedRooms.begin(), visitedRooms.end(), room) != visitedRooms.end()) {
+			return true;
 
-			if (roomIter == room) {
-				return true;
-			}
 		}
-
-		return false;
+		else {
+			return false;
+		}
 	}
 	else {
 		return false;

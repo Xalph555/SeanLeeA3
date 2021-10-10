@@ -17,6 +17,7 @@ the attributes and behaviours of the Player.
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 #include "GameEnums.h"
 #include "RoomContainer.h"

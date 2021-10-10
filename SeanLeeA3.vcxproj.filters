@@ -110,6 +110,9 @@
     <ClCompile Include="RoomContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -161,6 +164,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RoomContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

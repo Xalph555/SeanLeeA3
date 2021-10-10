@@ -33,7 +33,7 @@ void displayTitle() {
 	// usually signals the start of a new screen
 
 	system("cls");
-	cout << titleScreen;
+	displayString(titleScreen);
 }
 
 
@@ -41,7 +41,7 @@ void displayInfo() {
 	// displays the game's starting info screen
 
 	displayTitle();
-	cout << infoScreen;
+	displayString(infoScreen);
 }
 
 
@@ -49,20 +49,20 @@ void displayHowTo() {
 	// displays the game's "how to play" screen
 
 	displayTitle();
-	cout << howToScreen;
+	displayString(howToScreen);
 }
 
 
 void displayPlayerStats() {
 	// displays the player's stats screen
 
-	cout << " Name: " << player.getName();
-	cout << "\t\t\t\t\t\tHealth: " << player.getHealthCurrent() << "/" << player.getHealthMax() << "\n";
-	cout << "\t\t\t\t\t\tIncense Sticks: " << player.getItem("Incense Sticks")->getAmount() << "\n";
-	cout << "\t\t\t\t\t\tCrossbow Bolts: " << player.getItem("Crossbow Bolts")->getAmount() << "\n\n";
+	displayString(" Name: " + player.getName());
+	displayString("\t\t\t\t\t\tHealth: " + to_string(player.getHealthCurrent()) + "/" + to_string(player.getHealthMax()) + "\n");
+	displayString("\t\t\t\t\t\tIncense Sticks: " + to_string(player.getItem("Incense Sticks")->getAmount()) + "\n");
+	displayString("\t\t\t\t\t\tCrossbow Bolts: " + to_string(player.getItem("Crossbow Bolts")->getAmount()) + "\n\n");
 
-	cout << "Inventory: " << player.getInventoryAsString() << "\n";
-	cout << "_______________________________________________________________________________\n";
+	displayString("Inventory: " + player.getInventoryAsString() + "\n");
+	displayString("_______________________________________________________________________________\n");
 }
 
 
@@ -76,7 +76,7 @@ void displayEventDescriptions(){
 		string eventDetails = *iter;
 
 		if (eventDetails != "$") {
-			cout << eventDetails << "\n";
+			displayString(eventDetails + "\n");
 
 		}
 		else {
@@ -84,14 +84,14 @@ void displayEventDescriptions(){
 		}
 	}
 
-	//cout << "\n";
+	//displayString() << "\n";
 }
 
 
 void displayRoomInfo(int room) {
 	// displays the selected room's information
 
-	cout << ruinRooms.getRoom(room)->getRoomInfo() << "\n";
+	displayString(ruinRooms.getRoom(room)->getRoomInfo() + "\n");
 }
 
 
@@ -110,18 +110,18 @@ void displayRoomExits(int room) {
 
 				if (hazTemp->isRoaming()) {
 					if (!hazTemp->hasDied() && hazTemp->conscious()) {
-						cout << hazTemp->getHint() << "\n\n";
+						displayString(hazTemp->getHint() + "\n\n");
 					}
 				}
 				else {
-					cout << hazTemp->getHint() << "\n\n";
+					displayString(hazTemp->getHint() + "\n\n");
 				}
 			}
 		}
 	}
 
 	// display room exits
-	cout << ruinRooms.getRoom(room)->getRoomExits();
+	displayString(ruinRooms.getRoom(room)->getRoomExits());
 }
 
 
@@ -129,7 +129,7 @@ void displayMap() {
 	// displays the game's map
 
 	displayTitle();
-	cout<< player.getItem("Map")->getOtherData();
+	displayString(player.getItem("Map")->getOtherData());
 }
 
 
@@ -139,34 +139,34 @@ void displayEndScreen(){
 	displayTitle();
 
 	if (hasPlayerWon()) {
-		cout << "\t\t\t\tYou WIN!\n\n";
+		displayString("\t\t\t\tYou WIN!\n\n");
 
 	}
 	else {
-		cout << "\t\t\t\tYou LOSE!\n\n";
+		displayString("\t\t\t\tYou LOSE!\n\n");
 	}
 
-	cout << "\t\tName: " << player.getName() << "\n\n";
-	cout << "\t\tHealth: " << player.getHealthCurrent() << "/" << player.getHealthMax() << "\n";
-	cout << "\t\tRemaining Incense Sticks: " << player.getItemAmount("Incense Sticks") << "\n";
-	cout << "\t\tRemaining Crossbow Bolts: " << player.getItemAmount("Crossbow Bolts") << "\n";
+	displayString("\t\tName: " + player.getName() + "\n\n");
+	displayString("\t\tHealth: " + to_string(player.getHealthCurrent()) + "/" + to_string(player.getHealthMax()) + "\n");
+	displayString("\t\tRemaining Incense Sticks: " + to_string(player.getItemAmount("Incense Sticks")) + "\n");
+	displayString("\t\tRemaining Crossbow Bolts: " + to_string(player.getItemAmount("Crossbow Bolts")) + "\n");
 
 	string hasTelecard = (player.getItemAmount("Telecard") > 0) ? "Yes" : "No";
-	cout << "\t\tHas used Telecard: " << hasTelecard << "\n";
+	displayString("\t\tHas used Telecard: " + hasTelecard + "\n");
 
-	cout << "\t\tNumber of Roaming Opponents Alive: " << hazards.getNumRoamingHazards() <<"\n";
+	displayString("\t\tNumber of Roaming Opponents Alive: " + to_string(hazards.getNumRoamingHazards()) + "\n");
 
 	string isArigamoDead = (hazards.getHazard("Arigamo")->hasDied()) ? "Yes" : "No";
-	cout << "\t\tHas Arigamo been slain: " << isArigamoDead << "\n";
+	displayString("\t\tHas Arigamo been slain: " + isArigamoDead + "\n");
 
 	string hasGem = (player.hasItem("Fuhai Gem")) ? "Yes" : "No";
-	cout << "\t\tHas Fuhai Gem been retrieved: " << hasGem << "\n";
+	displayString("\t\tHas Fuhai Gem been retrieved: " + hasGem + "\n");
 
-	cout << "\t\tScore Multiplier: " << difficulty + 1 << "\n";
+	displayString("\t\tScore Multiplier: " + to_string(difficulty + 1) + "\n");
 
-	cout << "\n\t\tFINAL SCORE: " << calculatePlayerScore() << "\n";
+	displayString("\n\t\tFINAL SCORE: " + to_string(calculatePlayerScore()) + "\n");
 
-	cout << "_______________________________________________________________________________\n";
+	displayString("_______________________________________________________________________________\n");
 }
 
 
@@ -183,7 +183,7 @@ void displayUI() {
 		displayRoomExits(player.getCurrentRoom());
 	}
 
-	cout << "_______________________________________________________________________________\n";
+	displayString("_______________________________________________________________________________\n");
 }
 
 
@@ -207,7 +207,7 @@ void playGame() {
 
 	} while (isPlaying);
 
-	cout << "\n Thank you for playing!\n";
+	displayString("\n Thank you for playing!\n");
 }
 
 
@@ -276,12 +276,12 @@ void gameLoop() {
 
 	if (!hasQuit) {
 		if (hasPlayerWon()) {
-			cout << "\n You have Redeemed yourself!\n";
+			displayString("\n You have Redeemed yourself!\n");
 			pause();
 
 		}
 		else if (hasPlayerLost()) {
-			cout << "\n You have Lost!\n";
+			displayString("\n You have Lost!\n");
 			pause();
 		}
 	} 
@@ -299,7 +299,7 @@ bool playerInputLoop() {
 		string inputCommand = "";
 		vector<string> inputArguments = {};
 
-		cout << " (type HELP to bring up the help menu)\n";
+		displayString(" (type HELP to bring up the help menu)\n");
 		userInput << getStringInput(" What will you do?: ");
 
 		// splitting components of input into command and arguments
@@ -319,13 +319,13 @@ bool playerInputLoop() {
 					isPlayerTurn = moveAction(inputArguments);
 
 					if (isPlayerTurn) {
-						cout << " Those are not valid arguments for the MOVE action.\n";
+						displayString(" Those are not valid arguments for the MOVE action.\n");
 						pause();
 						displayUI();
 					}
 				}
 				else {
-					cout << " You do not have any 'Incense Sticks' left.\n";
+					displayString(" You do not have any 'Incense Sticks' left.\n");
 					pause();
 					displayUI();
 				}
@@ -337,13 +337,13 @@ bool playerInputLoop() {
 					isPlayerTurn = shootAction(inputArguments);
 
 					if (isPlayerTurn) {
-						cout << " Those are not valid arguments for the SHOOT action.\n";
+						displayString(" Those are not valid arguments for the SHOOT action.\n");
 						pause();
 						displayUI();
 					}
 				}
 				else {
-					cout << " You do not have any 'Crossbow Bolts' left.\n";
+					displayString(" You do not have any 'Crossbow Bolts' left.\n");
 					pause();
 					displayUI();
 				}
@@ -355,13 +355,13 @@ bool playerInputLoop() {
 					isPlayerTurn = telecardAction(inputArguments);
 
 					if (isPlayerTurn) {
-						cout << " Those are not valid arguments for the TELECARD action or you have not visited that Room yet.\n";
+						displayString(" Those are not valid arguments for the TELECARD action or you have not visited that Room yet.\n");
 						pause();
 						displayUI();
 					}
 				}
 				else {
-					cout << " You do not have any 'Telecards' left.\n";
+					displayString(" You do not have any 'Telecards' left.\n");
 					pause();
 					displayUI();
 				}
@@ -374,7 +374,7 @@ bool playerInputLoop() {
 
 				}
 				else {
-					cout << " You do not have a Map.\n";
+					displayString(" You do not have a Map.\n");
 					pause();
 					displayUI();
 				}
@@ -393,7 +393,7 @@ bool playerInputLoop() {
 				return true;
 
 			default:
-				cout << " That is not a valid ACTION. \n";
+				displayString(" That is not a valid ACTION. \n");
 				pause();
 				displayUI();
 		}
@@ -409,9 +409,9 @@ void setGameDifficulty() {
 
 	// present difficulty options to player
 	displayTitle();
-	cout << "\n Game Difficulty: [0] Amendment (EASY)\n";
-	cout << " \t\t  [1] Atonement (NORMAL)\n";
-	cout << " \t\t  [2] Redemption (HARD)\n\n";
+	displayString("\n Game Difficulty: [0] Amendment (EASY)\n");
+	displayString(" \t\t  [1] Atonement (NORMAL)\n");
+	displayString(" \t\t  [2] Redemption (HARD)\n\n");
 
 	int userInput = getIntIntput(" Please select a difficulty according to their number: ", EASY, HARD);
 
@@ -445,7 +445,7 @@ void setGameDifficulty() {
 			items[1].setAmount(8);
 			items[3].setAmount(20);
 
-			cout << "\n Difficulty set to Amendment (EASY)\n";
+			displayString("\n Difficulty set to Amendment (EASY)\n");
 			break;
 
 		case 1:
@@ -454,7 +454,7 @@ void setGameDifficulty() {
 			items[1].setAmount(5);
 			items[3].setAmount(15);
 
-			cout << "\n Difficulty set to Atonement (NORMAL)\n";
+			displayString("\n Difficulty set to Atonement (NORMAL)\n");
 			break;
 
 		case 2:
@@ -464,11 +464,11 @@ void setGameDifficulty() {
 			items[3].setAmount(12);
 
 
-			cout << "\n Difficulty set to Redemption (HARD)\n";
+			displayString("\n Difficulty set to Redemption (HARD)\n");
 			break;
 
 		default:
-			cout << "\n There was an error applying the correct difficulty settings.\n";
+			displayString("\n There was an error applying the correct difficulty settings.\n");
 	}
 
 	player.setInventory(items);
@@ -543,11 +543,11 @@ bool shootAction(const vector<string>& arguments) {
 	if (!boltHints.empty()) {
 		vector<string>::const_iterator hint;
 
-		cout << "\n";
+		displayString("\n");
 
 		for (hint = boltHints.begin(); hint != boltHints.end(); hint++) {
 			string hintTemp = *hint;
-			cout << hintTemp << "\n";
+			displayString(hintTemp + "\n");
 		}
 
 		pause();
@@ -568,7 +568,7 @@ bool telecardAction(const vector<string>& arguments) {
 			player.moveTo(ruinRooms, stoi(arguments[0]), false);
 			player.getItem("Telecard")->updateAmount(-1);
 
-			cout << "\n You Teleported!\n";
+			displayString("\n You Teleported!\n");
 			pause();
 
 			isPlayerTurn = false;
@@ -613,7 +613,7 @@ bool interactAction() {
 		}
 	}
 	else {
-		cout << "\n There is nothing in the Room to interact with.";
+		displayString("\n There is nothing in the Room to interact with.");
 	}
 	
 	pause();
@@ -900,7 +900,7 @@ void loadHazard(HazardType type, int amount) {
 			}
 
 			default:
-				cout << " The hazard could not be initialised \n";
+				displayString(" The hazard could not be initialised \n");
 		}
 	}
 }
@@ -987,7 +987,7 @@ void updateHazards(){
 				break;
 			
 			default:
-				cout << " There is no Hazard interaction with the player.\n";
+				displayString(" There is no Hazard interaction with the player.\n");
 		}
 	}
 }

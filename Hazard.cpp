@@ -219,7 +219,7 @@ void Hazard::setID(int ID) {
 
 	}
 	else {
-		cout << " You have not entered a valid hazard ID to set.\n";
+		displayString(" You have not entered a valid hazard ID to set.\n");
 	}
 }
 
@@ -229,7 +229,7 @@ void Hazard::setName(string name) {
 
 	}
 	else {
-		cout << " You have not entered a valid hazard name to set.\n";
+		displayString(" You have not entered a valid hazard name to set.\n");
 	}
 }
 
@@ -240,7 +240,7 @@ void Hazard::setType(HazardType type) {
 
 	}
 	else {
-		cout << " You have not entered a valid hazard type to set.\n";
+		displayString(" You have not entered a valid hazard type to set.\n");
 	}
 }
 
@@ -254,7 +254,7 @@ void Hazard::setStartingRoom(RoomContainer& world, int room) {
 
 	}
 	else {
-		cout << " You have not entered a starting room to set.\n";
+		displayString(" You have not entered a starting room to set.\n");
 	}
 }
 
@@ -265,7 +265,7 @@ void Hazard::setCurrentRoom(int room) {
 
 	}
 	else {
-		cout << " You have not entered a valid current room number to set.\n";
+		displayString(" You have not entered a valid current room number to set.\n");
 	}
 }
 
@@ -276,7 +276,7 @@ void Hazard::setHint(string hint) {
 
 	}
 	else {
-		cout << " You have not entered a valid hazard hint to set.\n";
+		displayString(" You have not entered a valid hazard hint to set.\n");
 	}
 }
 
@@ -301,7 +301,7 @@ void Hazard::setEventDescriptions(vector<string> events) {
 		eventDescriptions = events;
 	}
 	else {
-		cout << " You have not entered a valid hazard description vector to set.\n";
+		displayString(" You have not entered a valid hazard description vector to set.\n");
 	}
 }
 
@@ -312,7 +312,7 @@ void Hazard::setGem(Item gem) {
 
 	}
 	else {
-		cout << " You have not given a valid gem.\n";
+		displayString(" You have not given a valid gem.\n");
 	}
 }
 
@@ -353,9 +353,9 @@ vector<string> Hazard::updateInteraction() {
 
 void Hazard::roomInteraction() {
 	if (isDead) {
-		cout << "\n" << eventDescriptions[3] << "\n";
+		displayString("\n" + eventDescriptions[3] + "\n");
 	}
 	else {
-		cout << "\n There is nothing in the Room to interact with.";
+		displayString("\n There is nothing in the Room to interact with.");
 	}
 }

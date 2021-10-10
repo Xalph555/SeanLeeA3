@@ -242,7 +242,7 @@ void Room::setNumber(int num) {
 
 	}
 	else {
-		cout << " You have not entered a valid room number to set.\n";
+		displayString(" You have not entered a valid room number to set.\n");
 	}
 }
 
@@ -253,7 +253,7 @@ void Room::setName(string name){
 
 	}
 	else {
-		cout << " You have not entered a valid room name to set.\n";
+		displayString(" You have not entered a valid room name to set.\n");
 	}
 }
 
@@ -264,7 +264,7 @@ void Room::setDescription(string description) {
 
 	}
 	else {
-		cout << " You have not entered a valid room description to set.\n";
+		displayString(" You have not entered a valid room description to set.\n");
 	}
 }
 
@@ -274,7 +274,7 @@ void Room::setExitDirections(vector<string> directions) {
 		roomExitDirections = directions;
 	}
 	else {
-		cout << " You have not entered a valid room direction vector to set.\n";
+		displayString(" You have not entered a valid room direction vector to set.\n");
 	}
 }
 
@@ -284,7 +284,7 @@ void Room::setExitConnections(vector<int> connections) {
 		roomExitConnections = connections;
 	}
 	else {
-		cout << " You have not entered a valid room connection vector to set.\n";
+		displayString(" You have not entered a valid room connection vector to set.\n");
 	}
 }
 
@@ -299,7 +299,7 @@ void Room::setHazards(vector<int> hazards){
 		hazards = hazards;
 	}
 	else {
-		cout << " You have not entered a valid hazard vector to set.\n";
+		displayString(" You have not entered a valid hazard vector to set.\n");
 	}
 }
 
@@ -310,7 +310,7 @@ void Room::addHazard(int hazard){
 
 	}
 	else {
-		cout << " You have not entered a valid hazard ID to add to the room.\n";
+		displayString(" You have not entered a valid hazard ID to add to the room.\n");
 	}
 }
  
@@ -327,6 +327,6 @@ void Room::removeHazard(int hazard){
 		}
 	}
 	else {
-		cout << " You have not entered a valid hazard ID to remove from the room.\n";
+		displayString(" You have not entered a valid hazard ID to remove from the room.\n");
 	}
 }

@@ -13,10 +13,10 @@ serves as a customer container for the game's rooms.
 #ifndef ROOMCONTAINER_H
 #define ROOMCONTAINER_H
 
-#include <iostream>
 #include <vector>
 #include <algorithm>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "Room.h"
 

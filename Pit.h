@@ -12,7 +12,6 @@ The Header file for the Bottomless Pit class Hazard.
 #ifndef PIT_H
 #define PIT_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>

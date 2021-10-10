@@ -14,10 +14,10 @@ each turn.
 #ifndef EVENTQUEUE_H
 #define EVENTQUEUE_H
 
-#include <iostream>
 #include <vector>
 #include <string>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 
 using namespace std;

@@ -116,7 +116,7 @@ void Item::setName(string name) {
 
 	}
 	else {
-		cout << " You have not entered a valid item name to set.\n";
+		displayString(" You have not entered a valid item name to set.\n");
 	}
 }
 
@@ -127,7 +127,7 @@ void Item::setType(ItemType type) {
 
 	}
 	else {
-		cout << " You have not entered a valid item type to set.\n";
+		displayString(" You have not entered a valid item type to set.\n");
 	}
 }
 
@@ -138,7 +138,7 @@ void Item::setAmount(int amount) {
 
 	}
 	else {
-		cout << " You have not entered a valid item amount to set.\n";
+		displayString(" You have not entered a valid item amount to set.\n");
 	}
 }
 
@@ -149,7 +149,7 @@ void Item::setOtherData(string data) {
 
 	}
 	else {
-		cout << " You have not entered valid other item data to set.\n";
+		displayString(" You have not entered valid other item data to set.\n");
 	}
 }
 
@@ -164,6 +164,6 @@ void Item::updateAmount(int amount) {
 
 	}
 	else {
-		cout << " You have not entered a valid amount to update the item's amount.\n";
+		displayString(" You have not entered a valid amount to update the item's amount.\n");
 	}
 }

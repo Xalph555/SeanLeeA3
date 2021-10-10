@@ -78,7 +78,7 @@ void CCRats::setDamageAmount(int damage) {
 
 	}
 	else {
-		cout << " You have not entered a valid amount of damage to set.\n";
+		displayString(" You have not entered a valid amount of damage to set.\n");
 	}
 }
 

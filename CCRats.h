@@ -12,11 +12,11 @@ The Header file for the CCRats class Hazard.
 #ifndef CCRATS_H
 #define CCRATS_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "RoomContainer.h"
 #include "Hazard.h"

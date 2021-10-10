@@ -124,7 +124,7 @@ void RoomContainer::addRoom(Room* room) {
 
 	}
 	else {
-		cout << " You have not entered a valid room to add to the container.\n";
+		displayString(" You have not entered a valid room to add to the container.\n");
 	}
 }
 
@@ -144,5 +144,5 @@ void RoomContainer::removeRoom(int room) {
 		}
 	}
 
-	cout << " You have not entered a valid room to remove from the container.\n";
+	displayString(" You have not entered a valid room to remove from the container.\n");
 }

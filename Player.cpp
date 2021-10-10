@@ -155,7 +155,7 @@ Item* Player::getItem(string name) {
 			}
 		}
 
-		//cout << " The item being retrieved was not found: " << name << "\n";
+		//displayString() << " The item being retrieved was not found: " << name << "\n";
 		return nullptr;
 	}
 	else {
@@ -240,7 +240,7 @@ void Player::setName(string name) {
 
 	}
 	else {
-		cout << " You have not entered a valid player name to set.\n";
+		displayString(" You have not entered a valid player name to set.\n");
 	}
 }
 
@@ -251,7 +251,7 @@ void Player::setHealthMax(int health) {
 
 	}
 	else {
-		cout << " You have not entered a valid max health to set.\n";
+		displayString(" You have not entered a valid max health to set.\n");
 	}
 }
 
@@ -262,7 +262,7 @@ void Player::setHealthCurrent(int health) {
 
 	}
 	else {
-		cout << " You have not entered a valid current health to set.\n";
+		displayString(" You have not entered a valid current health to set.\n");
 	}
 }
 
@@ -294,7 +294,7 @@ void Player::setStartingRoom(RoomContainer& world, int room){
 
 	}
 	else {
-		cout << " You have not entered a starting room to set.\n";
+		displayString(" You have not entered a starting room to set.\n");
 	}
 }
 
@@ -305,7 +305,7 @@ void Player::setCurrentRoom(int room) {
 
 	}
 	else {
-		cout << " You have not entered a valid current room number to set as the current room.\n";
+		displayString(" You have not entered a valid current room number to set as the current room.\n");
 	}
 }
 
@@ -316,7 +316,7 @@ void Player::setDisplacedRoom(int room) {
 
 	}
 	else {
-		cout << " You have not entered a valid current room number to set as the displaced room.\n";
+		displayString(" You have not entered a valid current room number to set as the displaced room.\n");
 	}
 }
 
@@ -327,7 +327,7 @@ void Player::setVisitedRooms(vector<int> rooms) {
 
 	}
 	else {
-		cout << " You have not entered a valid visited rooms vector to set.\n";
+		displayString(" You have not entered a valid visited rooms vector to set.\n");
 	}
 }
 
@@ -338,7 +338,7 @@ void Player::setInventory(vector<Item> inventory) {
 
 	}
 	else {
-		cout << " You have not entered a valid inventory vector to set.\n";
+		displayString(" You have not entered a valid inventory vector to set.\n");
 	}
 }
 
@@ -355,7 +355,7 @@ void Player::updateHealthMax(int health) {
 
 	}
 	else {
-		cout << " You have not entered a valid amount to update max health.\n";
+		displayString(" You have not entered a valid amount to update max health.\n");
 	}
 }
 
@@ -375,7 +375,7 @@ void Player::updateHealth(int health) {
 
 	}
 	else {
-		cout << " You have not entered a valid amount to update current health.\n";
+		displayString(" You have not entered a valid amount to update current health.\n");
 	}
 }
 
@@ -388,7 +388,7 @@ void Player::updateCurrentRoom(int room) {
 
 	}
 	else {
-		cout << " You have not entered a valid room number to update current room.\n";
+		displayString(" You have not entered a valid room number to update current room.\n");
 	}
 }
 
@@ -406,7 +406,7 @@ void Player::updateDisplacement() {
 
 	}
 	else {
-		cout << " There was no valid displacement room set despite the player being displaced.\n";
+		displayString(" There was no valid displacement room set despite the player being displaced.\n");
 	}
 }
 
@@ -425,7 +425,7 @@ void Player::updateInventory(Item item){
 
 	}
 	else {
-		cout << " You have not entered a valid item to add to the inventory.\n";
+		displayString(" You have not entered a valid item to add to the inventory.\n");
 	}
 }
 
@@ -437,7 +437,7 @@ void Player::updateItem(string name, int amount){
 		item->updateAmount(amount);
 	}
 	else {
-		cout << " The item to update could not be found.\n";
+		displayString(" The item to update could not be found.\n");
 	}
 
 }

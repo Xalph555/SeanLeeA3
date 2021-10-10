@@ -16,10 +16,18 @@ provide generic functionality to the game.
 void pause() {
 	// pauses the program until the player presses a key
 
-	cout << "\n\n\t";
+	displayString("\n\n\t");
 	cin.clear();
 	system("pause");
 }
+
+
+void displayString(string input) {
+	// displays the string input
+	cout << input;
+
+}
+
 
 
 string getStringInput(string question) {
@@ -28,13 +36,13 @@ string getStringInput(string question) {
 	string userInput = "";
 
 	while (userInput.find_first_not_of(' ') == string::npos) {
-		cout << "\n" + question;
+		displayString("\n" + question);
 		cin.clear();
 
 		getline(cin, userInput);
 
 		if (userInput.find_first_not_of(' ') == string::npos) {
-			cout << "\n That is an invalid input.";
+			displayString("\n That is an invalid input.");
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 		}
@@ -50,13 +58,13 @@ int getIntIntput(string question, int min, int max) {
 	int userInput = -1;
 
 	do {
-		cout << "\n" + question;
+		displayString("\n" + question);
 		cin.clear();
 
 		cin >> userInput;
 
 		if (userInput < min || userInput > max || cin.fail()) {
-			cout << "\n That is an invalid input.";
+			displayString("\n That is an invalid input.");
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -78,7 +86,7 @@ char getCharInput(string question, char options[]) {
 	bool isFound = false;
 
 	do {
-		cout << "\n" + question;
+		displayString("\n" + question);
 		cin.clear();
 
 		cin >> userInput;
@@ -90,7 +98,7 @@ char getCharInput(string question, char options[]) {
 		}
 
 		if (!isFound || cin.fail()) {
-			cout << "\n That is an invalid input.";
+			displayString("\n That is an invalid input.");
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -152,7 +160,7 @@ string loadFileAsString(string fileName) {
 		}
 	}
 	else {
-		cout << "\n The file " << fileName << " was not found.";
+		displayString("\n The file " + fileName + " was not found.");
 	}
 
 	fileToRead.close();
@@ -180,7 +188,7 @@ vector<string> loadFileAsVector(string fileName) {
 		}
 	}
 	else {
-		cout << "\n The file " << fileName << " was not found.";
+		displayString("\n The file " + fileName + " was not found.");
 	}
 
 	fileToRead.close();

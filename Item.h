@@ -13,11 +13,11 @@ the attributes and behaviours of the game's items.
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 
 using namespace std;

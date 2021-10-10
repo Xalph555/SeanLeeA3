@@ -12,7 +12,6 @@ The Header file for the Suspicious Trader class Hazard.
 #ifndef TRADER_H
 #define TRADER_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>

@@ -13,12 +13,12 @@ the attributes and behaviours of the Player.
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <algorithm>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "RoomContainer.h"
 #include "Item.h"

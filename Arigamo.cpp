@@ -115,7 +115,7 @@ void Arigamo::setHealthDrainRate(int rate) {
 
 	}
 	else {
-		cout << " You have not entered a valid health drain rate to set.\n";
+		displayString(" You have not entered a valid health drain rate to set.\n");
 	}
 }
 
@@ -131,7 +131,7 @@ void Arigamo::setTurnsToWake(int turns) {
 
 	}
 	else {
-		cout << " You have not entered a valid number of turns to set.\n";
+		displayString(" You have not entered a valid number of turns to set.\n");
 	}
 }
 
@@ -142,7 +142,7 @@ void Arigamo::setBaseRoamChance(float chance) {
 
 	}
 	else {
-		cout << " You have not entered a valid base roam chance to set.\n";
+		displayString(" You have not entered a valid base roam chance to set.\n");
 	}
 }
 
@@ -153,7 +153,7 @@ void Arigamo::setRoamChanceMod(float chance) {
 
 	}
 	else {
-		cout << " You have not entered a valid roam chance modifier to set.\n";
+		displayString(" You have not entered a valid roam chance modifier to set.\n");
 	}
 }
 
@@ -168,7 +168,7 @@ void Arigamo::updateTurnsToWake(int turns) {
 
 	}
 	else {
-		cout << " You have not entered a valid number of turns to update turnsToWake set.\n";
+		displayString(" You have not entered a valid number of turns to update turnsToWake set.\n");
 	}
 }
 
@@ -214,6 +214,11 @@ vector<string> Arigamo::drainPlayerHP(int* roomConnections, int total_rooms, Pla
 	if (canDrainPlayer(roomConnections, total_rooms, player.getCurrentRoom())) {
 		player.updateHealth(-healthDrainRate);
 		results.push_back(eventDescriptions[5]);
+		
+		if (player.getHealthCurrent() == 0) {
+			results.push_back(" Your life has been completely drained.");
+			results.push_back("$");
+		}
 	}
 
 	return results;

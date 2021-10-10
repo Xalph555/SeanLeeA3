@@ -14,11 +14,11 @@ opponents.
 #ifndef HAZARD_H
 #define HAZARD_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "RoomContainer.h"
 #include "Item.h"

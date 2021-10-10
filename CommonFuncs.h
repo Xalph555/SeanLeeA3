@@ -25,7 +25,7 @@ using namespace std;
 
 
 void pause();
-void displayString();
+void displayString(string input);
 string getStringInput(string question);
 int getIntIntput(string question, int min, int max);
 char getCharInput(string question, char options[]);

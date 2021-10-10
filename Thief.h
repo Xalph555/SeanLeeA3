@@ -12,7 +12,6 @@ The Header file for the Opportunistic Thief class Hazard.
 #ifndef THIEF_H
 #define THIEF_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>

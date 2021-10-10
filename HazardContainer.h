@@ -13,9 +13,9 @@ serves as a customer container for the game's hazards.
 #ifndef HAZARDCONTAINER_H
 #define HAZARDCONTAINER_H
 
-#include <iostream>
 #include <vector>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "Hazard.h"
 

@@ -13,13 +13,13 @@ objective of the game.
 #ifndef ARIGAMO_H
 #define ARIGAMO_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <deque>
 #include <algorithm>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "Hazard.h"
 #include "Item.h"

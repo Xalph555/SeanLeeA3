@@ -12,12 +12,11 @@ The Header file for the Corrupted Oracle class Hazard.
 #ifndef ORACLE_H
 #define ORACLE_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 
-#include "CommonFuncs.h" // this is really bad - need to find another way to implement the roomInteraction and separate the I/O from the class
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "Hazard.h"
 #include "Item.h"

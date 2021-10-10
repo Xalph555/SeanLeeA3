@@ -110,7 +110,7 @@ void HazardContainer::addHazard(Hazard* hazard) {
 
 	}
 	else {
-		cout << " You have not entered a valid hazard to add to the container.\n";	
+		displayString(" You have not entered a valid hazard to add to the container.\n");
 	}
 }
 
@@ -130,5 +130,5 @@ void HazardContainer::removeHazard(int ID) {
 		}
 	}
 
-	cout << " You have not entered a valid hazard ID to remove from the container.\n";
+	displayString(" You have not entered a valid hazard ID to remove from the container.\n");
 }

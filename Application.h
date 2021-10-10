@@ -13,7 +13,6 @@ controls the flow and logic of the game.
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include <iostream>
 #include <ctime>
 #include <string>
 #include <sstream>

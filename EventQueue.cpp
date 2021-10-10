@@ -51,7 +51,7 @@ void EventQueue::updateEventQueue(vector<string> events) {
 
 	}
 	else {
-		cout << " You have not entered a valid event string vector to add to the event queue.\n";
+		displayString(" You have not entered a valid event string vector to add to the event queue.\n");
 	}
 }
 
@@ -64,7 +64,7 @@ void EventQueue::updateEventQueue(string events) {
 
 	}
 	else {
-		cout << " You have not entered a valid event string to add to the event queue.\n";
+		displayString(" You have not entered a valid event string to add to the event queue.\n");
 	}
 }
 

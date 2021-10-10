@@ -12,11 +12,11 @@ The Header file for the Dark Knight class Hazard.
 #ifndef KNIGHT_H
 #define KNIGHT_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
 
+#include "CommonFuncs.h"
 #include "GameEnums.h"
 #include "Hazard.h"
 #include "Player.h"

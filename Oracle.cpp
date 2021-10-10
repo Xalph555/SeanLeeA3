@@ -84,9 +84,9 @@ void Oracle::roomInteraction(Player& player, int arigamoRoom) {
 
 		bool userInput = false;
 
-		cout << "\n Hello beast tamer. I sense great guilt within you.\n";
-		cout << " I presume you wish to find the Arigamo? The one you brought into this world?\n";
-		cout << " I can tell you where it is... For a price.\n";
+		displayString("\n Hello beast tamer. I sense great guilt within you.\n");
+		displayString(" I presume you wish to find the Arigamo? The one you brought into this world?\n");
+		displayString(" I can tell you where it is... For a price.\n");
 
 		userInput = getBoolInput(" Trade 1/3 of your 'Crossbow Bolts' and 1/2 of your 'Incense Sticks'\n to reveal the Arigamo's location? (Y/N): ");
 
@@ -94,17 +94,17 @@ void Oracle::roomInteraction(Player& player, int arigamoRoom) {
 			player.getItem("Crossbow Bolts")->updateAmount(floor(player.getItem("Crossbow Bolts")->getAmount() / 3));
 			player.getItem("Incense Sticks")->updateAmount(floor(player.getItem("Incense Sticks")->getAmount() / 2));
 
-			cout << "\n (The trade was made)\n";
-			cout << " Thank you. You can find the Arigamo in room " << arigamoRoom << ".\n";
-			cout << " I wish you all the best on your journey... beast tamer.\n";
+			displayString("\n (The trade was made)\n");
+			displayString(" Thank you. You can find the Arigamo in room " + to_string(arigamoRoom) + ".\n");
+			displayString(" I wish you all the best on your journey... beast tamer.\n");
 
 		}
 		else {
-			cout << "\n I see. I wish you all the best on your journey... beast tamer.\n";
+			displayString("\n I see. I wish you all the best on your journey... beast tamer.\n");
 		}
 
 	}
 	else {
-		cout << "\n" << eventDescriptions[4] << "\n";
+		displayString("\n" + eventDescriptions[4] + "\n");
 	}
 }

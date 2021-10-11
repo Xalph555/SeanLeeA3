@@ -10,8 +10,8 @@ game.
 
 **************************************************/
 
-#ifndef GAME_ENUMS_H
-#define GAME_ENUMS_H
+#ifndef GAMEENUMS_H
+#define GAMEENUMS_H
 
 
 // game difficulty

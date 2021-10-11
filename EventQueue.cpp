@@ -50,9 +50,6 @@ void EventQueue::updateEventQueue(vector<string> events) {
 		eventDescriptions.insert(eventDescriptions.end(), events.begin(), events.end());
 
 	}
-	else {
-		displayString(" You have not entered a valid event string vector to add to the event queue.\n");
-	}
 }
 
 
@@ -62,9 +59,6 @@ void EventQueue::updateEventQueue(string events) {
 	if (events.find_first_not_of(' ') == string::npos) {
 		eventDescriptions.push_back(events);
 
-	}
-	else {
-		displayString(" You have not entered a valid event string to add to the event queue.\n");
 	}
 }
 

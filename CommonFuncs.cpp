@@ -25,7 +25,6 @@ void pause() {
 void displayString(string input) {
 	// displays the string input
 	cout << input;
-
 }
 
 

@@ -4,15 +4,14 @@ C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2
 C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Arigamo.cpp(40,21): warning C4305: '=': truncation from 'double' to 'float'
 C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Arigamo.cpp(184,17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   CCRats.cpp
-  CommonFuncs.cpp
   EventQueue.cpp
   Hazard.cpp
   HazardContainer.cpp
   Item.cpp
   Knight.cpp
   Oracle.cpp
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Oracle.cpp(94,56): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Oracle.cpp(95,56): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Oracle.cpp(94,51): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Oracle.cpp(95,51): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   Pit.cpp
   Player.cpp
   Raiders.cpp

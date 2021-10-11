@@ -1,7 +1,11 @@
 0
 Dilapidated Study
 #
-This is a Dilapidated Study. Obviously it has not been used in a while.
+Dust and cobwebs line the ceiling of this long-forgotten study. There are
+some ink wells and quills on top of an old desk that has not seen its owner
+for quite some time. Some torn paper and books are scattered on the ground
+but they are of no interest to you. It seems that some scholars use to use
+this room.
 #
 NE,E,SE
 1,16,3
@@ -9,8 +13,9 @@ NE,E,SE
 1
 Ransacked Library
 #
-This is a Ransacked Library. There are no books here. Is this still
-considered a library?
+Empty shelves are all you see with piles of disturbed dust clumped together
+in bunches where books and documents used to be. The table and chairs are also
+turned over and broken. It seems like this place was raided recently.
 #
 NE,SE,SW
 19,2,0
@@ -18,7 +23,10 @@ NE,SE,SW
 2
 Foul Smelling Common Room
 #
-This is a Foul Smelling Common Room. I swear it wasn't me.
+The stench of sweat and rotting fruit hangs heavy in the air. The people who
+occupied this area clearly were not fond of cleaning. There are towels hanging
+in odd places, bowls of off-meals left sitting in crates, and a pile of rat 
+waste in the corner.
 #
 N,S,NW
 19,17,1
@@ -26,7 +34,10 @@ N,S,NW
 3
 Ominous Prayer Room
 #
-This is an Ominous Prayer Room. Pray for survival?
+It is clear that this was once a place of worship and hope where people gathered
+and prayed for all manner of things. Although one would not be able to tell at
+first glance as the corruption clouds this room and has severely damaged the
+artifacts that were once symbols of peace.
 #
 E,SE,NW
 17,4,0
@@ -34,7 +45,10 @@ E,SE,NW
 4
 Haunted Hallway
 #
-This is a Haunted Hallway. I think I saw Hanako around here.
+You find yourself in a long dark hallway; wooden floors dusty and brick walls stained.
+It is eerily silent, but you still feel someone's presence. It's not the typical
+presence of a normal person however, and if feels as if it is embedded into the hallway
+itself. Despite this, there is no hostility aside from those roaming within the ruins.
 #
 NE,SE,NW
 17,5,3
@@ -42,7 +56,11 @@ NE,SE,NW
 5
 Airy Study
 #
-This is an Airy Study. Is that a giant hole in the ground?
+A draft of wind can be felt as you enter the room. There are small holes in the ground
+as well as several in the ceiling. Loose pages from open books flutter around the study
+as a result, and the dust in the air trace out the path of the wind. It almost looks
+like a winter wonderland, although the damning effect of the corruption spoils the mood
+with its sinister aura.
 #
 NE,E,NW
 7,6,4
@@ -50,7 +68,9 @@ NE,E,NW
 6
 Intimidating Entrance
 #
-This is an Intimidating Entrance. Yes, be scared.
+You stand in a lobby of sorts with bricks and pieces of timber scattered along the ground.
+There are large claw marks along the walls and the floor, like some beast was marking its
+territory. The corruption feels at its weakest here.
 #
 N,SE,W
 7,9,5
@@ -58,8 +78,9 @@ N,SE,W
 7
 Open Courtyard
 #
-This is an Open Courtyard. The only somewhat open area. Enjoy the fresh
-air.
+You come out to an open area where the moonlight shines down on you. The corruptive mist
+tints the light with a purple haze colouring a mood which could only be described as evil.
+There are some withered greenery around the courtyard and litter can be seen at almost every angle.
 #
 NE,S,SW
 12,6,5
@@ -67,7 +88,10 @@ NE,S,SW
 8
 Corrupted Lab
 #
-This is a Corrupted Lab. Looks like it is still in use...
+Burners, bottles, pots and shelves full of odd ingredients. These are the first things
+you see along with bright green tubes installed along the ceiling. It seems like this
+place has been in use recently, although the puddles of blood and torn lab coats
+suggests that the users passed recently too. Red quills are scattered along the ground.
 #
 NE,S,NW
 11,9,12
@@ -75,8 +99,9 @@ NE,S,NW
 9
 Empty Equipment Room
 #
-This is an Empty Equipment Room. There is nothing here. That's why it is 
-empty.
+The markings of armour, swords, and spears can be seen on the weapon racks and armour
+stands, however the items themselves are nowhere to be seen. The toppled crates and
+barrels suggest this place was raided.
 #
 N,NE,NW
 8,10,6
@@ -84,7 +109,9 @@ N,NE,NW
 10
 Damp Guard's Quarters
 #
-This is the Damp Guard's Quarters. Smells like a change room.
+Broken beds and torn clothes soaked on blood are draped along the walls. Foul smelling
+mucus drips from the ceiling and the corruption lingers strongly here. There are also
+crushed helmets with large claw marks through them.
 #
 NW,NE,SW
 11,14,9
@@ -92,7 +119,10 @@ NW,NE,SW
 11
 Half-Collapsed Room
 #
-This is a Half-Collapsed Room. Watch your step.
+The room is narrow, not so much because of the construction of the room, but because
+of the construction being broken. Wooden beams, pieces of wall, and uprooted floor
+boards collectively make it a perilous area to pass through. However, it seems stable
+for the most part.
 #
 N,SE,SW
 13,10,8
@@ -100,8 +130,10 @@ N,SE,SW
 12
 Run-down Training Room
 #
-This is a Run-down Training Room. You can still feel the presence of the great
-warriors who were here before.
+You feel the presence of old great warriors who once trained here. The past heroes
+of the land, saints, kings, legends. The corruption is weak here oddly enough, and
+you can almost see the outline of practiced figures moving in and out of the mist,
+almost as if they were fighting a battle of their own. However, they are not real.
 #
 N,SE,SW
 15,8,7
@@ -109,7 +141,10 @@ N,SE,SW
 13
 Repurposed Interrogation Chamber
 #
-This is a Repurposed Interrogation Chamber. Yeah, I don't want to stay here either.
+An unsightly device rests in the centre of the room and almost looks like a chair
+with a large spider stuck to the back of it. Various contraptions can be seen sprouting
+from the ends of various arms. To add to that, there are also chains, and blades scattered
+along the ground that is also stained red. There is a lone mop and bucket in the corner. 
 #
 NE,S,W
 14,11,16
@@ -117,7 +152,10 @@ NE,S,W
 14
 Cold Creepy Cells
 #
-This is the Cold Creepy Cells. Creepy.
+There is an odd chill that can be felt here. Not only is it cold, but the presence of the
+room is one of authority and cool twisted justice. Cuffs and straw beds are common
+in each of the barred sections of this space, although one looks like is has been torn
+apart with an old pile of bones occupying it.
 #
 SE,SW,W
 10,13,15
@@ -125,7 +163,9 @@ SE,SW,W
 15
 Mysterious Garden
 #
-This is a Mysterious Garden. Clearly only legal plants are grown here.
+The corruptions flows freely here, and the plants are not withered surprisingly. Bright
+purple flowers can be seen and almost feel hot when you put your hand near them. Best
+not to touch them however.
 #
 E,S,NW
 14,12,18
@@ -133,8 +173,9 @@ E,S,NW
 16
 Corpse-filled Assembly Hall
 #
-This is a Corpse-filled Assembly Hall. Looks like someone forgot to clean
-up after themselves after their meal.
+The smell of blood and rotting corpses is strong here, as well as a heavy feeling of
+corruption. Piles and piles of torn off flesh and bone paint the floor, and you can
+almost hear the sound of the Ariagmo feasting still reverberating against the walls.
 #
 N,E,W
 18,13,0
@@ -142,7 +183,10 @@ N,E,W
 17
 Blood-stained Classroom
 #
-This is a Blood-stained Classroom. I wonder why...
+It seems the Arigamo frequents this area too. Large footprints and claw marks can be
+seen along the ground and on the upturned tables and chairs. The blackboard also has a
+large and long cut across it. The corruptive mist is almost toying with you as you can
+hear the chants of an old school anthem.
 #
 N,SW,W
 2,4,3
@@ -150,7 +194,9 @@ N,SW,W
 18
 Dusty Hallway
 #
-This is a Dusty Hallway. Someone really need to clean in here...
+By far one of the dustiest rooms you have come across. The amount of dust swirling in
+the air is almost suffocating and makes it difficult to see anything. It might be best to
+pass through as quickly as possible.
 #
 SE,S,NW
 15,16,19
@@ -158,7 +204,9 @@ SE,S,NW
 19
 Rotten Kitchen
 #
-This is a Rotten Kitchen. Smells like death.
+Broken stoves, counters, and pans can be seen scattered and lodged in the walls. All the
+cupboards are open and appear to have been ransacked. The cold room is also open, and the
+stench of rotting meat is being strongly emitted from it.
 #
 SE,S,SW
 18,2,1

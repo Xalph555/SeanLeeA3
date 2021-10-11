@@ -1,10 +1,12 @@
 Arigamo
-Smells like death and corruption.
+You feel as if a large beast is nearby - it smells like death and corruption.
 #
-Hi, you are looking right into the blood red eyes of the Arigamo.
-Can you run? Not a chance.
+As you enter the room, you suddenly freeze as you hear a loud growl and the feeling
+of sharp spines gently touching you. Something moves in front as you are greeted by
+cold blood red eyes.
 #
-Yes, you were brutally eaten.
+You feel as if a thousand spears have been plunged into your body as you limbs are
+gradually torn off. You pass away with the corruption sinking deep into your soul.
 #
 You hear a deathly scream followed by a sudden drop in corruptive energy.
 #

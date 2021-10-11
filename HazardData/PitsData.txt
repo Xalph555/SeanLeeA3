@@ -1,11 +1,12 @@
 Bottomless Pit
 You feel a storng draft.
 #
-You walk into the room and then feel like you are entering it vertically.
-Oh wait, you are falling.
+You walk into the room and then feel like you are suddenly entering it vertically.
+Darkness surrounds you as you fall deeper and deeper until you collide with the ground,
+breaking your legs and spine.
 #
-You have fallen down a bottomless pit. Looks like you will be stuck here for a while.
-See you next fall.
+You have fallen down a bottomless pit. No one is around to save you and your journey
+ends here.
 #
 $
 0

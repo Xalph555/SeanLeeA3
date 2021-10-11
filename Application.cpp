@@ -151,7 +151,7 @@ void displayEndScreen(){
 	displayString("\t\tRemaining Incense Sticks: " + to_string(player.getItemAmount("Incense Sticks")) + "\n");
 	displayString("\t\tRemaining Crossbow Bolts: " + to_string(player.getItemAmount("Crossbow Bolts")) + "\n");
 
-	string hasTelecard = (player.getItemAmount("Telecard") > 0) ? "Yes" : "No";
+	string hasTelecard = (player.getItemAmount("Telecard") > 0) ? "No" : "Yes";
 	displayString("\t\tHas used Telecard: " + hasTelecard + "\n");
 
 	displayString("\t\tNumber of Roaming Opponents Alive: " + to_string(hazards.getNumRoamingHazards()) + "\n");
@@ -164,7 +164,7 @@ void displayEndScreen(){
 
 	displayString("\t\tScore Multiplier: " + to_string(difficulty + 1) + "\n");
 
-	displayString("\n\t\tFINAL SCORE: " + to_string(calculatePlayerScore()) + "\n");
+	displayString("\n\t\tFINAL SCORE: " + to_string(calculatePlayerScore() * hasPlayerWon()) + "\n");
 
 	displayString("_______________________________________________________________________________\n");
 }

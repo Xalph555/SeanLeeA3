@@ -1,10 +1,12 @@
 Dark Knight
 You hear the sound of heavy armour moving.
 #
-A towering black armoured warrior stands before you. It seems to be 
-looking for a fight.
+A towering black armoured warrior stands before you. It seems to be looking for a fight.
 #
-Although you took significant damage, you were able to defeat the knight.
+The dark warrior takes a swing with their mighty sword which just barely misses you.
+Thinking quickly, you pick up a small sword that so happens to be lying nearby and
+engage in a tense battle with the knight. Swings and slashes were exchanged, and in
+the end, although you took significant damage, you were able to defeat the knight.
 #
 You hear a loud gasp and grunt followed by the sound of metal being shred.
 #

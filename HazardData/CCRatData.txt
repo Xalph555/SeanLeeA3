@@ -1,8 +1,9 @@
 Colony of Corrupted Rats
 You saw a large rodent scurry past.
 #
-You feel the floor litterally move. You lose balance.
-You get carried by the group of rats
+You can feel the floor literally move as you enter and lose your balance. As you
+hit the ground, you can feel the weight of a thousand large rodents with bright
+yellow eyes climb onto you and lift you up.
 #
 You have been carried to a random room as the rats return to theirs.
 #

@@ -1,9 +1,13 @@
 Suspicious Trader
 One of the rooms feels negotiable.
 #
-You see a trader with a variety of items..
+You see a trader with a variety of items laid out, but clearly the corruption has
+tainted his mind as no sane person would expect business to be blooming in an
+abandoned ruin. He gestures for you to come towards him.
 #
-Somehow you were convinced to enter a random trade. Was it for items or nothing at all?
+Cautiously, you approach the man as he begins explaining the different things he
+has on offer. Somehow you were convinced to enter a random trade. Was it for items
+or nothing at all? For some reason, you are unable to remember exactly.
 #
 You hear a scream and the sounds of many items falling on the ground.
 #

@@ -1,11 +1,13 @@
 Outcasted Raiders
-It sounds like there is a group of people in the next room.
+It sounds like there is a group of rowdy people in the next room.
 #
-You encounter a boardroom meeting. Everyone turns their heads to you, 
-obviously annoyed.
+It seems like you have intruded on a meeting amongst a group of outcasts as they
+savour the feeling of corruption flowing through the air. They are oddly attuned
+with it and clearly find your interruption offensive.
 #
-Seems like you couldn't explain the situation well so you were picked
-up and thrown to a random adjacent room. 
+Before you could react, you were grabbed and tossed around the room between the
+members as they each take a swing at you. After everyone has had their share,
+you are thrown through a random exit.
 #
 A choir of screams can be head in the distance.
 #

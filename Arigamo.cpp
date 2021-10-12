@@ -207,6 +207,7 @@ void Arigamo::resetTurnsToWake() {
 
 vector<string> Arigamo::drainPlayerHP(int* roomConnections, int total_rooms, Player& player) {
 	// drains the health of the player of they are close enough
+	// code adapted from:
 	// Madan, S. (2020). Passing a 2D Array as a Function Parameter in C and C++. Retrieved from https://medium.com/swlh/passing-a-2-d-array-as-a-function-parameter-in-c-mainly-c-7a29d196530a
 
 	vector<string> results;

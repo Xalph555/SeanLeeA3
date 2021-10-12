@@ -1,24 +1,3 @@
 ﻿  Application.cpp
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Application.cpp(790,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Arigamo.cpp
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Arigamo.cpp(40,21): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Arigamo.cpp(184,17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  CCRats.cpp
-  EventQueue.cpp
-  Hazard.cpp
-  HazardContainer.cpp
-  Item.cpp
-  Knight.cpp
-  Oracle.cpp
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Oracle.cpp(94,51): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Oracle.cpp(95,51): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-  Pit.cpp
-  Player.cpp
-  Raiders.cpp
-  Room.cpp
-C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Room.cpp(130,21): warning C4018: '<': signed/unsigned mismatch
-  RoomContainer.cpp
-  Thief.cpp
-  Trader.cpp
-  Generating Code...
+C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Application.cpp(811,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   SeanLeeA3.vcxproj -> C:\Users\Sean\Documents\Monash\2021\Sem 2\FIT1048 - C++\Assignments\Assignment 2 + 3\SeanLeeA3\Debug\SeanLeeA3.exe

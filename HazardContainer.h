@@ -14,6 +14,8 @@ serves as a customer container for the game's hazards.
 #define HAZARDCONTAINER_H
 
 #include <vector>
+#include <string>
+#include <sstream>
 
 #include "CommonFuncs.h"
 #include "GameEnums.h"
@@ -37,6 +39,8 @@ public:
 	Hazard* getLastHazard();
 	int getNumHazards();
 	int getNumRoamingHazards();
+
+	string getAllHazardInfo();
 
 	vector<Hazard*>* getHazardsVector();
 

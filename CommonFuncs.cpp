@@ -47,7 +47,7 @@ string getStringInput(string question) {
 		}
 	}
 
-	return userInput;
+	return stringUpperCase(userInput);
 }
 
 
@@ -91,7 +91,7 @@ char getCharInput(string question, char options[]) {
 		cin >> userInput;
 
 		for (int i = 0; i < sizeof(options); i++) {
-			if (userInput == options[i]) {
+			if (toupper(userInput) == options[i]) {
 				isFound = true;
 			}
 		}
@@ -107,7 +107,7 @@ char getCharInput(string question, char options[]) {
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	return userInput;
+	return toupper(userInput);
 }
 
 
@@ -138,6 +138,31 @@ bool isNumber(const string& input) {
 	}
 
 	return true;
+}
+
+
+bool areArgsValid(const vector<string>& arguments, const vector<string> validArgs) {
+	// checks whether the strings in the arguments vector are valid by comparing them
+	// to the possible valid arguments contained in the validArgs vector
+
+	vector<string>::const_iterator iter;
+
+	for (iter = arguments.begin(); iter != arguments.end(); iter++) {
+		if (find(validArgs.begin(), validArgs.end(), *iter) == validArgs.end()) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+string stringUpperCase(string inputString) {
+	// converts the characters of input string into upper case
+	// adapted from Week 4 Lecture Slides
+
+	transform(inputString.begin(), inputString.end(), inputString.begin(), toupper);
+	return inputString;
 }
 
 

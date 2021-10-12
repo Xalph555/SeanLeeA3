@@ -13,6 +13,7 @@ controls the flow and logic of the game.
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include <windows.h>
 #include <ctime>
 #include <string>
 #include <sstream>
@@ -82,6 +83,8 @@ EventQueue eventQueue;
 
 
 // display functions
+void setWindowSize(int height, int width);
+
 void displayTitle();
 void displayInfo();
 void displayHowTo();
@@ -99,8 +102,6 @@ void gameSetUp();
 void gameLoop();
 bool playerInputLoop();
 
-void setGameDifficulty();
-
 PlayerAction getActionID(string action);
 bool moveAction(const vector<string>& arguments);
 bool shootAction(const vector<string>& arguments);
@@ -108,6 +109,8 @@ bool telecardAction(const vector<string>& arguments);
 bool mapAction();
 bool interactAction();
 bool helpAction();
+
+void setGameDifficulty();
 
 void initialiseRooms();
 void createRoomMatrix();
@@ -121,6 +124,7 @@ void moveHazards();
 // player check functions
 bool hasPlayerWon();
 bool hasPlayerLost();
+string getPlayerLostReason();
 
 int calculatePlayerScore();
 

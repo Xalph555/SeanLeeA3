@@ -20,6 +20,8 @@ provide generic functionality to the game.
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
+
 
 using namespace std;
 
@@ -32,6 +34,9 @@ char getCharInput(string question, char options[]);
 bool getBoolInput(string question);
 
 bool isNumber(const string& input);
+bool areArgsValid(const vector<string>& arguments, const vector<string> validArgs);
+
+string stringUpperCase(string inputString);
 
 string loadFileAsString(string fileName);
 vector<string> loadFileAsVector(string fileName);

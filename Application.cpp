@@ -13,6 +13,7 @@ controls the flow and logic of the game.
 #include "Application.h"
 
 
+
 int main() {
 	srand(unsigned(time(NULL)));
 
@@ -27,6 +28,18 @@ int main() {
 //-------------------------------------//
 // display functions                   //
 //-------------------------------------//
+
+void setWindowSize(int height, int width) {
+	// sets the size of the console window
+	// code adpated from:
+	// Abdullah S. (2013). Resizing Console window C++.Retrieved from https://stackoverflow.com/questions/19605837/resizing-console-window-c
+
+	RECT r;
+	HWND console = GetConsoleWindow();
+	GetWindowRect(console, &r); //stores the console's current dimensions
+	MoveWindow(console, r.left, r.top, width, height, TRUE);
+}
+
 
 void displayTitle() {
 	// displays the title of the game
@@ -83,8 +96,6 @@ void displayEventDescriptions(){
 			break;
 		}
 	}
-
-	//displayString() << "\n";
 }
 
 
@@ -184,6 +195,9 @@ void displayUI() {
 	}
 
 	displayString("_______________________________________________________________________________\n");
+
+	// uncomment to get current details of all hazards currently in the game
+	//cout << hazards.getAllHazardInfo();
 }
 
 
@@ -213,6 +227,9 @@ void playGame() {
 
 void gameSetUp() {
 	// loads and sets up the core parts of the game
+
+	// comment out line below if having errors running the game
+	setWindowSize(700, 850);
 
 	// load and store required screens
 	titleScreen = loadFileAsString(TITLE_SCREEN_PATH);
@@ -281,6 +298,7 @@ void gameLoop() {
 
 		}
 		else if (hasPlayerLost()) {
+			displayString("\n" + getPlayerLostReason());
 			displayString("\n You have Lost!\n");
 			pause();
 		}
@@ -404,77 +422,6 @@ bool playerInputLoop() {
 }
 
 
-void setGameDifficulty() {
-	// asks the user for the game's difficulty and applies the appropriate settings
-
-	// present difficulty options to player
-	displayTitle();
-	displayString("\n Game Difficulty: [0] Amendment (EASY)\n");
-	displayString(" \t\t  [1] Atonement (NORMAL)\n");
-	displayString(" \t\t  [2] Redemption (HARD)\n\n");
-
-	int userInput = getIntIntput(" Please select a difficulty according to their number: ", EASY, HARD);
-
-	// generate player items
-	vector<Item> items;
-	items.push_back(Item("Enchanted Crossbow", WEAPON, 1));
-	items.push_back(Item("Crossbow Bolts", CONSUMABLE, 0));
-	items.push_back(Item("Protective Censer", MAGIC, 1));
-	items.push_back(Item("Incense Sticks", CONSUMABLE, 0));
-	items.push_back(Item("Telecard", CONSUMABLE, 1));
-	items.push_back(Item("Map", NAVIGATION, 1));
-
-	// load the game's map
-	items[5].setOtherData(loadFileAsString(MAP_DATA_PATH));
-
-	// hazards which must always be present
-	hazardsToInitialise[ARIGAMO] = 1;
-	hazardsToInitialise[PIT] = 2;
-	hazardsToInitialise[CCRAT] = 2;
-	hazardsToInitialise[ORACLE] = 1;
-	hazardsToInitialise[THIEF] = 1;
-	hazardsToInitialise[RAIDERS] = 1;
-	hazardsToInitialise[TRADER] = 1;
-	hazardsToInitialise[KNIGHT] = 1;
-
-	// apply appropriate settings
-	switch (userInput) {
-		case 0:
-			difficulty = EASY;
-
-			items[1].setAmount(8);
-			items[3].setAmount(20);
-
-			displayString("\n Difficulty set to Amendment (EASY)\n");
-			break;
-
-		case 1:
-			difficulty = NORMAL;
-
-			items[1].setAmount(5);
-			items[3].setAmount(15);
-
-			displayString("\n Difficulty set to Atonement (NORMAL)\n");
-			break;
-
-		case 2:
-			difficulty = HARD;
-
-			items[1].setAmount(3);
-			items[3].setAmount(12);
-
-
-			displayString("\n Difficulty set to Redemption (HARD)\n");
-			break;
-
-		default:
-			displayString("\n There was an error applying the correct difficulty settings.\n");
-	}
-
-	player.setInventory(items);
-}
-
-
 PlayerAction getActionID(string action) {
 	// returns the action ID from the player's input action
 
@@ -535,23 +482,26 @@ bool shootAction(const vector<string>& arguments) {
 
 	bool isPlayerTurn = true;
 
-	vector<string> boltHints;
+	vector<string> compassDirs = { "N", "E", "S", "W", "NE", "NW", "SE", "SW" };
+	
+	if (areArgsValid(arguments, compassDirs)) {
+		vector<string> boltHints;
+		boltHints = player.shootBolt(ruinRooms, hazards, arguments);
 
-	boltHints = player.shootBolt(ruinRooms, hazards, arguments);
+		// display hints bolt has found
+		if (!boltHints.empty()) {
+			vector<string>::const_iterator hint;
 
-	// display hints bolt has found
-	if (!boltHints.empty()) {
-		vector<string>::const_iterator hint;
+			displayString("\n");
 
-		displayString("\n");
+			for (hint = boltHints.begin(); hint != boltHints.end(); hint++) {
+				string hintTemp = *hint;
+				displayString(hintTemp + "\n");
+			}
 
-		for (hint = boltHints.begin(); hint != boltHints.end(); hint++) {
-			string hintTemp = *hint;
-			displayString(hintTemp + "\n");
+			pause();
+			isPlayerTurn = false;
 		}
-
-		pause();
-		isPlayerTurn = false;
 	}
 
 	return isPlayerTurn;
@@ -631,6 +581,77 @@ bool helpAction() {
 	displayUI();
 
 	return true;
+}
+
+
+void setGameDifficulty() {
+	// asks the user for the game's difficulty and applies the appropriate settings
+
+	// present difficulty options to player
+	displayTitle();
+	displayString("\n Game Difficulty: [0] Amendment (EASY)\n");
+	displayString(" \t\t  [1] Atonement (NORMAL)\n");
+	displayString(" \t\t  [2] Redemption (HARD)\n\n");
+
+	int userInput = getIntIntput(" Please select a difficulty according to their number: ", EASY, HARD);
+
+	// generate player items
+	vector<Item> items;
+	items.push_back(Item("Enchanted Crossbow", WEAPON, 1));
+	items.push_back(Item("Crossbow Bolts", CONSUMABLE, 0));
+	items.push_back(Item("Protective Censer", MAGIC, 1));
+	items.push_back(Item("Incense Sticks", CONSUMABLE, 0));
+	items.push_back(Item("Telecard", CONSUMABLE, 1));
+	items.push_back(Item("Map", NAVIGATION, 1));
+
+	// load the game's map
+	items[5].setOtherData(loadFileAsString(MAP_DATA_PATH));
+
+	// hazards which must always be present
+	hazardsToInitialise[ARIGAMO] = 1;
+	hazardsToInitialise[PIT] = 2;
+	hazardsToInitialise[CCRAT] = 2;
+	hazardsToInitialise[ORACLE] = 1;
+	hazardsToInitialise[THIEF] = 1;
+	hazardsToInitialise[RAIDERS] = 1;
+	hazardsToInitialise[TRADER] = 1;
+	hazardsToInitialise[KNIGHT] = 1;
+
+	// apply appropriate settings
+	switch (userInput) {
+	case 0:
+		difficulty = EASY;
+
+		items[1].setAmount(8);
+		items[3].setAmount(20);
+
+		displayString("\n Difficulty set to Amendment (EASY)\n");
+		break;
+
+	case 1:
+		difficulty = NORMAL;
+
+		items[1].setAmount(5);
+		items[3].setAmount(15);
+
+		displayString("\n Difficulty set to Atonement (NORMAL)\n");
+		break;
+
+	case 2:
+		difficulty = HARD;
+
+		items[1].setAmount(3);
+		items[3].setAmount(12);
+
+
+		displayString("\n Difficulty set to Redemption (HARD)\n");
+		break;
+
+	default:
+		displayString("\n There was an error applying the correct difficulty settings.\n");
+	}
+
+	player.setInventory(items);
 }
 
 
@@ -1059,30 +1080,58 @@ bool hasPlayerWon(){
 bool hasPlayerLost(){
 	// checks whether the player has lost
 
+	bool result = false;
+
 	// player has run out of HP
 	if (player.getHealthCurrent() == 0) {
-		return true;
+		result = true;
 	}
 
 	// player has run out of bolts
 	else if (player.getItemAmount("Crossbow Bolts") == 0) {
-		return true;
+		result = true;
 	}
 
 	// player has run out of sticks
 	else if (player.getItemAmount("Incense Sticks") == 0) {
-		return true;
+		result = true;
 	}
 
 	// player is in arigamo room and has not retrieved gem
 	else if (hazards.getHazard("Arigamo")->hasDied() && hazards.getHazard("Arigamo")->interacted() && !player.hasItem("Fuhai Gem")) {
-		return true;
+		result = true;
 	}
 
-	// player has not lost
-	else {
-		return false;
+	return result;
+}
+
+
+string getPlayerLostReason() {
+	// returns the reason the player has lost
+	
+	string result = "";
+
+	// player has run out of HP
+	if (player.getHealthCurrent() == 0) {
+		result = " You have died.\n";
 	}
+
+	// player has run out of bolts
+	else if (player.getItemAmount("Crossbow Bolts") == 0) {
+		result = " You have run out of 'Crossbow Bolts'.\n";
+	}
+
+	// player has run out of sticks
+	else if (player.getItemAmount("Incense Sticks") == 0) {
+		result = " You have run out of 'Incense Sticks'.\n";
+	}
+
+	// player is in arigamo room and has not retrieved gem
+	else if (hazards.getHazard("Arigamo")->hasDied() && hazards.getHazard("Arigamo")->interacted() && !player.hasItem("Fuhai Gem")) {
+		result = " The Fuhai Gem has been stolen and cannot be recovered. \n";
+	}
+
+	return result;
 }
 
 

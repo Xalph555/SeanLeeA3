@@ -95,6 +95,26 @@ int HazardContainer::getNumRoamingHazards() {
 }
 
 
+string HazardContainer::getAllHazardInfo(){
+	// returns the name, room number, and death status of all hazards in the container
+	
+	stringstream hazardInfo;
+
+	hazardInfo << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+
+	vector<Hazard*>::const_iterator iter;
+	for (iter = hazards.begin(); iter != hazards.end(); iter++) {
+		Hazard* haz = *iter;
+
+		hazardInfo << " Name: " << haz->getName() << ", Type: " << haz->getTypeAsString() << ", Room: " << haz->getCurrentRoom() << "\n";
+	}
+
+	hazardInfo << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+
+	return hazardInfo.str();
+}
+
+
 vector<Hazard*>* HazardContainer::getHazardsVector() {
 	return &hazards;
 }

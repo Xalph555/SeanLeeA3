@@ -36,14 +36,14 @@ void setWindowSize(int height, int width) {
 
 	RECT r;
 	HWND console = GetConsoleWindow();
-	GetWindowRect(console, &r); //stores the console's current dimensions
+	GetWindowRect(console, &r);
+
 	MoveWindow(console, r.left, r.top, width, height, TRUE);
 }
 
 
 void displayTitle() {
-	// displays the title of the game
-	// usually signals the start of a new screen
+	// displays the title of the game - usually signals the start of a new screen
 
 	system("cls");
 	displayString(titleScreen);
@@ -80,7 +80,7 @@ void displayPlayerStats() {
 
 
 void displayEventDescriptions(){
-	// displays the strings contained within eventQueue.
+	// displays the strings contained within eventQueue sequentially
 
 	vector<string> eventQueueTemp = eventQueue.getEventQueueContents();
 	vector<string>::const_iterator iter;
@@ -120,8 +120,9 @@ void displayRoomExits(int room) {
 				Hazard* hazTemp = hazards.getHazard(roomHazards[j]);
 
 				if (hazTemp->isRoaming()) {
-					if (!hazTemp->hasDied() && hazTemp->conscious()) {
+					if (!hazTemp->hasDied() && (hazTemp->conscious() || hazTemp->getType() == ARIGAMO)) {
 						displayString(hazTemp->getHint() + "\n\n");
+
 					}
 				}
 				else {
@@ -145,7 +146,7 @@ void displayMap() {
 
 
 void displayEndScreen(){
-	// displays the ending screen of the game
+	// displays the ending screen/ score screen of the game
 
 	displayTitle();
 
@@ -196,6 +197,7 @@ void displayUI() {
 
 	displayString("_______________________________________________________________________________\n");
 
+
 	// uncomment to get current details of all hazards currently in the game
 	//cout << hazards.getAllHazardInfo();
 }
@@ -228,8 +230,10 @@ void playGame() {
 void gameSetUp() {
 	// loads and sets up the core parts of the game
 
+
 	// comment out line below if having errors running the game
 	setWindowSize(700, 850);
+
 
 	// load and store required screens
 	titleScreen = loadFileAsString(TITLE_SCREEN_PATH);
@@ -255,7 +259,6 @@ void gameSetUp() {
 	player = Player(playerName, 30);
 	player.setStartingRoom(ruinRooms, PLAYER_START_ROOM);
 
-	// set game difficulty
 	setGameDifficulty();
 
 	initialiseHazards();
@@ -423,7 +426,7 @@ bool playerInputLoop() {
 
 
 PlayerAction getActionID(string action) {
-	// returns the action ID from the player's input action
+	// returns the action ID of the input action
 
 	if (action == "MOVE") {
 		return MOVE;
@@ -499,8 +502,8 @@ bool shootAction(const vector<string>& arguments) {
 				displayString(hintTemp + "\n");
 			}
 
-			pause();
 			isPlayerTurn = false;
+			pause();
 		}
 	}
 
@@ -534,6 +537,7 @@ bool mapAction() {
 
 	displayMap();
 	pause();
+
 	displayUI();
 
 	return true;
@@ -567,6 +571,7 @@ bool interactAction() {
 	}
 	
 	pause();
+
 	displayUI();
 
 	return true;
@@ -578,6 +583,7 @@ bool helpAction() {
 
 	displayHowTo();
 	pause();
+
 	displayUI();
 
 	return true;
@@ -607,7 +613,7 @@ void setGameDifficulty() {
 	// load the game's map
 	items[5].setOtherData(loadFileAsString(MAP_DATA_PATH));
 
-	// hazards which must always be present
+	// number of hazards to initialise
 	hazardsToInitialise[ARIGAMO] = 1;
 	hazardsToInitialise[PIT] = 2;
 	hazardsToInitialise[CCRAT] = 2;
@@ -619,41 +625,41 @@ void setGameDifficulty() {
 
 	// apply appropriate settings
 	switch (userInput) {
-	case 0:
-		difficulty = EASY;
+		case 0:
+			difficulty = EASY;
 
-		items[1].setAmount(8);
-		items[3].setAmount(20);
+			items[1].setAmount(8);
+			items[3].setAmount(20);
 
-		displayString("\n Difficulty set to Amendment (EASY)\n");
-		break;
+			displayString("\n Difficulty set to Amendment (EASY)\n");
+			break;
 
-	case 1:
-		difficulty = NORMAL;
+		case 1:
+			difficulty = NORMAL;
 
-		items[1].setAmount(5);
-		items[3].setAmount(15);
+			items[1].setAmount(5);
+			items[3].setAmount(15);
 
-		displayString("\n Difficulty set to Atonement (NORMAL)\n");
-		break;
+			displayString("\n Difficulty set to Atonement (NORMAL)\n");
+			break;
 
-	case 2:
-		difficulty = HARD;
+		case 2:
+			difficulty = HARD;
 
-		items[1].setAmount(3);
-		items[3].setAmount(12);
+			items[1].setAmount(3);
+			items[3].setAmount(12);
 
 
-		displayString("\n Difficulty set to Redemption (HARD)\n");
-		break;
+			displayString("\n Difficulty set to Redemption (HARD)\n");
+			break;
 
-	default:
-		displayString("\n There was an error applying the correct difficulty settings.\n");
+		default:
+			displayString("\n There was an error applying the correct difficulty settings.\n");
+			pause();
 	}
 
 	player.setInventory(items);
 }
-
 
 
 void initialiseRooms() {
@@ -723,6 +729,8 @@ void initialiseRooms() {
 
 
 void createRoomMatrix(){
+	// creates adjacency matrix of room connections
+
 	vector<Room*>::const_iterator iter;
 
 	for (int i = 0; i < TOTAL_ROOMS; i++) {
@@ -748,7 +756,6 @@ void initialiseHazards() {
 	for (int i = 0; i < TOTAL_HAZARD_TYPES - 1; i++) {
 		if (hazardsToInitialise[i] > 0) {
 			loadHazard((HazardType) i, hazardsToInitialise[i]);
-
 		}
 	}
 }
@@ -807,8 +814,8 @@ void loadHazard(HazardType type, int amount) {
 		switch (type) {
 			case ARIGAMO: {
 				// create required extra variables
-				int hpDrain = 2 * (difficulty + 1);
-				float baseRoam = abs(((difficulty + 1) * 0.25) - 0.4);
+				int hpDrain = 2 * ((int) difficulty + 1);
+				float baseRoam = abs((((int) difficulty + 1) * 0.25) - 0.4);
 
 				// create and place as many as necessary
 				for (int i = 0; i < amount; i++) {
@@ -939,6 +946,7 @@ void updateHazards(){
 
 	Arigamo* arigamo = dynamic_cast<Arigamo*>(hazards.getHazard("Arigamo"));
 
+	// arigamo health drain
 	eventTemp = arigamo->drainPlayerHP((int*)roomConnections, TOTAL_ROOMS, player);
 	eventQueue.updateEventQueue(eventTemp);
 	
@@ -963,7 +971,7 @@ void updateHazards(){
 		}
 	}
 
-	// check other hazard's interaction with the player
+	// check other hazards' interaction with the player
 	vector<int> hazardsInRoom = ruinRooms.getRoom(player.getCurrentRoom())->getHazards();
 	vector<int>::const_iterator iter;
 
@@ -1024,14 +1032,14 @@ void moveHazards(){
 		arigamo->updateTurnsToWake(-1);
 		arigamo->wakeArigamo(hazards.getNumRoamingHazards());
 
-		if (!arigamo->isSleeping()) {
+		if (arigamo->conscious()) {
 			vector<int> connectedRooms = ruinRooms.getRoom(arigamo->getCurrentRoom())->getExitConnections();
 			int nextRoom = connectedRooms[rand() % connectedRooms.size()];
 
 			arigamo->moveTo(ruinRooms, nextRoom);
 
 			arigamo->resetTurnsToWake();
-			arigamo->setIsAsleep(true);
+			arigamo->setIsConscious(false);
 			eventQueue.updateEventQueue(arigamo->getEventDescriptions()[4]);
 
 		}
@@ -1057,6 +1065,7 @@ void moveHazards(){
 		}
 	}
 }
+
 
 
 //-------------------------------------//

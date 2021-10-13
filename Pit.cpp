@@ -29,7 +29,6 @@ Pit::~Pit() {
 
 
 
-
 //-------------------------------------//
 // hazard turn update methods          //
 //-------------------------------------//
@@ -48,4 +47,3 @@ vector<string> Pit::updateInteraction(Player& player) {
 
 	return results;
 }
-

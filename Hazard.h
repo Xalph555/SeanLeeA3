@@ -74,7 +74,7 @@ public:
 
 	virtual string getDetails();
 
-	// mutator set methods
+	// mutator methods
 	void setID(int ID);
 	void setName(string name);
 	void setType(HazardType type);

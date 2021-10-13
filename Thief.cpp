@@ -58,18 +58,19 @@ vector<string> Thief::updateInteraction(Player& player) {
 
 		if (!choices.empty()) {
 			int choice = choices[rand() % choices.size()];
+
 			switch (choice) {
-			case 1:
-				player.getItem("Crossbow Bolts")->updateAmount(-1);
-				break;
+				case 1:
+					player.getItem("Crossbow Bolts")->updateAmount(-1);
+					break;
 
-			case 2:
-				player.getItem("Incense Sticks")->updateAmount(-2);
-				break;
+				case 2:
+					player.getItem("Incense Sticks")->updateAmount(-2);
+					break;
 
-			case 3:
-				player.getItem("Telecard")->updateAmount(-1);
-				break;
+				case 3:
+					player.getItem("Telecard")->updateAmount(-1);
+					break;
 			}
 		}
 
@@ -83,4 +84,3 @@ vector<string> Thief::updateInteraction(Player& player) {
 
 	return results;
 }
-

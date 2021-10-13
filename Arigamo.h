@@ -32,8 +32,6 @@ class Arigamo : public Hazard {
 private:
 	int healthDrainRate;
 
-	bool isAsleep;
-
 	int turnsToWake;
 	float baseRoamChance;
 	float roamChanceMod;
@@ -41,6 +39,7 @@ private:
 	bool canDrainPlayer(int* roomConnections, int total_rooms, int playerRoom);
 	vector<int> neighbours(int* roomConnections, int total_rooms, int room);
 	int calculateRoamChance(int entitiesAlive);
+
 
 public:
 	// constructors and destructors 
@@ -50,15 +49,14 @@ public:
 
 	// accessor methods
 	int getHealthDrainRate();
-	bool isSleeping();
 	int getTurnsToWake();
 	float getBaseRoamChance();
 	float getRoamChanceMod();
+
 	string getDetails();
 
 	// mutator methods
 	void setHealthDrainRate(int rate);
-	void setIsAsleep(bool asleep);
 	void setTurnsToWake(int turns);
 	void setBaseRoamChance(float chance);
 	void setRoamChanceMod(float chance);

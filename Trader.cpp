@@ -34,14 +34,14 @@ Trader::~Trader() {
 //-------------------------------------//
 
 vector<string> Trader::updateInteraction(Player& player) {
-	// the thief's interaction with the player
+	// the trader's interaction with the player
 
 	vector<string> results;
 
 	setHasInteracted(true);
 
 	if (!hasDied()) {
-		// "Trade" with player
+		// "trade" with player
 		vector<int> choices;
 
 		if (player.getItem("Crossbow Bolts")->getAmount() > 1) {
@@ -54,16 +54,17 @@ vector<string> Trader::updateInteraction(Player& player) {
 
 		if (!choices.empty()) {
 			int choice = choices[rand() % choices.size()];
-			switch (choice) {
-			case 1:
-				player.getItem("Crossbow Bolts")->updateAmount(-1);
-				player.getItem("Incense Sticks")->updateAmount(2);
-				break;
 
-			case 2:
-				player.getItem("Incense Sticks")->updateAmount(-3);
-				player.getItem("Crossbow Bolts")->updateAmount(1);
-				break;
+			switch (choice) {
+				case 1:
+					player.getItem("Crossbow Bolts")->updateAmount(-1);
+					player.getItem("Incense Sticks")->updateAmount(2);
+					break;
+
+				case 2:
+					player.getItem("Incense Sticks")->updateAmount(-3);
+					player.getItem("Crossbow Bolts")->updateAmount(1);
+					break;
 			}
 		}
 
@@ -77,4 +78,3 @@ vector<string> Trader::updateInteraction(Player& player) {
 
 	return results;
 }
-

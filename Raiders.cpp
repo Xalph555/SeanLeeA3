@@ -27,7 +27,6 @@ Raiders::Raiders(string name, HazardType type, string hint, vector<string> descr
 
 
 Raiders::~Raiders() {
-
 }
 
 
@@ -42,7 +41,7 @@ int Raiders::getDamageAmount() {
 
 
 string Raiders::getDetails() {
-	// returns details of the raiders as formatted string
+	// returns the class details of the raiders as formatted string
 
 	stringstream hazardDetails;
 
@@ -114,4 +113,3 @@ vector<string> Raiders::updateInteraction(Player& player, RoomContainer& world) 
 
 	return results;
 }
-

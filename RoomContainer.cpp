@@ -6,7 +6,7 @@ Author: Sean Lee
 Purpose: Room Container Class Definition File
 
 The Definition file for the Room Container class which
-serves as a customer container for the game's rooms.
+serves as a custom container for the game's rooms.
 
 **************************************************/
 
@@ -23,6 +23,7 @@ RoomContainer::RoomContainer(){
 
 
 RoomContainer::~RoomContainer() {
+	// removing pointers from heap
 	for (int i = rooms.size() - 1; i >= 0; --i) {
 		delete rooms[i];
 		rooms[i] = nullptr;
@@ -36,8 +37,7 @@ RoomContainer::~RoomContainer() {
 //-------------------------------------//
 
 Room* RoomContainer::getRoom(int room) {
-	// finds and returns the pointer to the room from the 
-	// room collection based on the given room number.
+	// finds and returns the first pointer to the room from the room collection based on the given room number
 
 	vector<Room*>::const_iterator iter;
 
@@ -57,8 +57,7 @@ int RoomContainer::getNumRooms() {
 
 
 int RoomContainer::findRandomEmptyStartRoom(vector<int> exceptionRooms) {
-	// finds and returns a random room that does not have 
-	// a hazard or player in it or adjacent to it
+	// finds and returns a random room that does not have a hazard or player in it or adjacent to it
 
 	int room = rand() % rooms.size();
 
@@ -71,7 +70,7 @@ int RoomContainer::findRandomEmptyStartRoom(vector<int> exceptionRooms) {
 
 
 int RoomContainer::findEmptyAdjRoom(int currentRoom, vector<int> exceptionRooms) {
-	// returns the next available room a that does not have a hazard excluding exception rooms
+	// returns the next available adjacent room that does not have a hazard excluding exception rooms
 
 	int room = -1;
 	vector<int> availbleRooms;
@@ -119,6 +118,8 @@ bool RoomContainer::isEntityInAdjRoom(vector<int> entityRooms, int room) {
 //-------------------------------------//
 
 void RoomContainer::addRoom(Room* room) {
+	// adds the input room to the room collection
+
 	if (room != nullptr) {
 		rooms.push_back(room);
 
@@ -130,7 +131,7 @@ void RoomContainer::addRoom(Room* room) {
 
 
 void RoomContainer::removeRoom(int room) {
-	// removes a specific room based on the give room number
+	// removes a specific room from the room collection based on the give room number
 
 	vector<Room*>::iterator iter;
 

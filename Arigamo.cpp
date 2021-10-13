@@ -21,7 +21,6 @@ Arigamo::Arigamo() {
 	healthDrainRate = 0;
 
 	fuhaiGem = Item();
-	isAsleep = true;
 
 	turnsToWake = 0;
 	baseRoamChance = 0.0;
@@ -33,16 +32,14 @@ Arigamo::Arigamo(string name, HazardType type, string hint, vector<string> descr
 	healthDrainRate = hpDrain;
 
 	fuhaiGem = Item("Fuhai Gem", MAGIC, 1);
-	isAsleep = true;
 
-	turnsToWake = rand() % 6 + 3;
+	turnsToWake = rand() % 7 + 3;
 	baseRoamChance = baseRoam;
 	roamChanceMod = 0.4;
 }
 
 
 Arigamo::~Arigamo() {
-
 }
 
 
@@ -53,11 +50,6 @@ Arigamo::~Arigamo() {
 
 int Arigamo::getHealthDrainRate() {
 	return healthDrainRate;
-}
-
-
-bool Arigamo::isSleeping() {
-	return isAsleep;
 }
 
 
@@ -77,7 +69,7 @@ float Arigamo::getRoamChanceMod() {
 
 
 string Arigamo::getDetails() {
-	// returns details of the Arigamo as formatted string
+	// returns the class details of the Arigamo as formatted string
 
 	stringstream hazardDetails;
 
@@ -94,7 +86,6 @@ string Arigamo::getDetails() {
 	hazardDetails << " Has Interacted: " << interacted() << "\n";
 	hazardDetails << " Health Drain Rate: " << getHealthDrainRate() << "\n";
 	hazardDetails << " Has Gem: " << hasGem() << "\n";
-	hazardDetails << " Is Asleep: " << isSleeping() << "\n";
 	hazardDetails << " Turns till Wake: " << getTurnsToWake() << "\n";
 	hazardDetails << " Base Roam Chance: " << getBaseRoamChance() << "\n";
 	hazardDetails << " Roam Chance Modifier: " << getRoamChanceMod() << "\n";
@@ -117,11 +108,6 @@ void Arigamo::setHealthDrainRate(int rate) {
 	else {
 		displayString(" You have not entered a valid health drain rate to set.\n");
 	}
-}
-
-
-void Arigamo::setIsAsleep(bool asleep) {
-	isAsleep = asleep;
 }
 
 
@@ -179,8 +165,8 @@ void Arigamo::updateTurnsToWake(int turns) {
 //-------------------------------------//
 
 int Arigamo::calculateRoamChance(int entitiesAlive) {
-	// the chance of the Arigamo roaming increases as the 
-	// number of alive roaming opponents decrease
+	// the chance of the Arigamo randomly roaming increases as the number of alive roaming opponents decrease
+
 	int roamChance = (baseRoamChance + (roamChanceMod / entitiesAlive)) * 100;
 	return roamChance;
 }
@@ -189,11 +175,11 @@ int Arigamo::calculateRoamChance(int entitiesAlive) {
 void Arigamo::wakeArigamo(int entitiesAlive) {
 	// check to see if arigamo can be woken up
 
-	if (isSleeping() && turnsToWake == 0) {
+	if (!conscious() && turnsToWake == 0) {
 		int wakeUp = rand() % (100 - calculateRoamChance(entitiesAlive));
 
 		if (wakeUp == 0) {
-			setIsAsleep(false);
+			setIsConscious(true);
 
 		}
 	}
@@ -201,12 +187,12 @@ void Arigamo::wakeArigamo(int entitiesAlive) {
 
 
 void Arigamo::resetTurnsToWake() {
-	turnsToWake = rand() % 6 + 3;
+	turnsToWake = rand() % 7 + 3;
 }
 
 
 vector<string> Arigamo::drainPlayerHP(int* roomConnections, int total_rooms, Player& player) {
-	// drains the health of the player of they are close enough
+	// drains the health of the player if they are close enough to the arigamo
 	// code adapted from:
 	// Madan, S. (2020). Passing a 2D Array as a Function Parameter in C and C++. Retrieved from https://medium.com/swlh/passing-a-2-d-array-as-a-function-parameter-in-c-mainly-c-7a29d196530a
 
@@ -227,7 +213,7 @@ vector<string> Arigamo::drainPlayerHP(int* roomConnections, int total_rooms, Pla
 
 
 bool Arigamo::canDrainPlayer(int* roomConnections, int total_rooms, int playerRoom) {
-	// checks whether the player is close enough to the Arigamo to be drained
+	// checks whether the player is close enough to the Arigamo to be drained by applying depth-first-search
 
 	if (!hasDied()) {
 		vector<int> dists(total_rooms, 0);
@@ -254,6 +240,7 @@ bool Arigamo::canDrainPlayer(int* roomConnections, int total_rooms, int playerRo
 
 					if (u == playerRoom && dists[u] < 3) {
 						return true;
+
 					}
 				}
 
@@ -266,6 +253,8 @@ bool Arigamo::canDrainPlayer(int* roomConnections, int total_rooms, int playerRo
 
 
 vector<int> Arigamo::neighbours(int* roomConnections, int total_rooms, int room) {
+	// returns the neighbours of room from the input adjacency matrix roomConnections
+
 	vector<int> res;
 
 	for (int i = 0; i < total_rooms; i++) {
@@ -324,6 +313,7 @@ vector<string> Arigamo::updateInteraction(Player& player) {
 		results.push_back(eventDescriptions[0]);
 		results.push_back(eventDescriptions[1]);
 		results.push_back("$");
+
 	}
 	else {
 		results.push_back(eventDescriptions[3]);

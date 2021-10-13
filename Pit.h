@@ -24,8 +24,6 @@ using namespace std;
 
 
 class Pit : public Hazard {
-private:
-
 public:
 	// constructors and destructors 
 	Pit();

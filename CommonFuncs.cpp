@@ -24,9 +24,9 @@ void pause() {
 
 void displayString(string input) {
 	// displays the string input
+
 	cout << input;
 }
-
 
 
 string getStringInput(string question) {
@@ -142,8 +142,7 @@ bool isNumber(const string& input) {
 
 
 bool areArgsValid(const vector<string>& arguments, const vector<string> validArgs) {
-	// checks whether the strings in the arguments vector are valid by comparing them
-	// to the possible valid arguments contained in the validArgs vector
+	// checks whether the strings in the arguments vector are valid by comparing them to the possible valid arguments contained in the validArgs input vector
 
 	vector<string>::const_iterator iter;
 

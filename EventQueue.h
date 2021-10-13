@@ -6,7 +6,7 @@ Author: Sean Lee
 Purpose: Event Queue Class Header File
 
 The Header file for the Event Queue class which
-holds the description for the game's events after
+holds the descriptions for the game's events after
 each turn.
 
 **************************************************/
@@ -26,6 +26,7 @@ using namespace std;
 class EventQueue {
 private:
 	vector<string> eventDescriptions;
+
 
 public:
 	// constructors and destructors

@@ -43,7 +43,6 @@ Room::Room(int num, string name, string description, vector<string> exitDir, vec
 
 
 Room::~Room() {
-
 }
 
 
@@ -150,7 +149,7 @@ vector<int> Room::getHazards(){
 
 
 string Room::getHazardsAsString(){
-	// returns contents of hazards as a string
+	// returns the hazard IDs within the room as a string
 	// adapted from Week 7 Lab notes
 
 	string hazardsInRoom = "";
@@ -177,7 +176,7 @@ bool Room::hasHazard(){
 
 
 string Room::getRoomInfo() {
-	// returns the room's information
+	// returns the room's description/ game information
 
 	stringstream info;
 
@@ -213,7 +212,7 @@ string Room::getRoomExits() {
 
 
 string Room::getDetails() {
-	// returns details of room as formatted string
+	// returns the class details of room as formatted string
 
 	stringstream roomDetails;
 
@@ -295,6 +294,8 @@ void Room::setPlayerInRoom(bool isInRoom) {
 
 
 void Room::setHazards(vector<int> hazards){
+	// sets a vector of hazard IDs as the room's fector of hazard ID's
+
 	if (!hazards.empty()) {
 		hazards = hazards;
 	}
@@ -305,6 +306,8 @@ void Room::setHazards(vector<int> hazards){
 
 
 void Room::addHazard(int hazard){
+	// adds the input hazard ID to the hazards vector
+
 	if (hazard >= 0) {
 		hazards.push_back(hazard);
 
@@ -316,6 +319,8 @@ void Room::addHazard(int hazard){
  
 
 void Room::removeHazard(int hazard){
+	// removes the input hazard ID from the hazards vector
+
 	if (hazard >= 0) {
 		vector<int>::const_iterator iter;
 

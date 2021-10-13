@@ -6,7 +6,7 @@ Author: Sean Lee
 Purpose: Hazard Container Class Definition File
 
 The Definition file for the Hazard Container class which
-serves as a customer container for the game's hazards.
+serves as a custom container for the game's hazards.
 
 **************************************************/
 
@@ -23,6 +23,7 @@ HazardContainer::HazardContainer() {
 
 
 HazardContainer::~HazardContainer() {
+	// removing pointers from heap
 	for (int i = hazards.size() - 1; i >= 0; --i) {
 		delete hazards[i];
 		hazards[i] = nullptr;
@@ -36,8 +37,7 @@ HazardContainer::~HazardContainer() {
 //-------------------------------------//
 
 Hazard* HazardContainer::getHazard(int ID) {
-	// finds and returns the pointer to the hazard from the 
-	// hazard collection based on the given hazardID.
+	// finds and returns the pointer to the hazard from the hazard collection based on the given hazardID
 
 	vector<Hazard*>::const_iterator iter;
 
@@ -52,8 +52,7 @@ Hazard* HazardContainer::getHazard(int ID) {
 
 
 Hazard* HazardContainer::getHazard(string hazardName) {
-	// finds and returns the pointer to the hazard from the 
-	// hazard collection based on the given hazardName.
+	// finds and returns the pointer to the hazard from the hazard collection based on the given hazardName
 
 	vector<Hazard*>::const_iterator iter;
 
@@ -81,6 +80,7 @@ int HazardContainer::getNumHazards() {
 
 int HazardContainer::getNumRoamingHazards() {
 	// returns the number of roaming hazards that are still alive
+
 	int alive = 0;
 
 	vector<Hazard*>::const_iterator iter;
@@ -120,11 +120,14 @@ vector<Hazard*>* HazardContainer::getHazardsVector() {
 }
 
 
+
 //-------------------------------------//
 // mutator methods                     //
 //-------------------------------------//
 
 void HazardContainer::addHazard(Hazard* hazard) {
+	// adds the input hazard to the hazard collection
+
 	if (hazard != nullptr) {
 		hazards.push_back(hazard);
 

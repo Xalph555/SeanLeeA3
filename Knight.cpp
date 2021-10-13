@@ -81,6 +81,7 @@ void Knight::setDamageAmount(int damage) {
 }
 
 
+
 //-------------------------------------//
 // hazard turn update methods          //
 //-------------------------------------//
@@ -102,8 +103,8 @@ vector<string> Knight::updateInteraction(Player& player) {
 
 			if (player.getHealthCurrent() == 0) {
 				results.push_back("$");
-			}
 
+			}
 		}
 		else {
 			results.push_back(eventDescriptions[4]);

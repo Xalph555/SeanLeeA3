@@ -3,9 +3,9 @@ Project: The Tamer, the Arigamo and the Fuhai Gem
 Task: Assignment 2 + 3
 Author: Sean Lee
 
-Purpose: Colony of Corrupted Rats Class Header File
+Purpose: Colony of Corrupted Rats Class Definition File
 
-The Header file for the CCRats class Hazard.
+The Definition file for the CCRats class Hazard.
 
 **************************************************/
 
@@ -30,7 +30,6 @@ CCRats::CCRats(string name, HazardType type, string hint, vector<string> descrip
 
 
 CCRats::~CCRats() {
-
 }
 
 
@@ -45,7 +44,7 @@ int CCRats::getDamageAmount() {
 
 
 string CCRats::getDetails() {
-	// returns details of the CCRats as formatted string
+	// returns the class details of the CCRats as formatted string
 
 	stringstream hazardDetails;
 
@@ -89,15 +88,12 @@ void CCRats::setDamageAmount(int damage) {
 //-------------------------------------//
 
 vector<string> CCRats::updateInteraction(Player& player, RoomContainer& world) {
-	// the ccRats interaction with the player
+	// the ccRats' interaction with the player
 
 	vector<string> results;
 
 	int randomRoom = rand() % world.getNumRooms();
 	player.moveTo(world, randomRoom, true);
-
-
-	//player.moveTo(world, 19, true);
 
 	player.updateHealth(-damageAmount);
 	setHasInteracted(true);

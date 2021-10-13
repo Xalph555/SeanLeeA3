@@ -13,6 +13,7 @@ opponents.
 
 #include "Hazard.h"
 
+
 int Hazard::numHazards = 0;
 
 //-------------------------------------//
@@ -74,6 +75,7 @@ Hazard::~Hazard() {
 //-------------------------------------//
 // accessor methods                    //
 //-------------------------------------//
+
 int Hazard::getID() {
 	return hazardID;
 }
@@ -158,13 +160,15 @@ string Hazard::getDescriptionsAsString() {
 }
 
 bool Hazard::hasGem() {
-	if (fuhaiGem.getType() != NOITEM) {
+	if (fuhaiGem.getName() == "Fuhai Gem") {
 		return true;
+
 	}
 	else {
 		return false;
 	}
 }
+
 
 bool Hazard::isRoaming() {
 	return isRoamingType;
@@ -187,7 +191,7 @@ bool Hazard::interacted() {
 
 
 string Hazard::getDetails() {
-	// returns details of the hazard as formatted string
+	// returns the class details of the hazard as formatted string
 
 	stringstream hazardDetails;
 
@@ -307,7 +311,7 @@ void Hazard::setEventDescriptions(vector<string> events) {
 
 
 void Hazard::setGem(Item gem) {
-	if (gem.getType() != MAGIC) {
+	if (gem.getName() != "Fuhai Gem") {
 		fuhaiGem = gem;
 
 	}
@@ -347,6 +351,7 @@ void Hazard::moveTo(RoomContainer& world, int room) {
 vector<string> Hazard::updateInteraction() {
 	vector<string> updateDescriptions = {"There are no interactions."};
 	setHasInteracted(true);
+
 	return updateDescriptions;
 }
 
@@ -354,6 +359,7 @@ vector<string> Hazard::updateInteraction() {
 void Hazard::roomInteraction() {
 	if (isDead) {
 		displayString("\n" + eventDescriptions[3] + "\n");
+
 	}
 	else {
 		displayString("\n There is nothing in the Room to interact with.");

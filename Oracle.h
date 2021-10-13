@@ -26,16 +26,11 @@ using namespace std;
 
 
 class Oracle : public Hazard {
-private:
-
 public:
 	// constructors and destructors 
 	Oracle();
 	Oracle(string name, HazardType type, string hint, vector<string> description, bool roaming, bool conscious);
 	~Oracle();
-
-	// accessor methods   
-	string getDetails();
 
 	// hazard turn update methods
 	vector<string> updateInteraction(Player & player);

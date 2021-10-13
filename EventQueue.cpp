@@ -28,7 +28,6 @@ EventQueue::~EventQueue() {
 
 
 
-
 //-------------------------------------//
 // accessor methods                    //
 //-------------------------------------//
@@ -48,7 +47,6 @@ void EventQueue::updateEventQueue(vector<string> events) {
 
 	if (!events.empty()) {
 		eventDescriptions.insert(eventDescriptions.end(), events.begin(), events.end());
-
 	}
 }
 
@@ -56,9 +54,8 @@ void EventQueue::updateEventQueue(vector<string> events) {
 void EventQueue::updateEventQueue(string events) {
 	// adds the input event to the event queue
 
-	if (events.find_first_not_of(' ') == string::npos) {
+	if (events.find_first_not_of(' ') != string::npos) {
 		eventDescriptions.push_back(events);
-
 	}
 }
 

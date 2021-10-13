@@ -29,6 +29,7 @@ class Raiders : public Hazard {
 private:
 	int damageAmount;
 
+
 public:
 	// constructors and destructors 
 	Raiders();

@@ -25,19 +25,22 @@ provide generic functionality to the game.
 
 using namespace std;
 
-
+// other functions
 void pause();
 void displayString(string input);
+string stringUpperCase(string inputString);
+
+// input functions
 string getStringInput(string question);
 int getIntIntput(string question, int min, int max);
 char getCharInput(string question, char options[]);
 bool getBoolInput(string question);
 
+// validation functions
 bool isNumber(const string& input);
 bool areArgsValid(const vector<string>& arguments, const vector<string> validArgs);
 
-string stringUpperCase(string inputString);
-
+// file functions
 string loadFileAsString(string fileName);
 vector<string> loadFileAsVector(string fileName);
 

@@ -28,6 +28,7 @@ class Knight : public Hazard {
 private:
 	int damageAmount;
 
+
 public:
 	// constructors and destructors 
 	Knight();

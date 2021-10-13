@@ -25,8 +25,6 @@ using namespace std;
 
 
 class Thief : public Hazard {
-private:
-
 public:
 	// constructors and destructors 
 	Thief();

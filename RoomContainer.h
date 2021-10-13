@@ -6,7 +6,7 @@ Author: Sean Lee
 Purpose: Room Container Class Header File
 
 The Header file for the Room Container class which
-serves as a customer container for the game's rooms.
+serves as a custom container for the game's rooms.
 
 **************************************************/
 
@@ -21,6 +21,7 @@ serves as a customer container for the game's rooms.
 #include "Room.h"
 
 using namespace std;
+
 
 class RoomContainer {
 private:

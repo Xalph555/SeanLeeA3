@@ -36,7 +36,6 @@ Item::Item(string name, ItemType type, int amount) {
 
 
 Item::~Item() {
-
 }
 
 
@@ -74,7 +73,6 @@ string Item::getTypeName() {
 
 		default:
 			return "No item type has been assigned";
-
 	}
 }
 
@@ -90,7 +88,7 @@ string Item::getOtherData() {
 
 
 string Item::getDetails() {
-	// returns details of item as formatted string
+	// returns the class details of the item as formatted string
 
 	stringstream itemDetails;
 

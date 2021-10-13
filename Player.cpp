@@ -50,7 +50,6 @@ Player::Player(string name, int healthMax) {
 
 
 Player::~Player() {
-
 }
 
 
@@ -94,7 +93,7 @@ vector<int> Player::getVisitedRooms() {
 }
 
 string Player::getVisitedRoomsAsString() {
-	// returns contents of visitedRooms as string
+	// returns contents of visitedRooms as a string
 	// adapted from Week 7 Lab notes
 
 	string rooms = "";
@@ -155,8 +154,8 @@ Item* Player::getItem(string name) {
 			}
 		}
 
-		//displayString() << " The item being retrieved was not found: " << name << "\n";
 		return nullptr;
+
 	}
 	else {
 		return nullptr;
@@ -165,12 +164,18 @@ Item* Player::getItem(string name) {
 
 
 int Player::getItemAmount(string name) {
-	return getItem(name)->getAmount();
+	// returns the amount of the input item the player has
+
+	if (hasItem(name)) {
+		return getItem(name)->getAmount();
+	}
+
+	return 0;
 }
 
 
 bool Player::hasVisitedRoom(int room) {
-	// checks whether the Player has visited the room before
+	// checks whether the Player has visited the input room before
 
 	if (room >= 0) {
 		vector<int>::const_iterator iter;
@@ -190,7 +195,7 @@ bool Player::hasVisitedRoom(int room) {
 
 
 bool Player::hasItem(string name) {
-	// checks to see if the player has the item by name
+	// checks to see if the player has the input item by name
 
 	Item* item = getItem(name);
 
@@ -209,7 +214,7 @@ bool Player::hasDied() {
 
 
 string Player::getDetails() {
-	// returns details of the player as formatted string
+	// returns the class details of the player as formatted string
 
 	stringstream playerDetails;
 
@@ -394,8 +399,8 @@ void Player::updateCurrentRoom(int room) {
 
 
 void Player::updateDisplacement() {
-	// updates the player's displacement status to reflect any displacement 
-	// caused by being forcefully moved to another room
+	// updates the player's displacement status to reflect any displacement caused by being forcefully moved to another room
+	// e.g. when they are moved by the CCRats or the Raiders
 
 	if (displacedRoom != -1) {
 		updateVisitedRooms(currentRoom);
@@ -420,6 +425,8 @@ void Player::updateVisitedRooms(int room) {
 
 
 void Player::updateInventory(Item item){
+	// adds an item to the player's inventory
+
 	if (item.getType() != NOITEM) {
 		playerInventory.push_back(item);
 
@@ -431,15 +438,15 @@ void Player::updateInventory(Item item){
 
 
 void Player::updateItem(string name, int amount){
-	Item* item = getItem(name);
+	// updates the amount of an item in the player's inventory
 
-	if (item != nullptr) {
-		item->updateAmount(amount);
+	if (hasItem(name)) {
+		getItem(name)->updateAmount(amount);
+
 	}
 	else {
 		displayString(" The item to update could not be found.\n");
 	}
-
 }
 
 
@@ -486,7 +493,7 @@ vector<string> Player::shootBolt(RoomContainer& world, HazardContainer& hazards,
 
 			int targetRoom = world.getRoom(currentBoltRoom)->getRoomConnection(dir);
 
-			// random room due to invalid input
+			// move to random room due to invalid input direction
 			if (targetRoom == -1) {
 				vector<int> availableExits = world.getRoom(currentBoltRoom)->getExitConnections();
 
@@ -515,9 +522,16 @@ vector<string> Player::shootBolt(RoomContainer& world, HazardContainer& hazards,
 			// check if the player has hit the arigamo
 			if (currentBoltRoom == hazards.getHazard("Arigamo")->getCurrentRoom()) {
 				hazards.getHazard("Arigamo")->kill();
-				boltHints.push_back(hazards.getHazard("Arigamo")->getEventDescriptions()[2]); 
+				boltHints.push_back(hazards.getHazard("Arigamo")->getEventDescriptions()[2]);
 				break;
 			}
+		}
+
+		// check if the arrow has landed in an adjacent room to the arigamo
+		vector<int> arigamoAdjRoom = { hazards.getHazard("Arigamo")->getCurrentRoom() };
+
+		if (world.isEntityInAdjRoom(arigamoAdjRoom, currentBoltRoom)) {
+			hazards.getHazard("Arigamo")->setIsConscious(true);
 		}
 	}
 

@@ -27,31 +27,6 @@ Oracle::Oracle(string name, HazardType type, string hint, vector<string> descrip
 Oracle::~Oracle() {
 }
 
-//-------------------------------------//
-// accessor methods                    //
-//-------------------------------------//
-
-string Oracle::getDetails() {
-	// returns details of the Oracle as formatted string
-
-	stringstream hazardDetails;
-
-	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-	hazardDetails << " Hazard ID: " << getID() << "\n";
-	hazardDetails << " Hazard Name: " << getName() << "\n";
-	hazardDetails << " Hazard Type: " << getTypeAsString() << "\n";
-	hazardDetails << " Current Room: " << getCurrentRoom() << "\n";
-	hazardDetails << " Hint: " << getHint() << "\n";
-	hazardDetails << " Event Descriptions: " << getDescriptionsAsString() << "\n";
-	hazardDetails << " Is Roaming Type: " << isRoaming() << "\n";
-	hazardDetails << " Is Conscious: " << conscious() << "\n";
-	hazardDetails << " Is Dead: " << hasDied() << "\n";
-	hazardDetails << " Has Interacted: " << interacted() << "\n";
-	hazardDetails << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-
-	return hazardDetails.str();
-}
-
 
 
 //-------------------------------------//

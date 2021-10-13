@@ -3,7 +3,7 @@ Project: The Tamer, the Arigamo and the Fuhai Gem
 Task: Assignment 2 + 3
 Author: Sean Lee
 
-Purpose: Colony of Corrupted Rats Class Header File
+Purpose: Colony of Corrupted Rats (CCRats) Class Header File
 
 The Header file for the CCRats class Hazard.
 
@@ -28,6 +28,7 @@ using namespace std;
 class CCRats : public Hazard{
 private:
 	int damageAmount;
+
 
 public:
 	// constructors and destructors 

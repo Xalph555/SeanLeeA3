@@ -28,8 +28,8 @@ Additional functionality implemented:
 	- Scoring system based on game parameters
 	- Wumpus has a chance of moving after random number of turns
 	- Custom theme and story
-	- Magic cooked arrows which can be shot through 1-5 locations
-	- Roaming opponents
+	- Magic crooked arrows which can be shot through 1-5 locations
+	- 5 roaming opponents
 
 
 Additional classes added since Assignment 2 that were not originally planned:

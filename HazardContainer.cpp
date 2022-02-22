@@ -24,6 +24,7 @@ HazardContainer::HazardContainer() {
 
 HazardContainer::~HazardContainer() {
 	// removing pointers from heap
+
 	for (int i = hazards.size() - 1; i >= 0; --i) {
 		delete hazards[i];
 		hazards[i] = nullptr;

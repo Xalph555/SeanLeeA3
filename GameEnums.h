@@ -36,7 +36,7 @@ enum PlayerAction {
 
 
 // the types of items in the game
-enum ItemType{
+enum ItemType {
 	NOITEM,
 	WEAPON,
 	CONSUMABLE,

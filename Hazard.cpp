@@ -340,7 +340,7 @@ void Hazard::kill() {
 //-------------------------------------//
 
 void Hazard::moveTo(RoomContainer& world, int room) {
-	// moves the hazard into the desired room updates the appropriate rooms
+	// moves the hazard into the desired room and updates the appropriate rooms
 
 	world.getRoom(currentRoom)->removeHazard(hazardID);
 	setCurrentRoom(room);

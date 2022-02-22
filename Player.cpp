@@ -174,6 +174,20 @@ int Player::getItemAmount(string name) {
 }
 
 
+bool Player::hasItem(string name) {
+	// checks to see if the player has the input item by name
+
+	Item* item = getItem(name);
+
+	if (item != nullptr) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
 bool Player::hasVisitedRoom(int room) {
 	// checks whether the Player has visited the input room before
 
@@ -187,20 +201,6 @@ bool Player::hasVisitedRoom(int room) {
 		else {
 			return false;
 		}
-	}
-	else {
-		return false;
-	}
-}
-
-
-bool Player::hasItem(string name) {
-	// checks to see if the player has the input item by name
-
-	Item* item = getItem(name);
-
-	if (item != nullptr) {
-		return true;
 	}
 	else {
 		return false;

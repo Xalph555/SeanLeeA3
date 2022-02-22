@@ -130,14 +130,22 @@ bool getBoolInput(string question) {
 bool isNumber(const string& input) {
 	// checks whether the input string contains only digits
 
-	string::const_iterator stringChar;
-	for (stringChar = input.begin(); stringChar != input.end(); stringChar++) {
-		if (!isdigit(*stringChar)) {
-			return false;
+	bool result = true;
+
+	if (input.find_first_not_of(' ') != string::npos) {
+		string::const_iterator stringChar;
+		for (stringChar = input.begin(); stringChar != input.end(); stringChar++) {
+			if (!isdigit(*stringChar)) {
+				result = false;
+
+			}
 		}
 	}
+	else {
+		result = false;
+	}
 
-	return true;
+	return result;
 }
 
 

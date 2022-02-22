@@ -24,6 +24,7 @@ RoomContainer::RoomContainer(){
 
 RoomContainer::~RoomContainer() {
 	// removing pointers from heap
+
 	for (int i = rooms.size() - 1; i >= 0; --i) {
 		delete rooms[i];
 		rooms[i] = nullptr;

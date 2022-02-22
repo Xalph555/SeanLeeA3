@@ -88,7 +88,7 @@ string Item::getOtherData() {
 
 
 string Item::getDetails() {
-	// returns the class details of the item as formatted string
+	// returns the class details of the item as a formatted string
 
 	stringstream itemDetails;
 

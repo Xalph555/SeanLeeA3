@@ -230,10 +230,8 @@ void playGame() {
 void gameSetUp() {
 	// loads and sets up the core parts of the game
 
-
 	// comment out line below if having errors running the game
 	setWindowSize(700, 850);
-
 
 	// load and store required screens
 	titleScreen = loadFileAsString(TITLE_SCREEN_PATH);
@@ -391,7 +389,7 @@ bool playerInputLoop() {
 
 			case MAP:
 				if (player.hasItem("Map")) {
-					isPlayerTurn = isPlayerTurn = mapAction();
+					isPlayerTurn = mapAction();
 
 				}
 				else {

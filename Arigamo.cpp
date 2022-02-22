@@ -213,11 +213,10 @@ vector<string> Arigamo::drainPlayerHP(int* roomConnections, int total_rooms, Pla
 
 
 bool Arigamo::canDrainPlayer(int* roomConnections, int total_rooms, int playerRoom) {
-	// checks whether the player is close enough to the Arigamo to be drained by applying depth-first-search
+	// checks whether the player is close enough to the Arigamo to be drained by applying breadth-first-search
 
 	if (!hasDied()) {
 		vector<int> dists(total_rooms, 0);
-		dists[currentRoom] = 0;
 
 		vector<int> visited;
 		deque<int> boundary;

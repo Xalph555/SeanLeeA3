@@ -6,7 +6,7 @@ Author: Sean Lee
 These are some additional details relating to the current version of the assignment.
 _________________________________________________________________________
 
-	- If you are having issues with the game running, try commenting out the 'setWindowSize()' in the 'gameSetUp()' function within 'Application.cpp'
+	- If you are having issues with the game running, try commenting out 'setWindowSize()' in the 'gameSetUp()' function within 'Application.cpp'
 
 
 Changes in names that deviate from the specifications:
@@ -14,7 +14,7 @@ Changes in names that deviate from the specifications:
 	- Bats -> Colony of Corrupted Rats (CCRats)
 
 
-How to win: (must fulfil both conditions)
+How to win: (must fulfil both conditions - this is also stated in the second paragraph of the 'How To Play' screen)
 	- Kill the Arigamo with your Crossbow by shooting it
 	- Retrieve the Fuhai Gem from the dead Arigamo (ensure it does not get taken by a roaming opponent before you)
 
